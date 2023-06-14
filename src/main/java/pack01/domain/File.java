@@ -1,2 +1,4 @@
-package pack01.domain;public class File {
+package pack01.domain;
+
+public class File {
 }

@@ -1,2 +1,4 @@
-package pack01.domain;public class NeedItem {
+package pack01.domain;
+
+public class NeedItem {
 }

@@ -1,2 +1,4 @@
-package pack01.domain;public class Skill {
+package pack01.domain;
+
+public class Skill {
 }

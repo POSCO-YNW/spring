@@ -1,2 +1,4 @@
-package pack01.domain;public class Certification {
+package pack01.domain;
+
+public class Certification {
 }

@@ -1,2 +1,4 @@
-package pack01.domain;public class User {
+package pack01.domain;
+
+public class User {
 }

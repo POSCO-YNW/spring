@@ -1,2 +1,4 @@
-package pack01.domain;public class Education {
+package pack01.domain;
+
+public class Education {
 }

@@ -1,2 +1,4 @@
-package pack01.domain;public class Department {
+package pack01.domain;
+
+public class Department {
 }
