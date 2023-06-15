@@ -46,4 +46,8 @@ public class Education {
     public Long getResumeId() {
         return resumeId;
     }
+
+    public void setResumeId(Long resumeId) {
+        this.resumeId = resumeId;
+    }
 }

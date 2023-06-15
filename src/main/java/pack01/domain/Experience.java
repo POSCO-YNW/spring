@@ -44,4 +44,8 @@ public class Experience {
     public Long getResumeId() {
         return resumeId;
     }
+
+    public void setResumeId(Long resumeId) {
+        this.resumeId = resumeId;
+    }
 }

@@ -24,7 +24,7 @@ public class EducationController {
 
     @GetMapping("/save")
     public String save(@SessionAttribute(name = SessionConst.ROLE, required = false) User loginUser) {
-        return "TigerView";
+        return "home";
     }
 
     @PostMapping("/save")
@@ -32,13 +32,13 @@ public class EducationController {
                        Education education) {
         Long id = educationService.save(education);
         System.out.println(id);
-        return "TigerView";
+        return "home";
     }
 
     @GetMapping("/alllist")
     public String findAll(@SessionAttribute(name = SessionConst.ROLE, required = false) User loginUser) {
         List<Education> list = educationService.findAll();
         System.out.println(list);
-        return "TigerView";
+        return "home";
     }
 }

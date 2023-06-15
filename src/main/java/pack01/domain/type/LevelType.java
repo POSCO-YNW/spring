@@ -1,11 +1,11 @@
 package pack01.domain.type;
 
-public enum RoleType {
-    APPLICANT("지원자"), EMPLOYEE("직원"), ADMIN("관리자");
+public enum LevelType {
+    HIGH("상"), MIDDLE("중"), LOW("하");
 
     private final String description;
 
-    RoleType(String description) {
+    LevelType(String description) {
         this.description = description;
     }
 

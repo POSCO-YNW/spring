@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.Skill;
+import pack01.domain.type.LevelType;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
@@ -33,7 +34,7 @@ public class SkillRepository {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, skill.getStack());
-            ps.setString(2, skill.getLevel());
+            ps.setString(2, skill.getLevel().toString());
             ps.setLong(3, skill.getResumeId());
             return ps;
         }, keyHolder);
@@ -66,7 +67,7 @@ public class SkillRepository {
         public Skill mapRow(ResultSet rs, int rowNum) throws SQLException {
             Long skillId = rs.getLong("skill_id");
             String stack = rs.getString("stack");
-            String level = rs.getString("level");
+            LevelType level = LevelType.valueOf(rs.getString("level"));
             Long resumeId = rs.getLong("resume_id");
 
             return new Skill(skillId, stack, level, resumeId);

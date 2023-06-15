@@ -10,12 +10,7 @@ import pack01.domain.type.RoleType;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +34,7 @@ public class UserRepository {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
-            ps.setDate(4, user.getBirthday());
+            ps.setObject(4, user.getBirthday());
             ps.setString(5, user.getRole().toString());
             ps.setString(6, user.getAddress());
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
@@ -53,17 +48,20 @@ public class UserRepository {
 
     public User findById(Long userId) {
         String sql = "SELECT * FROM user WHERE user_id = ?";
-        return jdbcTemplate.queryForObject(sql, new UserMapper(), userId);
+        List<User> users = jdbcTemplate.query(sql, new UserMapper(), userId);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     public User findByEmail(String email) {
-        String sql = "SELECT * FROM user WHERE email = ? and password = ?";
-        return jdbcTemplate.queryForObject(sql, new UserMapper());
+        String sql = "SELECT * FROM user WHERE email = ?";
+        List<User> users = jdbcTemplate.query(sql, new UserMapper(), email);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     public User findByEmailAndPassword(String email, String password) {
         String sql = "SELECT * FROM user WHERE email = ? and password = ?";
-        return jdbcTemplate.queryForObject(sql, new UserMapper(), email, password);
+        List<User> users = jdbcTemplate.query(sql, new UserMapper(), email, password);
+        return users.isEmpty() ? null : users.get(0);
     }
 
     public List<User> findAll() {

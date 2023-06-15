@@ -2,6 +2,7 @@ package pack01.domain;
 
 import java.sql.Date;
 import java.time.LocalDate;
+
 public class Certification {
     private Long certificationId;
     private String name;
@@ -45,5 +46,9 @@ public class Certification {
 
     public Long getResumeId() {
         return resumeId;
+    }
+
+    public void setResumeId(Long resumeId) {
+        this.resumeId = resumeId;
     }
 }

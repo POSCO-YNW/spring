@@ -4,24 +4,24 @@ public class Department {
     private Long departmentId;
     private String name;
     private String telephoneNumber;
-    private String key;
+    private String deptKey;
     private String location;
     private double x;
     private double y;
 
-    public Department(Long departmentId, String name, String telephoneNumber, String key, String location, double x, double y) {
+    public Department(Long departmentId, String name, String telephoneNumber, String deptKey, String location, double x, double y) {
         this.departmentId = departmentId;
         this.name = name;
         this.telephoneNumber = telephoneNumber;
-        this.key = key;
+        this.deptKey = deptKey;
         this.location = location;
         this.x = x;
         this.y = y;
     }
-    public Department(String name, String telephoneNumber, String key, String location, double x, double y) {
+    public Department(String name, String telephoneNumber, String deptKey, String location, double x, double y) {
         this.name = name;
         this.telephoneNumber = telephoneNumber;
-        this.key = key;
+        this.deptKey = deptKey;
         this.location = location;
         this.x = x;
         this.y = y;
@@ -38,8 +38,8 @@ public class Department {
         return telephoneNumber;
     }
 
-    public String getKey() {
-        return key;
+    public String getDeptKey() {
+        return deptKey;
     }
 
     public String getLocation() {

@@ -20,35 +20,37 @@ import java.util.Objects;
 @Repository
 public class DepartmentRepository {
     private final JdbcTemplate jdbcTemplate;
+
     public DepartmentRepository() {
         DataSource dataSource = ConnectionManager.getDataSource();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-//    public void save(Department department) {
+    //    public void save(Department department) {
 //        String sql = "INSERT INTO department (name, telephone_number, key, location, x, y) VALUES (?, ?, ?, ?, ?, ?)";
 //        jdbcTemplate.update(sql, department.getName(), department.getTelephoneNumber(), department.getKey(), department.getLocation(), department.getX(), department.getY());
 //    }
     public Long save(Department department) {
-        String sql = "INSERT INTO department (name, telephone_number, key, location, x, y) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO department (name, telephone_number, dept_key, location, x, y) VALUES (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, department.getName());
             ps.setString(2, department.getTelephoneNumber());
-            ps.setString(3, department.getKey());
+            ps.setString(3, department.getDeptKey());
             ps.setString(4, department.getLocation());
-            ps.setDouble(4, department.getX());
-            ps.setDouble(4, department.getY());
+            ps.setDouble(5, department.getX());
+            ps.setDouble(6, department.getY());
             return ps;
         }, keyHolder);
 
-        return Objects.requireNonNull(keyHolder.getKey()).longValue();    }
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
 
     public void update(Department department) {
-        String sql = "UPDATE department SET name = ?, telephone_number = ?, key = ?, location = ?, x = ?, y = ? WHERE department_id = ?";
-        jdbcTemplate.update(sql, department.getName(), department.getTelephoneNumber(), department.getKey(), department.getLocation(), department.getX(), department.getY(), department.getDepartmentId());
+        String sql = "UPDATE department SET name = ?, telephone_number = ?, dept_key = ?, location = ?, x = ?, y = ? WHERE department_id = ?";
+        jdbcTemplate.update(sql, department.getName(), department.getTelephoneNumber(), department.getDeptKey(), department.getLocation(), department.getX(), department.getY(), department.getDepartmentId());
     }
 
     public void delete(Long departmentId) {
@@ -60,9 +62,10 @@ public class DepartmentRepository {
         String sql = "SELECT * FROM department WHERE department_id = ?";
         return jdbcTemplate.queryForObject(sql, new DepartmentRowMapper(), departmentId);
     }
+
     public List<Department> findByName(String departmentName) {
         String sql = "SELECT * FROM department WHERE name LIKE ?";
-        return jdbcTemplate.query(sql, new DepartmentRowMapper(), "%"+departmentName+"%");
+        return jdbcTemplate.query(sql, new DepartmentRowMapper(), "%" + departmentName + "%");
     }
 
     public List<Department> findAll() {
@@ -76,7 +79,7 @@ public class DepartmentRepository {
             Long departmentId = rs.getLong("department_id");
             String name = rs.getString("name");
             String telephoneNumber = rs.getString("telephone_number");
-            String key = rs.getString("key");
+            String key = rs.getString("dept_key");
             String location = rs.getString("location");
             double x = rs.getDouble("x");
             double y = rs.getDouble("y");
