@@ -1,18 +1,18 @@
 package pack01.domain;
 
 public class NeedItem {
-    private Long resumeItem;
+    private Long resumeItemId;
     private String title;
     private Long postId;
 
-    public NeedItem(Long resumeItem, String title, Long postId) {
-        this.resumeItem = resumeItem;
+    public NeedItem(Long resumeItemId, String title, Long postId) {
+        this.resumeItemId = resumeItemId;
         this.title = title;
         this.postId = postId;
     }
 
-    public Long getResumeItem() {
-        return resumeItem;
+    public Long getResumeItemId() {
+        return resumeItemId;
     }
 
     public String getTitle() {
