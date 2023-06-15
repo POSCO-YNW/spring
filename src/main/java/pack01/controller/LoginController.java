@@ -11,6 +11,9 @@ import pack01.domain.type.RoleType;
 import pack01.service.DepartmentService;
 import pack01.service.UserService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -53,6 +56,16 @@ public class LoginController {
             redirectAttributes.addFlashAttribute("error", "아이디 또는 패스워드가 틀렸습니다.");
             return "redirect:/login";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/signup")

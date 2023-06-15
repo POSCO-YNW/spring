@@ -154,7 +154,7 @@
       <ul>
         <li><a href="/">채용공고</a></li>
         <li><a href="/" class="logout">나의 지원서</a></li>
-        <li><a href="/" class="logout">로그인</a></li>
+        <li><a href="/logout" class="logout">로그아웃</a></li>
       </ul>
     </nav>
   </header>
