@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-@RestController
+@Controller
 public class PostController {
     private final PostService postService;
 
