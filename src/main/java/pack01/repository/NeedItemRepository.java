@@ -68,7 +68,7 @@ public class NeedItemRepository {
     private static class NeedItemMapper implements RowMapper<NeedItem> {
         @Override
         public NeedItem mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Long resumeItemId = rs.getLong("resume_item_id");
+            Long resumeItemId = rs.getLong("need_item_id");
             String title = rs.getString("title");
             Long postId = rs.getLong("post_id");
             return new NeedItem(resumeItemId, title, postId);

@@ -150,24 +150,24 @@
 <h1>[${department.getName()}]</h1>
 <h3>${post.getTitle()}</h3>
 
-<div>
-    <h1>지원자 정보</h1>
-    <label for="username">사용자 이름:</label>
-    <input type="text" id="username" name="username" value="${userInfo.getUsername()}" readonly required>
+<form action="/resume/post?postId=${post.getPostId()}&departmentId=${department.getDepartmentId()}" method="POST">
+    <div>
+        <h1>지원자 정보</h1>
+        <label for="username">사용자 이름:</label>
+        <input type="text" id="username" name="username" value="${userInfo.getUsername()}" readonly required>
 
-    <label for="email">이메일:</label>
-    <input type="email" id="email" name="email" value="${userInfo.getEmail()}" readonly required>
+        <label for="email">이메일:</label>
+        <input type="email" id="email" name="email" value="${userInfo.getEmail()}" readonly required>
 
-    <label for="birthday">생년월일:</label>
-    <input type="text" id="birthday" name="birthday" value="${userInfo.getBirthday()}" readonly required>
+        <label for="birthday">생년월일:</label>
+        <input type="text" id="birthday" name="birthday" value="${userInfo.getBirthday()}" readonly required>
 
-    <label for="address">주소:</label>
-    <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
-</div>
+        <label for="address">주소:</label>
+        <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
+    </div>
 
-<div>
-    <h1>추가 정보</h1>
-    <form action="/resume/post?postId=${post.getPostId()}&departmentId=${department.getDepartmentId()}" method="POST">
+    <div>
+        <h1>추가 정보</h1>
         <div id="certifications-container">
             <div>
                 <h2>자격증</h2>
@@ -222,15 +222,14 @@
         </div>
         <button class="add-button" type="button" onclick="addField('experience')">+ 회사 경력 추가</button>
 
-        <h2>${title}</h2>
-        <label for="description">설명:</label>
-        <textarea id="description" name="description" required></textarea><br>
+        <h2 id="title">${needItems.get(0).title}</h2>
+        <label for="description"></label><textarea id="description" name="description" required></textarea><br>
 
         <div class="button-container">
             <input type="submit" value="제출">
             <a href="/resume">취소</a>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 </body>
 </html>
