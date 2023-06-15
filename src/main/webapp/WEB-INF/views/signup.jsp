@@ -1,9 +1,11 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="pack01.domain.type.RoleType" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>로그인</title>
+    <title>회원가입</title>
     <style>
         body {
             background-image: url('/resources/static/images/background/poscotower.jpg');
@@ -20,7 +22,7 @@
             align-items: center;
         }
 
-        .login-form {
+        .signup-form {
             width: 100%;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
@@ -28,28 +30,37 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        .login-form h2 {
+        .signup-form h2 {
             text-align: center;
         }
 
-        .login-form .form-group {
+        .signup-form .form-group {
             margin-bottom: 15px;
         }
 
-        .login-form label {
+        .signup-form label {
             display: block;
             margin-bottom: 5px;
         }
 
-        .login-form input[type="email"],
-        .login-form input[type="password"] {
+        .signup-form input[type="text"],
+        .signup-form input[type="email"],
+        .signup-form input[type="password"],
+        .signup-form input[type="date"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
 
-        .login-form button {
+        .signup-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .signup-form button {
             width: 100%;
             padding: 10px;
             background-color: #4CAF50;
@@ -59,7 +70,7 @@
             cursor: pointer;
         }
 
-        .login-form button:hover {
+        .signup-form button:hover {
             background-color: #45a049;
         }
 
@@ -74,34 +85,49 @@
             margin-bottom: 20px;
         }
 
-        .signup-link {
+        .login-link {
             text-align: center;
             margin-top: 10px;
         }
 
-        .signup-link a {
+        .login-link a {
             color: #000;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <form action="<c:url value="/login"/>" method="post" class="login-form">
-        <h2>로그인</h2>
+    <form action="<c:url value="/signup"/>" method="post" class="signup-form">
+        <h2>회원가입</h2>
         <div class="form-group">
-            <label for="email">이메일: </label>
+            <label for="username">이름:</label>
+            <input type="text" id="username" name="username" required/>
+        </div>
+        <div class="form-group">
+            <label for="email">이메일:</label>
             <input type="email" id="email" name="email" required/>
         </div>
         <div class="form-group">
-            <label for="password">비밀번호: </label>
+            <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required/>
         </div>
         <div class="form-group">
-            <button type="submit">로그인</button>
+            <label for="birthday">생년월일:</label>
+            <input type="date" id="birthday" name="birthday" required/>
+        </div>
+        <div class="form-group">
+            <label for="address">주소:</label>
+            <input type="text" id="address" name="address" required/>
+        </div>
+
+        <input type="hidden" id="role" name="role" value=<%=RoleType.APPLICANT%>>
+
+        <div class="form-group">
+            <button type="submit">가입하기</button>
         </div>
         <p class="error-message">${error}</p>
-        <div class="signup-link">
-            <a href="<c:url value="/signup"/>">회원가입</a>
+        <div class="login-link">
+            <a href="<c:url value="/login"/>">로그인</a>
         </div>
     </form>
 </div>
