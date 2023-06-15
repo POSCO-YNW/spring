@@ -28,11 +28,11 @@ public class FileRepository {
     }
 
     //    public void save(File file) {
-//        String sql = "INSERT INTO files (link, post_id) VALUES (?, ?)";
+//        String sql = "INSERT INTO file (link, post_id) VALUES (?, ?)";
 //        jdbcTemplate.update(sql, file.getLink(), file.getPostId());
 //    }
     public Long save(File file) {
-        String sql = "INSERT INTO files (link, post_id) VALUES (?, ?)";
+        String sql = "INSERT INTO file (link, post_id) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -46,22 +46,22 @@ public class FileRepository {
     }
 
     public void update(File file) {
-        String sql = "UPDATE files SET link = ?, post_id = ? WHERE file_id = ?";
+        String sql = "UPDATE file SET link = ?, post_id = ? WHERE file_id = ?";
         jdbcTemplate.update(sql, file.getLink(), file.getPostId(), file.getFileId());
     }
 
     public void delete(Long fileId) {
-        String sql = "DELETE FROM files WHERE file_id = ?";
+        String sql = "DELETE FROM file WHERE file_id = ?";
         jdbcTemplate.update(sql, fileId);
     }
 
     public File findById(Long fileId) {
-        String sql = "SELECT * FROM files WHERE file_id = ?";
+        String sql = "SELECT * FROM file WHERE file_id = ?";
         return jdbcTemplate.queryForObject(sql, new FileMapper(), fileId);
     }
 
     public List<File> findByPostId(Long postId) {
-        String sql = "SELECT * FROM files WHERE post_id = ?";
+        String sql = "SELECT * FROM file WHERE post_id = ?";
         return jdbcTemplate.query(sql, new FileMapper(), postId);
     }
 

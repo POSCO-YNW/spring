@@ -31,7 +31,7 @@ public class NeedItemRepository {
 //        jdbcTemplate.update(sql, needItem.getResumeItem(), needItem.getTitle(), needItem.getPostId());
 //    }
     public Long save(NeedItem needItem) {
-        String sql = "INSERT INTO need_items (resume_item_id, title, post_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO need_item (resume_item_id, title, post_id) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -46,22 +46,22 @@ public class NeedItemRepository {
     }
 
     public void update(NeedItem needItem) {
-        String sql = "UPDATE need_items SET resume_item_id = ?, title = ?, post_id = ? WHERE resume_item_id = ?";
+        String sql = "UPDATE need_item SET resume_item_id = ?, title = ?, post_id = ? WHERE resume_item_id = ?";
         jdbcTemplate.update(sql, needItem.getResumeItemId(), needItem.getTitle(), needItem.getPostId(), needItem.getResumeItemId());
     }
 
     public void delete(Long resumeItemId) {
-        String sql = "DELETE FROM need_items WHERE resume_item_id = ?";
+        String sql = "DELETE FROM need_item WHERE resume_item_id = ?";
         jdbcTemplate.update(sql, resumeItemId);
     }
 
     public NeedItem findByResumeItem(Long resumeItemId) {
-        String sql = "SELECT * FROM need_items WHERE resume_item_id = ?";
+        String sql = "SELECT * FROM need_item WHERE resume_item_id = ?";
         return jdbcTemplate.queryForObject(sql, new NeedItemMapper(), resumeItemId);
     }
 
     public List<NeedItem> findByPostId(Long postId) {
-        String sql = "SELECT * FROM need_items WHERE post_id = ?";
+        String sql = "SELECT * FROM need_item WHERE post_id = ?";
         return jdbcTemplate.query(sql, new NeedItemMapper(), postId);
     }
 

@@ -28,13 +28,13 @@ public class PostRepository {
 //    }
 
 //    public void save(Post post) {
-//        String sql = "INSERT INTO posts (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
+//        String sql = "INSERT INTO post (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
 //                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 //        jdbcTemplate.update(sql, post.getTitle(), post.getCreatedAt(), post.getUpdatedAt(), post.getStartDate(),
 //                        post.getEndDate(), post.getDescription(), post.getAdminId(), post.getDepartmentId());
 //    }
     public Long save(Post post) {
-        String sql = "INSERT INTO posts (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
+        String sql = "INSERT INTO post (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -55,27 +55,27 @@ public class PostRepository {
     }
 
     public void update(Post post) {
-        String sql = "UPDATE posts SET title = ?, updated_at = ?, start_date = ?, end_date = ?, description = ?, " +
+        String sql = "UPDATE post SET title = ?, updated_at = ?, start_date = ?, end_date = ?, description = ?, " +
                 "admin_id = ?, department_id = ? WHERE post_id = ?";
         jdbcTemplate.update(sql, post.getTitle(), post.getUpdatedAt(), post.getStartDate(), post.getEndDate(),
                 post.getDescription(), post.getAdminId(), post.getDepartmentId(), post.getPostId());
     }
 
     public void delete(Long postId) {
-        String sql = "DELETE FROM posts WHERE post_id = ?";
+        String sql = "DELETE FROM post WHERE post_id = ?";
         jdbcTemplate.update(sql, postId);
     }
 
     public Post findById(Long postId) {
-        String sql = "SELECT * FROM posts WHERE post_id = ?";
+        String sql = "SELECT * FROM post WHERE post_id = ?";
         return jdbcTemplate.queryForObject(sql, new PostMapper(), postId);
     }
     public List<Post> findByTitle(String postTitle) {
-        String sql = "SELECT * FROM posts WHERE title LIKE ?";
+        String sql = "SELECT * FROM post WHERE title LIKE ?";
         return jdbcTemplate.query(sql, new PostMapper(), "%" + postTitle + "%");
     }
     public List<Post> findAll() {
-        String sql = "SELECT * FROM posts";
+        String sql = "SELECT * FROM post";
         return jdbcTemplate.query(sql, new PostMapper());
     }
     private static class PostMapper implements RowMapper<Post> {

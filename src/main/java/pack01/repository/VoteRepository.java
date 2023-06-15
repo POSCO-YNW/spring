@@ -21,32 +21,32 @@ public class VoteRepository {
     }
 
     public void save(Vote vote) {
-        String sql = "INSERT INTO votes (vote, status, user_id, resume_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO vote (vote, status, user_id, resume_id) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, vote.getVote(), vote.getStatus(), vote.getUserId(), vote.getResumeId());
     }
 
     public void update(Vote vote) {
-        String sql = "UPDATE votes SET vote = ?, status = ?, user_id = ?, resume_id = ? WHERE vote_id = ?";
+        String sql = "UPDATE vote SET vote = ?, status = ?, user_id = ?, resume_id = ? WHERE vote_id = ?";
         jdbcTemplate.update(sql, vote.getVote(), vote.getStatus(), vote.getUserId(), vote.getResumeId(), vote.getVoteId());
     }
 
     public void delete(Long voteId) {
-        String sql = "DELETE FROM votes WHERE vote_id = ?";
+        String sql = "DELETE FROM vote WHERE vote_id = ?";
         jdbcTemplate.update(sql, voteId);
     }
 
     public Vote findById(Long voteId) {
-        String sql = "SELECT * FROM votes WHERE vote_id = ?";
+        String sql = "SELECT * FROM vote WHERE vote_id = ?";
         return jdbcTemplate.queryForObject(sql, new VoteMapper(), voteId);
     }
 
     public List<Vote> findByUserId(Long userId) {
-        String sql = "SELECT * FROM votes WHERE user_id = ?";
+        String sql = "SELECT * FROM vote WHERE user_id = ?";
         return jdbcTemplate.query(sql, new VoteMapper(), userId);
     }
 
     public List<Vote> findByResumeId(Long resumeId) {
-        String sql = "SELECT * FROM votes WHERE resume_id = ?";
+        String sql = "SELECT * FROM vote WHERE resume_id = ?";
         return jdbcTemplate.query(sql, new VoteMapper(), resumeId);
     }
 
