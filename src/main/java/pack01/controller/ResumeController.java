@@ -2,10 +2,13 @@ package pack01.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
 import pack01.domain.type.LevelType;
+import pack01.domain.type.ResumeStatusType;
 import pack01.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -42,6 +45,7 @@ public class ResumeController {
     }
 
     @PostMapping("/post")
+    @Transactional
     public String submitResume(
             @RequestParam("postId") Long postId, @RequestParam("departmentId") Long departmentId,
             @RequestParam("username") String username,
@@ -56,14 +60,21 @@ public class ResumeController {
             @RequestParam(value = "ex_company[]", required = false) List<String> experienceCompanies,
             @RequestParam(value = "ex_period[]", required = false) List<Integer> experiencePeriods,
             @RequestParam(value = "ex_work[]", required = false) List<String> experienceWorks,
-            @RequestParam(value = "title", required = false) String title,
-            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "title[]", required = false) List<Long> titles,
+            @RequestParam(value = "description[]", required = false) List<String> descriptions,
             HttpSession session,
             Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
 
-//        resumeService.saveInfo(loginUser.getUserId(), postId, departmentId, );
+        Long resumeId = resumeService.save(new Resume(loginUser.getUserId(), postId, departmentId, ResumeStatusType.UNREAD, null));
 
-        return "resume_result";
+        ResumeForm resumeForm = resumeService.makeResumeForm(resumeId, certifications, certificationLevels, certificationDates,
+                skillStacks, skillLevels,
+                experienceCompanies, experiencePeriods, experienceWorks,
+                titles, descriptions);
+
+        resumeService.saveResumeForm(resumeId, resumeForm);
+
+        return "resume/resumeResult";
     }
 }
