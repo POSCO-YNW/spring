@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import pack01.domain.NeedItem;
 import pack01.domain.Post;
-import pack01.domain.User;
-import pack01.domain.type.LevelType;
-import pack01.service.EducationService;
+import pack01.service.NeedItemService;
 import pack01.service.PostService;
 
 import javax.servlet.http.HttpSession;
@@ -19,17 +17,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-@RestController
+@Controller
 public class PostController {
     private final PostService postService;
-
+    private final NeedItemService needItemService;
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, NeedItemService needItemService) {
         this.postService = postService;
+        this.needItemService = needItemService;
     }
-
-//    @PostMapping("/")
-
 
     @GetMapping("/postlist")
     public String getList(Model model){
@@ -87,6 +83,7 @@ public class PostController {
                              @RequestParam("startDate") Date startDate,
                              @RequestParam("endDate") Date endDate,
                              @RequestParam("description") String description,
+                             @RequestParam("needItem") String needItem,
                              HttpSession session
                              ){
 
@@ -95,6 +92,8 @@ public class PostController {
         Long departmentId = (Long) session.getAttribute("department_id");
         Post post = new Post(title, createdAt, null, startDate, endDate, description, userId, departmentId);
         postService.save(post);
+        NeedItem item = new NeedItem(title, post.getPostId());
+        needItemService.save(item);
         return "redirect:/post/writeSuccessView";
     }
 
