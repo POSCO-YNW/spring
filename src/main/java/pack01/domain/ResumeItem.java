@@ -16,6 +16,12 @@ public class ResumeItem {
         this.resumeId = resumeId;
     }
 
+    public ResumeItem(String description, Long needItemId, Long resumeId) {
+        this.description = description;
+        this.needItemId = needItemId;
+        this.resumeId = resumeId;
+    }
+
     public Long getResumeItemId() {
         return resumeItemId;
     }

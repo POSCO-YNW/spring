@@ -11,17 +11,20 @@
 <head>
     <title>검색 결과 페이지</title>
     <style>
-        h1{
+        h1 {
             padding-bottom: 10px;
         }
+
         .card-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 20px;
         }
-        button{
+
+        button {
             cursor: pointer;
         }
+
         .back-btn {
             background-color: #007bff;
             color: #fff;
@@ -30,7 +33,8 @@
             border-radius: 5px;
             text-align: center;
         }
-        .cancel-btn{
+
+        .cancel-btn {
             border: 1px solid wheat;
             border-radius: 1rem;
             background-color: #cccccc;
@@ -38,10 +42,10 @@
         }
     </style>
     <script>
-        const onClick = ()=>{
+        const onClick = () => {
             window.history.back();
         }
-        const onCancel = ()=>{
+        const onCancel = () => {
             window.location.href = "postListView.jsp";
         }
     </script>
@@ -50,7 +54,7 @@
 <jsp:include page="../../../header.jsp"/>
 
 <%
-    List<Post> posts= (List<Post>) request.getAttribute("posts");
+    List<Post> posts = (List<Post>) request.getAttribute("posts");
 //    String search = request.getParameter("search");
 %>
 <h1>채용공고</h1>
@@ -60,12 +64,12 @@
 </div>
 <div class="card-container">
     <%
-        if(posts.isEmpty()){
+        if (posts.isEmpty()) {
     %>
     <h3>!검색된 공고가 없습니다!</h3>
     <%
-    } else{
-        for (Post post: posts) {
+    } else {
+        for (Post post : posts) {
             request.setAttribute("post", post);
     %>
     <jsp:include page="../post/postCard.jsp"/>
