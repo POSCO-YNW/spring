@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.Education;
 import pack01.domain.Resume;
+import pack01.domain.type.ResumeStatusType;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
@@ -40,7 +41,7 @@ public class ResumeRepository {
             ps.setLong(2, resume.getApplicantId());
             ps.setLong(3, resume.getPostId());
             ps.setLong(4, resume.getDepartmentId());
-            ps.setString(5, resume.getStatus());
+            ps.setString(5, resume.getStatus().toString());
             ps.setString(6, resume.getDescription());
 
             return ps;
@@ -79,7 +80,7 @@ public class ResumeRepository {
             Long applicantId = rs.getLong("applicant_id");
             Long postId = rs.getLong("post_id");
             Long departmentId = rs.getLong("department_id");
-            String status = rs.getString("status");
+            ResumeStatusType status = ResumeStatusType.valueOf(rs.getString("status"));
             String description = rs.getString("description");
 
             return new Resume(resumeId, applicantId, postId, departmentId, status, description);

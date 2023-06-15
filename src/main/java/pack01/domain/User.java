@@ -46,6 +46,7 @@ public class User {
         this.departmentId = departmentId;
     }
 
+
     public Long getUserId() {
         return userId;
     }
@@ -84,5 +85,9 @@ public class User {
 
     public Long getDepartmentId() {
         return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 }
