@@ -67,6 +67,7 @@ public class ResumeItemRepository {
     }
 
     private static class ResumeItemMapper implements RowMapper<ResumeItem> {
+        @Override
         public ResumeItem mapRow(ResultSet rs, int rowNum) throws SQLException {
             Long resumeItemId = rs.getLong("resume_item_id");
             String description = rs.getString("description");

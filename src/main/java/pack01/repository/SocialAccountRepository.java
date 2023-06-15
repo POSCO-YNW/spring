@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import pack01.domain.SocialAccount;
 import pack01.repository.db.ConnectionManager;
 
@@ -15,6 +16,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 
+@Repository
 public class SocialAccountRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -67,6 +69,7 @@ public class SocialAccountRepository {
     }
 
     private static class SocialAccountMapper implements RowMapper<SocialAccount> {
+        @Override
         public SocialAccount mapRow(ResultSet rs, int rowNum) throws SQLException {
             Long socialAccountId = rs.getLong("social_account_id");
             String type = rs.getString("type");

@@ -22,8 +22,8 @@ public class SocialAccountService {
         return socialAccountRepository.save(socialAccount);
     }
 
-    public SocialAccount findById(Long socialAccount) {
-        return socialAccountRepository.findById(socialAccount);
+    public SocialAccount findById(Long socialAccountId) {
+        return socialAccountRepository.findById(socialAccountId);
     }
 
     public List<SocialAccount> findAll() {
@@ -34,8 +34,8 @@ public class SocialAccountService {
         socialAccountRepository.update(socialAccount);
     }
 
-    public void delete(Long id) {
-        socialAccountRepository.delete(id);
+    public void delete(Long socialAccountId) {
+        socialAccountRepository.delete(socialAccountId);
     }
 
 }
