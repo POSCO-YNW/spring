@@ -151,18 +151,19 @@
 <%--%>--%>
 <div class="page">
     <header>
-        <a href="index.jsp"><h2>PoCruit</h2></a>
+        <a href="/postlist"><h2>PoCruit</h2></a>
         <nav>
             <ul>
-                <li><a href="/">채용공고</a></li>
+                <li><a href="/postlist">채용공고</a></li>
                 <% User user = (User) session.getAttribute("loginUser");
                     if (user != null && RoleType.APPLICANT.equals(user.getRole())) { %>
-                <li><a href="/" class="logout">나의 지원서</a></li>
+                <li><a href="/">나의 지원서</a></li>
                 <%
                     }
                     if (user != null && RoleType.ADMIN.equals(user.getRole())) {
                 %>
-                <li><a href="/createJobPost">공고 올리기</a></li>
+                <li><a href="/post/write">채용공고 작성</a></li>
+                <li><a href="/post/write">지원자 현황</a></li>
                 <% } %>
                 <li><a href="/logout" class="logout">로그아웃</a></li>
             </ul>

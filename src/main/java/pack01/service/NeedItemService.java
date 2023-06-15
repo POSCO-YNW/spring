@@ -17,23 +17,9 @@ public class NeedItemService {
         this.needItemRepository = needItemRepository;
     }
 
-    public Long save(NeedItem needItem) {
-        return needItemRepository.save(needItem);
-    }
-
-    public void update(NeedItem needItem) {
-        needItemRepository.update(needItem);
-    }
-
-    public void delete(Long resumeItemId) {
-        needItemRepository.delete(resumeItemId);
-    }
-
-    public NeedItem findByResumeItem(Long resumeItemId) {
-        return needItemRepository.findByNeedItemId(resumeItemId);
-    }
-
-    public List<NeedItem> findByPostId(Long postId) {
-        return needItemRepository.findByPostId(postId);
-    }
+    public Long save(NeedItem needItem) { return needItemRepository.save(needItem); }
+    public void update(NeedItem needItem) { needItemRepository.update(needItem); }
+    public void delete(Long needItemId) { needItemRepository.delete(needItemId); }
+    public NeedItem findByNeedItemId(Long needItemId) { return needItemRepository.findByNeedItemId(needItemId); }
+    public List<NeedItem> findByPostId(Long postId) { return needItemRepository.findByPostId(postId); }
 }

@@ -3,20 +3,23 @@ package pack01.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pack01.domain.Post;
+import pack01.domain.User;
+import pack01.domain.type.LevelType;
 import pack01.service.EducationService;
 import pack01.service.PostService;
 
+import javax.servlet.http.HttpSession;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-@Controller
+@RestController
 public class PostController {
     private final PostService postService;
 
@@ -56,8 +59,6 @@ public class PostController {
         return "post/postListView";
     }
 
-
-
     // 검색
     @GetMapping("/postlist/search")
     public String getPostBySearch(Model model,
@@ -73,9 +74,28 @@ public class PostController {
         }
         return "search/searchResultView";
     }
-//    @GetMapping("/postlist/search") // 셀렉박스에서
-//    public String getPostByDepartmentId(Model model, @RequestParam(value = "id") Long departmentId){
-//        model.addAttribute("department", postService.findByTitle(title));
-//        return "search/searchResultView";
-//    }
+
+    // 글 작성
+    @GetMapping("/post/write")
+    public String showPostWriteForm(Model model) {
+        return "post/postWritingView";
+    }
+
+    @PostMapping("/post/create")
+    public String postCreate(Model model,
+                             @RequestParam("title") String title,
+                             @RequestParam("startDate") Date startDate,
+                             @RequestParam("endDate") Date endDate,
+                             @RequestParam("description") String description,
+                             HttpSession session
+                             ){
+
+        Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
+        Long userId = (Long) session.getAttribute("user_id");
+        Long departmentId = (Long) session.getAttribute("department_id");
+        Post post = new Post(title, createdAt, null, startDate, endDate, description, userId, departmentId);
+        postService.save(post);
+        return "redirect:/post/writeSuccessView";
+    }
+
 }
