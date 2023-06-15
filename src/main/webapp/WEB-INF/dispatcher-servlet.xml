@@ -25,14 +25,12 @@
             <mvc:exclude-mapping path="/"/>
             <mvc:exclude-mapping path="/login"/>
             <mvc:exclude-mapping path="/logout"/>
+            <mvc:exclude-mapping path="/signup"/>
             <mvc:exclude-mapping path="/postlist"/>
             <mvc:exclude-mapping path="/postlist/post"/>
-            <mvc:exclude-mapping path="/fonts/**"/>
-            <mvc:exclude-mapping path="/css/**"/>
-            <mvc:exclude-mapping path="/plugin/**"/>
-            <mvc:exclude-mapping path="/scripts/**"/>
-            <mvc:exclude-mapping path="/*.ico"/>
-            <mvc:exclude-mapping path="/error"/>
+            <mvc:exclude-mapping path="/postlist/sort"/>
+            <mvc:exclude-mapping path="/postlist/search"/>
+            <mvc:exclude-mapping path="/resources/static/**"/>
             <bean class="pack01.interceptor.LoginCheckInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
