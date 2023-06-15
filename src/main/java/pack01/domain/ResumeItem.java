@@ -2,16 +2,16 @@ package pack01.domain;
 
 public class ResumeItem {
     private Long resumeItemId;
-    private String desciption;
+    private String description;
     private Long needItemId;
     private Long resumeId;
 
     public ResumeItem() {
     }
 
-    public ResumeItem(Long resumeItemId, String desciption, Long needItemId, Long resumeId) {
+    public ResumeItem(Long resumeItemId, String description, Long needItemId, Long resumeId) {
         this.resumeItemId = resumeItemId;
-        this.desciption = desciption;
+        this.description = description;
         this.needItemId = needItemId;
         this.resumeId = resumeId;
     }
@@ -20,8 +20,8 @@ public class ResumeItem {
         return resumeItemId;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
     public Long getNeedItemId() {
