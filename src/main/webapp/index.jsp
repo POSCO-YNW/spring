@@ -113,7 +113,7 @@
     </div>
     <img src="/resources/static/images/poscoDX.png" alt="Logo" class="logo">
     <div class="carousel-overlay">
-        <a href="/login" class="carousel-overlay-text">지원하러 가기 &gt;</a>
+        <a href="/postlist" class="carousel-overlay-text">지원하러 가기 &gt;</a>
     </div>
 </div>
 

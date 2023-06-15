@@ -78,7 +78,7 @@
     <script>
         const onClick = () => {
             console.log("지원하기 버튼 눌림");
-            window.location.href = "/index.jsp"; // 지원서 작성 페이지로 이동하기
+            window.location.href = "/resume/post"; // /resume/post?postId=1&departmentId=2
         }
     </script>
 </head>
@@ -114,6 +114,7 @@
     </div>
 </div>
 
-<button class="apply-button" onclick="onClick()">지원하기</button>
+<%--<button class="apply-button" onclick="onClick()">지원하기</button>--%>
+<a href="/resume/post?postId=<%=post.getPostId()%>&departmentId=<%=post.getDepartmentId()%>" class="apply-button">지원하기</a>
 </body>
 </html>

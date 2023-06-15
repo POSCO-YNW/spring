@@ -22,7 +22,7 @@ import java.util.Objects;
 @Repository
 public class ResumeRepository {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public ResumeRepository() {
         DataSource dataSource = ConnectionManager.getDataSource();
@@ -30,19 +30,18 @@ public class ResumeRepository {
     }
 
     public Long save(Resume resume) {
-        String sql = "INSERT INTO resume (resume_id, applicant_id, post_id, department_id, status, description) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO resume (applicant_id, post_id, department_id, status, description) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, resume.getResumeId());
-            ps.setLong(2, resume.getApplicantId());
-            ps.setLong(3, resume.getPostId());
-            ps.setLong(4, resume.getDepartmentId());
-            ps.setString(5, resume.getStatus().toString());
-            ps.setString(6, resume.getDescription());
+            ps.setLong(1, resume.getApplicantId());
+            ps.setLong(2, resume.getPostId());
+            ps.setLong(3, resume.getDepartmentId());
+            ps.setString(4, resume.getStatus().toString());
+            ps.setString(5, resume.getDescription());
 
             return ps;
         }, keyHolder);
@@ -53,6 +52,11 @@ public class ResumeRepository {
     public Resume findById(Long resumeId) {
         String sql = "SELECT * FROM resume WHERE resume_id = ?";
         return jdbcTemplate.queryForObject(sql, new ResumeMapper(), resumeId);
+    }
+
+    public List<Resume> findByPostId(Long postId) {
+        String sql = "SELECT * FROM resume WHERE post_id = ?";
+        return jdbcTemplate.query(sql, new ResumeMapper(), postId);
     }
 
     public List<Resume> findAll() {

@@ -25,7 +25,7 @@ public class UserRepository {
     }
 
     public Long save(User user) {
-        String sql = "INSERT INTO user (username, password, email, birthday, role, address, created_at, updated_at, department_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (username, password, email, phone_number, birthday, role, address, created_at, updated_at, department_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -34,12 +34,13 @@ public class UserRepository {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
-            ps.setObject(4, user.getBirthday());
-            ps.setString(5, user.getRole().toString());
-            ps.setString(6, user.getAddress());
-            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(4, user.getPhoneNumber());
+            ps.setObject(5, user.getBirthday());
+            ps.setString(6, user.getRole().toString());
+            ps.setString(7, user.getAddress());
             ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setLong(9, user.getDepartmentId());
+            ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setLong(10, user.getDepartmentId());
             return ps;
         }, keyHolder);
 
@@ -70,8 +71,8 @@ public class UserRepository {
     }
 
     public void update(User user) {
-        String sql = "UPDATE user SET username = ?, password = ?, email = ?, birthday = ?, role = ?, address = ?, updated_at = ?, department_id = ? WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(), user.getBirthday(),
+        String sql = "UPDATE user SET username = ?, password = ?, email = ?, phone_number, birthday = ?, role = ?, address = ?, updated_at = ?, department_id = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(), user.getPhoneNumber(), user.getBirthday(),
                 user.getRole().toString(), user.getAddress(), Timestamp.valueOf(LocalDateTime.now()), user.getDepartmentId(), user.getUserId());
     }
 
@@ -88,13 +89,14 @@ public class UserRepository {
             String password = rs.getString("password");
             String email = rs.getString("email");
             Date birthday = rs.getDate("birthday");
+            String phoneNumber = rs.getString("phone_number");
             RoleType role = RoleType.valueOf(rs.getString("role"));
             String address = rs.getString("address");
             Timestamp createdAt = rs.getTimestamp("created_at");
             Timestamp updatedAt = rs.getTimestamp("updated_at");
             Long departmentId = rs.getLong("department_id");
 
-            return new User(userId, username, password, email, birthday, role, address, createdAt, updatedAt, departmentId);
+            return new User(userId, username, password, email, phoneNumber, birthday, role, address, createdAt, updatedAt, departmentId);
         }
     }
 }

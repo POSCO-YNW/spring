@@ -1,7 +1,6 @@
 package pack01.domain;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Certification {
     private Long certificationId;

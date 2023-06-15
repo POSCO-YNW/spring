@@ -111,10 +111,17 @@
             <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required/>
         </div>
+
         <div class="form-group">
             <label for="birthday">생년월일:</label>
             <input type="date" id="birthday" name="birthday" required/>
         </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">전화번호:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required/>
+        </div>
+
         <div class="form-group">
             <label for="address">주소:</label>
             <input type="text" id="address" name="address" required/>

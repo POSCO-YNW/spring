@@ -11,6 +11,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String phoneNumber;
     private Date birthday;
     private RoleType role;
     private String address;
@@ -21,11 +22,25 @@ public class User {
     public User() {
     }
 
-    public User(Long userId, String username, String password, String email, Date birthday, RoleType role, String address, Timestamp createdAt, Timestamp updatedAt, Long departmentId) {
+    public User(String username, String password, String email, String phoneNumber, Date birthday, RoleType role, String address, Timestamp createdAt, Timestamp updatedAt, Long departmentId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.birthday = birthday;
+        this.role = role;
+        this.address = address;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.departmentId = departmentId;
+    }
+
+    public User(Long userId, String username, String password, String email, String phoneNumber, Date birthday, RoleType role, String address, Timestamp createdAt, Timestamp updatedAt, Long departmentId) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.role = role;
         this.address = address;
@@ -34,18 +49,9 @@ public class User {
         this.departmentId = departmentId;
     }
 
-    public User(String username, String password, String email, Date birthday, RoleType role, String address, Timestamp createdAt, Timestamp updatedAt, Long departmentId) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.birthday = birthday;
-        this.role = role;
-        this.address = address;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.departmentId = departmentId;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
-
 
     public Long getUserId() {
         return userId;

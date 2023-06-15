@@ -1,5 +1,6 @@
+<%@ page import="pack01.domain.NeedItem" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
 <html>
 <head>
     <title>지원서 작성</title>
@@ -9,6 +10,18 @@
             flex-direction: column;
             align-items: center;
             margin-top: 50px;
+            background-image: url("/resources/static/images/background/pohang_light.jpg");
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Safari 지원 */
+        }
+
+        form {
+            width: 600px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 8px;
         }
 
         div {
@@ -30,10 +43,21 @@
             font-weight: bold;
         }
 
-        input, textarea {
+        input {
             width: 100%;
             padding: 5px;
             margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
         }
 
         input[type="submit"],
@@ -80,7 +104,6 @@
             let container = document.getElementById('certifications-container');
             let newField = document.createElement('div');
             newField.innerHTML = `
-                <h2>자격증</h2>
                 <label for="certification_${certifications}">자격증:</label>
                 <input type="text" id="certification_${certifications}" name="certification[]" required>
 
@@ -90,7 +113,7 @@
                 <label for="cf_date_${certifications}">취득일:</label>
                 <input type="date" id="cf_date_${certifications}" name="cf_date[]" required>
 
-                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'certification')">-</button>
+                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'certification')" style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">-</button>
             `;
             container.appendChild(newField);
             certifications++;
@@ -98,18 +121,18 @@
             let container = document.getElementById('skills-container');
             let newField = document.createElement('div');
             newField.innerHTML = `
-                <h2>기술</h2>
                 <label for="skill_stack_${skills}">기술 스택(언어):</label>
                 <input type="text" id="skill_stack_${skills}" name="skill_stack[]" required>
 
-                <label for="skill_level_${skills}">기술 점수(상/중/하):</label>
+                <label for="skill_level_${skills}">기술 수준:</label>
                 <select id="skill_level_${skills}" name="skill_level[]" required>
-                    <option value="상">상</option>
-                    <option value="중">중</option>
-                    <option value="하">하</option>
+                    <option value="HIGH">상</option>
+                    <option value="MIDDLE">중</option>
+                    <option value="LOW">하</option>
                 </select>
+                <br><br>
 
-                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'skill')">-</button>
+                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'skill')" style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">-</button>
             `;
             container.appendChild(newField);
             skills++;
@@ -117,7 +140,6 @@
             let container = document.getElementById('experiences-container');
             let newField = document.createElement('div');
             newField.innerHTML = `
-                <h2>회사 경력</h2>
                 <label for="ex_company_${experiences}">회사 이름:</label>
                 <input type="text" id="ex_company_${experiences}" name="ex_company[]" required>
 
@@ -127,7 +149,7 @@
                 <label for="ex_work_${experiences}">업무:</label>
                 <input type="text" id="ex_work_${experiences}" name="ex_work[]" required>
 
-                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'experience')">-</button>
+                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'experience')" style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">-</button>
             `;
             container.appendChild(newField);
             experiences++;
@@ -148,7 +170,7 @@
 
 <body>
 <h1>[${department.getName()}]</h1>
-<h3>${post.getTitle()}</h3>
+<h2>${post.getTitle()}</h2>
 
 <form action="/resume/post?postId=${post.getPostId()}&departmentId=${department.getDepartmentId()}" method="POST">
     <div>
@@ -162,72 +184,64 @@
         <label for="birthday">생년월일:</label>
         <input type="text" id="birthday" name="birthday" value="${userInfo.getBirthday()}" readonly required>
 
+        <label for="phoneNumber">전화번호:</label>
+        <input type="text" id="phoneNumber" name="phoneNumber" value="${userInfo.getPhoneNumber()}" readonly required>
+
         <label for="address">주소:</label>
         <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
     </div>
 
+    <hr>
+
     <div>
         <h1>추가 정보</h1>
-        <div id="certifications-container">
-            <div>
-                <h2>자격증</h2>
-                <label for="certification_0">자격증:</label>
-                <input type="text" id="certification_0" name="certification[]" required>
-
-                <label for="cf_level_0">점수:</label>
-                <input type="text" id="cf_level_0" name="cf_level[]" required>
-
-                <label for="cf_date_0">취득일:</label>
-                <input type="date" id="cf_date_0" name="cf_date[]" required>
-
-                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'certification')">-
-                </button>
-            </div>
+        <div style="display: flex; align-items: center;">
+            <h2 style="margin-right: 10px;">자격증</h2>
+            <button class="add-button" type="button" onclick="addField('certification')"
+                    style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
+            </button>
         </div>
-        <button class="add-button" type="button" onclick="addField('certification')">+ 자격증 추가</button>
+        <div id="certifications-container"></div>
 
-        <div id="skills-container">
-            <div>
-                <h2>기술</h2>
-                <label for="skill_stack_0">기술 스택(언어):</label>
-                <input type="text" id="skill_stack_0" name="skill_stack[]" required>
+        <hr>
 
-                <label for="skill_level_0">기술 점수(상/중/하):</label>
-                <select id="skill_level_0" name="skill_level[]" required>
-                    <option value="상">상</option>
-                    <option value="중">중</option>
-                    <option value="하">하</option>
-                </select>
-
-                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'skill')">-</button>
-            </div>
+        <div style="display: flex; align-items: center;">
+            <h2 style="margin-right: 10px;">기술</h2>
+            <button class="add-button" type="button" onclick="addField('skill')"
+                    style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
+            </button>
         </div>
-        <button class="add-button" type="button" onclick="addField('skill')">+ 기술 추가</button>
 
-        <div id="experiences-container">
-            <div>
-                <h2>회사 경력</h2>
-                <label for="ex_company_0">회사 이름:</label>
-                <input type="text" id="ex_company_0" name="ex_company[]" required>
+        <div id="skills-container"></div>
 
-                <label for="ex_period_0">복무 개월:</label>
-                <input type="number" id="ex_period_0" name="ex_period[]" required>
+        <hr>
 
-                <label for="ex_work_0">업무:</label>
-                <input type="text" id="ex_work_0" name="ex_work[]" required>
-
-                <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'experience')">-
-                </button>
-            </div>
+        <div style="display: flex; align-items: center;">
+            <h2 style="margin-right: 10px;">회사 경력</h2>
+            <button class="add-button" type="button" onclick="addField('experience')"
+                    style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
+            </button>
         </div>
-        <button class="add-button" type="button" onclick="addField('experience')">+ 회사 경력 추가</button>
 
-        <h2 id="title" name="title">${needItems.get(0).title}</h2>
-        <label for="description"></label><textarea id="description" name="description" required></textarea><br>
+        <div id="experiences-container"></div>
+
+        <hr>
+        <%
+            List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
+            for (int i = 0; i < needItems.size(); i++) {
+        %>
+        <h2>[질문 <%= i + 1 %>] <%= needItems.get(i).getTitle() %>
+        </h2>
+        <input type="hidden" id="title[<%=i%>]" name="title[]" value="<%= needItems.get(i).getNeedItemId() %>">
+        <label for="description[<%=i%>]"></label><textarea id="description[<%=i%>]" name="description[]"
+                                                           required></textarea><br>
+        <%
+            }
+        %>
 
         <div class="button-container">
+            <a href="/">취소</a>
             <input type="submit" value="제출">
-            <a href="/resume">취소</a>
         </div>
     </div>
 </form>

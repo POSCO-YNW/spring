@@ -28,17 +28,16 @@ public class CertificationRepository {
     }
 
     public Long save(Certification certification) {
-        String sql = "INSERT INTO certification (certification_id, name, level, date, resume_id) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO certification (name, level, date, resume_id) " +
+                "VALUES (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, certification.getCertificationId());
-            ps.setString(2,certification.getName());
-            ps.setString(3, certification.getLevel());
-            ps.setDate(4, certification.getDate());
-            ps.setLong(5,certification.getResumeId());
+            ps.setString(1,certification.getName());
+            ps.setString(2, certification.getLevel());
+            ps.setDate(3, certification.getDate());
+            ps.setLong(4,certification.getResumeId());
 
             return ps;
         }, keyHolder);
@@ -67,8 +66,6 @@ public class CertificationRepository {
         String sql = "DELETE FROM certification WHERE certification_id = ?";
         jdbcTemplate.update(sql, certificationId);
     }
-
-
 
     private static class CertificationMapper implements RowMapper<Certification> {
         @Override

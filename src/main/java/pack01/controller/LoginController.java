@@ -84,6 +84,7 @@ public class LoginController {
     public String processSignup(@RequestParam("username") String username,
                                 @RequestParam("email") String email,
                                 @RequestParam("password") String password,
+                                @RequestParam("phoneNumber") String phoneNumber,
                                 @RequestParam("birthday") String birthday,
                                 @RequestParam("address") String address,
                                 @RequestParam("role") RoleType role,
@@ -100,7 +101,7 @@ public class LoginController {
 
         Date sqlDate = new Date(parsedDate.getTime());
 
-        User user = new User(username, password, email, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), null);
+        User user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), null);
 
         Long saveId = userService.save(user);
 

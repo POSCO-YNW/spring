@@ -26,17 +26,16 @@ public class ResumeItemRepository {
     }
 
     public Long save(ResumeItem resumeItem) {
-        String sql = "INSERT INTO resume_item (resume_item_id, description, need_item_id, resume_id) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO resume_item (description, need_item_id, resume_id) " +
+                "VALUES (?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, resumeItem.getResumeItemId());
-            ps.setString(2, resumeItem.getDescription());
-            ps.setLong(3, resumeItem.getNeedItemId());
-            ps.setLong(4, resumeItem.getResumeId());
+            ps.setString(1, resumeItem.getDescription());
+            ps.setLong(2, resumeItem.getNeedItemId());
+            ps.setLong(3, resumeItem.getResumeId());
             return ps;
         }, keyHolder);
 
