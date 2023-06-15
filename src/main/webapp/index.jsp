@@ -118,7 +118,6 @@
 </div>
 
 <script>
-    // Auto start carousel slide
     setInterval(function () {
         let slides = document.getElementsByClassName('carousel-slide');
         let activeSlide = document.querySelector('.carousel-slide.active');

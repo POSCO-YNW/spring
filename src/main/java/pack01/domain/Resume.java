@@ -13,7 +13,7 @@ public class Resume {
 
     }
 
-    Resume(Long resumeId, Long applicantId, Long postId, Long departmentId, String status, String description) {
+    public Resume(Long resumeId, Long applicantId, Long postId, Long departmentId, String status, String description) {
         this.resumeId = resumeId;
         this.applicantId = applicantId;
         this.postId = postId;
