@@ -222,7 +222,7 @@
         </div>
         <button class="add-button" type="button" onclick="addField('experience')">+ 회사 경력 추가</button>
 
-        <h2 id="title">${needItems.get(0).title}</h2>
+        <h2 id="title" name="title">${needItems.get(0).title}</h2>
         <label for="description"></label><textarea id="description" name="description" required></textarea><br>
 
         <div class="button-container">

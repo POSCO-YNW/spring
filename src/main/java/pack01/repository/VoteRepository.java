@@ -21,13 +21,13 @@ public class VoteRepository {
     }
 
     public void save(Vote vote) {
-        String sql = "INSERT INTO vote (vote, status, user_id, resume_id) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, vote.getVote(), vote.getStatus(), vote.getUserId(), vote.getResumeId());
+        String sql = "INSERT INTO vote (vote, user_id, resume_id) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, vote.getVote(), vote.getUserId(), vote.getResumeId());
     }
 
     public void update(Vote vote) {
-        String sql = "UPDATE vote SET vote = ?, status = ?, user_id = ?, resume_id = ? WHERE vote_id = ?";
-        jdbcTemplate.update(sql, vote.getVote(), vote.getStatus(), vote.getUserId(), vote.getResumeId(), vote.getVoteId());
+        String sql = "UPDATE vote SET vote = ?, user_id = ?, resume_id = ? WHERE vote_id = ?";
+        jdbcTemplate.update(sql, vote.getVote(), vote.getUserId(), vote.getResumeId(), vote.getVoteId());
     }
 
     public void delete(Long voteId) {
@@ -55,10 +55,9 @@ public class VoteRepository {
         public Vote mapRow(ResultSet rs, int rowNum) throws SQLException {
             Long voteId = rs.getLong("vote_id");
             int vote = rs.getInt("vote");
-            int status = rs.getInt("status");
             Long userId = rs.getLong("user_id");
             Long resumeId = rs.getLong("resume_id");
-            return new Vote(voteId, vote, status, userId, resumeId);
+            return new Vote(voteId, vote, userId, resumeId);
         }
     }
 
