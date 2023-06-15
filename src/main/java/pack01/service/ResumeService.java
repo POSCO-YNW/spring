@@ -9,9 +9,11 @@ import pack01.domain.type.ResumeStatusType;
 import pack01.repository.*;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ResumeService {
@@ -93,7 +95,9 @@ public class ResumeService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            certificationList.add(new Certification(certifications.get(i), certificationLevels.get(i), (java.sql.Date) parsedDate, resumeId));
+
+            Date sqlDate = new Date(Objects.requireNonNull(parsedDate).getTime());
+            certificationList.add(new Certification(certifications.get(i), certificationLevels.get(i), sqlDate, resumeId));
         }
 
         for (int i = 0; i < skillStacks.size(); i++) {
