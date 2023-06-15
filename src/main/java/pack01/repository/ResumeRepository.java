@@ -54,6 +54,11 @@ public class ResumeRepository {
         return jdbcTemplate.queryForObject(sql, new ResumeMapper(), resumeId);
     }
 
+    public List<Resume> findByPostId(Long postId) {
+        String sql = "SELECT * FROM resume WHERE post_id = ?";
+        return jdbcTemplate.query(sql, new ResumeMapper(), postId);
+    }
+
     public List<Resume> findAll() {
         String sql = "SELECT * FROM resume";
         return jdbcTemplate.query(sql, new ResumeMapper());

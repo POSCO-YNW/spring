@@ -13,6 +13,7 @@ import pack01.service.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/resume")
@@ -36,6 +37,15 @@ public class ResumeController {
     public String getResume(@RequestParam("postId") Long postId, @RequestParam("departmentId") Long departmentId, HttpSession session, Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
         Post post = postService.findById(postId);
+
+        List<Resume> resumes = resumeService.findByPostId(postId);
+        for (Resume resume : resumes) {
+            if (Objects.equals(resume.getApplicantId(), loginUser.getUserId())) {
+                model.addAttribute("alreadyApplied", true);
+                return "redirect:/postlist";
+            }
+        }
+
         model.addAttribute("post", post);
         Department department = departmentService.findById(departmentId);
         model.addAttribute("department", department);

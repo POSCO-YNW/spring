@@ -79,6 +79,18 @@ public class PostRepository {
                 "WHERE name LIKE ?";
         return jdbcTemplate.query(sql, new PostMapper(), "%" + departmentName + "%");
     }
+
+    public List<Post> findByMyResume(Long id) {
+        String sql = "select * " +
+                "from user " +
+                "join resume rs on user.user_id = rs.applicant_id " +
+                "join post ps on rs.post_id = ps.post_id " +
+                "join department dp on ps.department_id = dp.department_id " +
+                "where user.user_id = ?";
+
+        return jdbcTemplate.query(sql, new PostMapper());
+    }
+
     public List<Post> findAll() {
         String sql = "SELECT * FROM post";
         return jdbcTemplate.query(sql, new PostMapper());

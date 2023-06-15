@@ -67,8 +67,6 @@ public class CertificationRepository {
         jdbcTemplate.update(sql, certificationId);
     }
 
-
-
     private static class CertificationMapper implements RowMapper<Certification> {
         @Override
         public Certification mapRow(ResultSet rs, int rowNum) throws SQLException {

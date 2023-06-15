@@ -28,17 +28,16 @@ public class SocialAccountRepository {
 
     public Long save(SocialAccount socialAccount) {
         String sql = "INSERT INTO social_account (social_account_id, type, account_id, link, user_id) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, socialAccount.getSocialAccountId());
-            ps.setString(2, socialAccount.getType());
-            ps.setString(3, socialAccount.getAccountId());
-            ps.setString(4, socialAccount.getLink());
-            ps.setLong(5, socialAccount.getUserId());
+            ps.setString(1, socialAccount.getType());
+            ps.setString(2, socialAccount.getAccountId());
+            ps.setString(3, socialAccount.getLink());
+            ps.setLong(4, socialAccount.getUserId());
 
             return ps;
         }, keyHolder);

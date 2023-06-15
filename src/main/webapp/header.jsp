@@ -98,57 +98,7 @@
         }
     </style>
 </head>
-<%--<script>--%>
-<%--  function updateKeyAndCopyText(serverIp, orgId) {--%>
-<%--    let xhr = new XMLHttpRequest();--%>
-<%--    xhr.open('GET', '/user/updateKey.jsp?orgId=' + orgId, true);--%>
-<%--    xhr.onreadystatechange = function () {--%>
-<%--      if (xhr.readyState === 4) {--%>
-<%--        if (xhr.status === 200) {--%>
-<%--          let orgKey = xhr.responseText;--%>
-<%--          copyText(serverIp, orgKey);--%>
-<%--        } else {--%>
-<%--          console.error('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');--%>
-<%--          alert('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');--%>
-<%--        }--%>
-<%--      }--%>
-<%--    };--%>
-<%--    xhr.send();--%>
-<%--  }--%>
-
-<%--  function copyText(serverIp, orgKey) {--%>
-<%--    const copyText = serverIp + '/user/signupUser.jsp?orgKey=' + orgKey;--%>
-
-<%--    const textArea = document.createElement('textarea');--%>
-<%--    textArea.value = copyText;--%>
-<%--    textArea.setAttribute('readonly', '');--%>
-<%--    textArea.style.position = 'absolute';--%>
-<%--    textArea.style.left = '-9999px';--%>
-
-<%--    document.body.appendChild(textArea);--%>
-<%--    textArea.select();--%>
-<%--    document.execCommand('copy');--%>
-<%--    document.body.removeChild(textArea);--%>
-
-<%--    alert('초대 코드가 성공적으로 복사되었습니다.');--%>
-<%--  }--%>
-
-<%--  // function copyText(serverIp, orgKey) {--%>
-<%--  //     window.navigator.clipboard.writeText(serverIp + '/user/signupUser.jsp?orgKey=' + orgKey).then(() => {--%>
-<%--  //         alert("초대 코드가 성공적으로 복사되었습니다");--%>
-<%--  //     });--%>
-<%--  // }--%>
-<%--</script>--%>
 <body>
-<%--<%--%>
-<%--  request.setCharacterEncoding("utf-8");--%>
-<%--  Status status1 = (Status) session.getAttribute("status");--%>
-<%--  Role role1 = (Role) session.getAttribute("role");--%>
-<%--  Long orgId1 = (Long) session.getAttribute("orgId");--%>
-
-<%--  if (Status.ACCEPT.equals(status1)) {--%>
-
-<%--%>--%>
 <div class="page">
     <header>
         <a href="/postlist"><h2>PoCruit</h2></a>
@@ -164,8 +114,17 @@
                 %>
                 <li><a href="/post/write">채용공고 작성</a></li>
                 <li><a href="/post/write">지원자 현황</a></li>
-                <% } %>
+                <% }
+                    if (user != null) {
+                %>
                 <li><a href="/logout" class="logout">로그아웃</a></li>
+                <%
+                } else {
+                %>
+                <li><a href="/login" class="logout">로그인</a></li>
+                <%
+                    }
+                %>
             </ul>
         </nav>
     </header>

@@ -42,6 +42,10 @@ public class ResumeService {
         return resumeRepository.findById(id);
     }
 
+    public List<Resume> findByPostId(Long id) {
+        return resumeRepository.findByPostId(id);
+    }
+
     public List<Resume> findAll() {
         return resumeRepository.findAll();
     }
