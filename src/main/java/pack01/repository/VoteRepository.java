@@ -3,6 +3,7 @@ package pack01.repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import org.springframework.stereotype.Repository;
 import pack01.domain.Vote;
 import pack01.repository.db.ConnectionManager;
 
@@ -10,6 +11,8 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+@Repository
 public class VoteRepository {
     private final JdbcTemplate jdbcTemplate;
     public VoteRepository() {

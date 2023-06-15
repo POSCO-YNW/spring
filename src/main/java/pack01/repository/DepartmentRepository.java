@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import pack01.domain.Department;
 import pack01.repository.db.ConnectionManager;
 
@@ -16,6 +17,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
 
+@Repository
 public class DepartmentRepository {
     private final JdbcTemplate jdbcTemplate;
     public DepartmentRepository() {
