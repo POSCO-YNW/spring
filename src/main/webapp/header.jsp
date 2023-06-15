@@ -158,12 +158,14 @@
                 <% User user = (User) session.getAttribute("loginUser");
                     if (user != null && RoleType.APPLICANT.equals(user.getRole())) { %>
                 <li><a href="/" class="logout">나의 지원서</a></li>
+                <li><a href="mypage" class="logout">마이페이지</a></li>
                 <%
                     }
                     if (user != null && RoleType.ADMIN.equals(user.getRole())) {
                 %>
                 <li><a href="/createJobPost">공고 올리기</a></li>
                 <% } %>
+
                 <li><a href="/logout" class="logout">로그아웃</a></li>
             </ul>
         </nav>
