@@ -11,9 +11,6 @@
             padding: 25px 15px;
             margin-bottom: 10px;
             height: 200px;
-            display: flex;
-            align-content: center;
-            justify-content: center;
         }
 
         .card-title {
