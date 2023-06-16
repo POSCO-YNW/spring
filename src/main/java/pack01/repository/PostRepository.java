@@ -63,6 +63,11 @@ public class PostRepository {
                 post.getDescription(), post.getAdminId(), post.getDepartmentId(), post.getPostId());
     }
 
+    public void updateEndDateSetDeadline(Long postId) {
+        String sql = "update post set end_date = CURRENT_DATE where post_id = ?";
+        jdbcTemplate.update(sql, postId);
+    }
+
     public void delete(Long postId) {
         String sql = "DELETE FROM post WHERE post_id = ?";
         jdbcTemplate.update(sql, postId);

@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class PostController {
@@ -34,6 +35,16 @@ public class PostController {
     public String getPostById(Model model, @RequestParam(value = "id") Long postId) {
         model.addAttribute("post", postService.findById(postId));
         return "post/postDetailView";
+    }
+
+    @GetMapping("/postlist/deadline")
+    public String updateEndDateSetDeadline(@RequestParam(value = "id") Long postId, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        Post post = postService.findById(postId);
+        if (Objects.equals(post.getAdminId(), loginUser.getUserId())) {
+            postService.updateEndDateSetDeadline(postId);
+        }
+        return "redirect:/postlist/post?id=" + postId;
     }
 
     @GetMapping("/postlist")

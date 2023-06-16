@@ -56,6 +56,10 @@ public class PostService {
         return postRepository.findByMyResume(id);
     }
 
+    public void updateEndDateSetDeadline(Long postId) {
+        postRepository.updateEndDateSetDeadline(postId);
+    }
+
     public List<PostDepartmentResponse> findBySearchAndSearchTypeAndSort(String search, String searchType, String type) {
         List<PostDepartmentResponse> posts = new ArrayList<>();
 
