@@ -3,6 +3,7 @@
 <%@ page import="pack01.domain.*" %>
 <%@ page import="pack01.dto.resume.response.ResumeUserResponse" %>
 <%@ page import="pack01.domain.type.SocialType" %>
+<%@ page import="pack01.domain.type.RoleType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -117,6 +118,8 @@
     List<Certification> certifications = (List<Certification>) request.getAttribute("certifications");
     List<Skill> skills = (List<Skill>) request.getAttribute("skills");
     List<Education> educations = (List<Education>) request.getAttribute("educations");
+
+    User user = (User) session.getAttribute("loginUser");
 %>
 
 <div class="body">
@@ -309,6 +312,9 @@
             <input type="submit" value="뒤로가기" class="back-button">
         </form>
 
+        <%
+            if (user.getRole().equals(RoleType.ADMIN)) {
+        %>
         <form method="post" action="/resume/pass">
             <label>
                 <input type="text" name="resumeId" hidden="hidden" value="<%=resume.getResumeId()%>">
@@ -328,6 +334,9 @@
             </label>
             <input type="submit" value="불합격" class="fail-button">
         </form>
+        <%
+            }
+        %>
     </div>
 </div>
 </body>

@@ -125,7 +125,7 @@
 <%
     User user = (User) session.getAttribute("loginUser");
     String inviteCode = UUID.randomUUID().toString().replace("-", "");
-    String inviteUrl = request.getRequestURL().toString() + "?code=" + inviteCode);
+    String inviteUrl = request.getRequestURL().toString() + "?code=" + inviteCode;
 %>
 <div class="page">
     <header>
