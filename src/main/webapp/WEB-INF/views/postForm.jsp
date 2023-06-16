@@ -1,6 +1,7 @@
 <%@ page import="pack01.domain.Post" %>
 <%@ page import="pack01.domain.NeedItem" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -118,7 +119,8 @@
     Post post = (Post) request.getAttribute("post");
     Boolean exist = (post!=null)? true : false;
     List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
-//    String editUrl = "/postlist/post/edit?" + post.getPostId();
+    String[] descLines = new String[6];
+    if (exist){ descLines = post.getDescription().split("\\$\\$"); }
 %>
 <form action="<%= exist ? "/postlist/post/edit?id=" + post.getPostId() : "/postlist/post/create" %>" method="post">
     <div class="form-group">
@@ -134,9 +136,51 @@
         <input type="date" id="endDate" name="endDate" value="<%= exist ? post.getEndDate() : "" %>" required>
     </div>
     <div class="form-group">
-        <label for="description">모집 안내</label>
-        <textarea id="description" name="description" placeholder="설명을 입력하세요" required><%= exist ? post.getDescription() : "" %></textarea>
+        <label for="select">채용 구분</label>
+        <select id="select" name="description[]" required>
+            <option value="신입" <%=exist && descLines[0].equals("신입") ? "selected":""%>>신입</option>
+            <option value="경력" <%=exist && descLines[0].equals("경력") ? "selected":""%>>경력</option>
+        </select>
     </div>
+    <div class="form-group">
+        <label for="requirements">자격 요건</label>
+            <%
+                if(exist){
+            %>
+            <textarea id="requirements" name="description[]" placeholder="지원자격 요건을 입력하세요(우대사항 포함)" required><%=descLines[1]%></textarea>
+            <%}else{%>
+            <textarea id="requirements" name="description[]" placeholder="지원자격 요건을 입력하세요(우대사항 포함)" required></textarea>
+        <%}%>
+    </div>
+    <div class="form-group">
+        <label for="job">수행 업무</label>
+        <%
+            if(exist){
+        %>
+        <textarea id="job" name="description[]" placeholder="입사 후 수행 업무를 입력하세요" required><%=descLines[2]%></textarea>
+        <%}else{%>
+        <textarea id="job" name="description[]" placeholder="입사 후 수행 업무를 입력하세요" required></textarea>
+        <%}%>
+    </div>
+    <div class="form-group">
+        <label for="person">인원</label>
+        <input type="text" id="person" name="description[]" placeholder="채용 인원을 입력하세요" value="<%=exist? descLines[3]:"" %>" required/>
+    </div>
+    <div class="form-group">
+        <label for="salary">급여</label>
+        <input type="text" id="salary" name="description[]" placeholder="급여를 입력하세요" value="<%=exist? descLines[4]:"" %>" required/>
+    </div>
+    <div class="form-group">
+        <label for="jobMerit">근무 조건 및 복리 후생</label>
+        <%
+            if(exist){
+        %>
+        <textarea id="jobMerit" name="description[]" placeholder="근무 시간 등 근무 조건과 복리 후생 등을 입력하세요" required><%=descLines[5]%></textarea>
+        <%}else{%>
+        <textarea id="jobMerit" name="description[]" placeholder="근무 시간 등 근무 조건과 복리 후생 등을 입력하세요" required></textarea>
+        <%}%>
+    </div>
+
     <h3>이력서 항목 작성</h3>
     <div id="need-items">
         <% if (exist) { %>

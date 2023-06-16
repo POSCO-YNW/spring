@@ -123,14 +123,16 @@ public class PostController {
                              @RequestParam("title") String title,
                              @RequestParam("startDate") Date startDate,
                              @RequestParam("endDate") Date endDate,
-                             @RequestParam("description") String description,
+                             @RequestParam(value = "description[]", required = false) List<String> descriptions,
                              @RequestParam(value = "needItems[]", required = false) List<String> needItems,
                              HttpSession session
     ) {
 
         Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
         User loginUser = (User) session.getAttribute("loginUser");
-        Post post = new Post(title, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
+        String description = String.join("$$", descriptions);
+        String title2 = title + " [" + descriptions.get(0) + "]";
+        Post post = new Post(title2, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
         Long postId = postService.save(post);
         for (String item : needItems) {
             NeedItem needItem = new NeedItem(item, postId);
@@ -145,14 +147,17 @@ public class PostController {
                              @RequestParam("title") String title,
                              @RequestParam("startDate") Date startDate,
                              @RequestParam("endDate") Date endDate,
-                             @RequestParam("description") String description,
+                             @RequestParam(value = "description[]", required = false) List<String> descriptions,
                              @RequestParam(value = "needItems[]", required = false) List<String> needItems,
                            HttpSession session
     ) {
 
         Timestamp updateAt = Timestamp.valueOf(LocalDateTime.now());
         User loginUser = (User) session.getAttribute("loginUser");
-        Post post = new Post(title, updateAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
+        String description = String.join("$$", descriptions);
+        String title2 = title + " [" + descriptions.get(0) + "]";
+
+        Post post = new Post(title2, updateAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
         postService.update(post, postId);
 
         needItemService.deleteByPostId(postId);

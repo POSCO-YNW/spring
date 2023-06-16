@@ -111,14 +111,13 @@
     LocalDate currentDate = LocalDate.now();
     LocalDate endDate = post.getEndDate().toLocalDate();
     Long dDay = endDate.toEpochDay() - currentDate.toEpochDay();
+    String[] descLines = post.getDescription().split("\\$\\$");
 %>
 
 <div class="card">
     <div class="title-container">
         <div class="department"><%= post.getDepartmentId() %> 부서</div>
-        <h1 class="title"><%= post.getTitle() %>
-        </h1>
-        <p>[경력]</p>
+        <h1 class="title"><%= post.getTitle()%></h1>
     </div>
 
     <div class="date-container">
@@ -128,14 +127,34 @@
     </div>
 
     <div class="description">
-        <h3>모집 안내</h3>
-        <p><%= post.getDescription() %>
-        </p>
+        <h1>모집 안내</h1>
+
+        <h2>채용 구분</h2>
+        <hr/>
+        <p><%=descLines[0]%></p>
+
+        <h2>자격 요건</h2>
+        <hr/>
+        <p><%=descLines[1]%></p>
+
+        <h2>수행 업무</h2>
+        <hr/>
+        <p><%=descLines[2]%></p>
+
+        <h2>채용 인원</h2>
+        <hr/>
+        <p><%=descLines[3]%></p>
+
+        <h2>예상 급여</h2>
+        <hr/>
+        <p><%=descLines[4]%></p>
+
+        <h2>근무 조건 및 복리 후생</h2>
+        <hr/>
+        <p><%=descLines[5]%></p>
     </div>
 
-    <div class="image-file">
-
-    </div>
+    <div class="image-file"></div>
     <hr>
     <%
         User user = (User) session.getAttribute("loginUser");
