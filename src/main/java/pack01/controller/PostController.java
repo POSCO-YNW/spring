@@ -37,6 +37,7 @@ public class PostController {
         model.addAttribute("post", postService.findById(postId));
         return "post/postDetailView";
     }
+
     @GetMapping("/post/edit")
     public String getPostEditInfo(Model model, @RequestParam(value = "id") Long postId) {
         model.addAttribute("post", postService.findById(postId));
@@ -58,8 +59,11 @@ public class PostController {
     public String getList(Model model,
                           @RequestParam(value = "search", required = false) String search,
                           @RequestParam(value = "searchType", required = false) String searchType,
-                          @RequestParam(value = "type", required = false) String type
+                          @RequestParam(value = "type", required = false) String type,
+                             @RequestParam(value = "page", required = false) Integer page
     ) {
+
+        page  =(page == null) ? 0 : page;
 
         if (search == null)
             search = "";
@@ -77,7 +81,7 @@ public class PostController {
                 break;
         }
 
-        List<PostDepartmentResponse> posts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type);
+        List<PostDepartmentResponse> posts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type,page);
 
         model.addAttribute("posts", posts);
         model.addAttribute("search", search);
@@ -134,21 +138,23 @@ public class PostController {
         String title2 = title + " [" + descriptions.get(0) + "]";
         Post post = new Post(title2, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
         Long postId = postService.save(post);
-        for (String item : needItems) {
-            NeedItem needItem = new NeedItem(item, postId);
-            needItemService.save(needItem);
+        if (needItems != null) {
+            for (String item : needItems) {
+                NeedItem needItem = new NeedItem(item, postId);
+                needItemService.save(needItem);
+            }
         }
         return "redirect:/postlist";
     }
 
     @PostMapping("/post/edit")
     public String postEdit(Model model,
-                             @RequestParam("id") Long postId,
-                             @RequestParam("title") String title,
-                             @RequestParam("startDate") Date startDate,
-                             @RequestParam("endDate") Date endDate,
-                             @RequestParam(value = "description[]", required = false) List<String> descriptions,
-                             @RequestParam(value = "needItems[]", required = false) List<String> needItems,
+                           @RequestParam("id") Long postId,
+                           @RequestParam("title") String title,
+                           @RequestParam("startDate") Date startDate,
+                           @RequestParam("endDate") Date endDate,
+                           @RequestParam(value = "description[]", required = false) List<String> descriptions,
+                           @RequestParam(value = "needItems[]", required = false) List<String> needItems,
                            HttpSession session
     ) {
 
@@ -170,6 +176,7 @@ public class PostController {
         }
         return "redirect:/postlist";
     }
+
     @GetMapping("/post/delete")
     public String postDelete(Model model, @RequestParam("id") Long postId) {
         postService.delete(postId);

@@ -58,12 +58,12 @@ public class PostService {
         postRepository.updateEndDateSetDeadline(postId);
     }
 
-    public List<PostDepartmentResponse> findBySearchAndSearchTypeAndSort(String search, String searchType, String type) {
+    public List<PostDepartmentResponse> findBySearchAndSearchTypeAndSort(String search, String searchType, String type,Integer page) {
         List<PostDepartmentResponse> posts = new ArrayList<>();
 
         switch (searchType) {
             case "title":
-                posts = postRepository.findPostAndDepartmentByPostTitle(search);
+                posts = postRepository.findPostAndDepartmentByPostTitle(search,page);
                 break;
             case "department":
                 posts = postRepository.findPostAndDepartmentByDepartmentTitle(search);
