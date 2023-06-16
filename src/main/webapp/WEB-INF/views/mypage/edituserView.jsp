@@ -81,6 +81,15 @@
         <label for="address">주소</label>
         <input type="text" id="address" name="address" value="${userlist.address}" required>
 
+        <label for="git">GITHUB ID</label>
+        <input type="text" id="git" name="git" value="${usersocial.type}" required>
+
+        <label for="tistory">TISTORY ID</label>
+        <input type="text" id="tistory" name="tistory" value="${usersocial.type}" required>
+
+        <label for="boj">BOJ ID</label>
+        <input type="text" id="boj" name="boj" value="${usersocial.type}" required>
+
         <div class="button-container">
             <button type="submit">수정 완료</button>
             <button type="button" onclick="history.back()">뒤로가기</button>
