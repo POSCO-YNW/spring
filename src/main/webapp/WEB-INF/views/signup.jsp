@@ -1,4 +1,6 @@
 <%@ page import="pack01.domain.type.RoleType" %>
+<%@ page import="pack01.domain.type.SocialType" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -128,6 +130,23 @@
         </div>
 
         <input type="hidden" id="role" name="role" value=<%=RoleType.APPLICANT%>>
+
+        <hr/>
+
+        <%
+            SocialType[] socialTypes = SocialType.values();
+            for (int i = 0; i < socialTypes.length; i++) {
+        %>
+        <div class="form-group">
+            <label for="sosical[<%=i%>]"><%=socialTypes[i] + " ID: "%>
+            </label>
+            <input type="text" id="sosical[<%=i%>]" name="social[]" placeholder="없을 시 공백" required/>
+        </div>
+        <%
+            }
+        %>
+
+        <hr/>
 
         <div class="form-group">
             <button type="submit">가입하기</button>
