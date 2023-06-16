@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pack01.domain.NeedItem;
 import pack01.domain.Post;
 import pack01.domain.User;
+import pack01.dto.post.response.PostDepartmentResponse;
 import pack01.service.NeedItemService;
 import pack01.service.PostService;
 
@@ -29,50 +30,69 @@ public class PostController {
         this.needItemService = needItemService;
     }
 
-    @GetMapping("/postlist")
-    public String getList(Model model) {
-        model.addAttribute("posts", postService.findAll());
-        return "post/postListView";
-    }
-
     @GetMapping("/postlist/post")
     public String getPostById(Model model, @RequestParam(value = "id") Long postId) {
         model.addAttribute("post", postService.findById(postId));
         return "post/postDetailView";
     }
 
-    //정렬
-    @GetMapping("/postlist/sort")
-    public String getSortLatest(Model model, @RequestParam(value = "type") String type) {
-        List<Post> posts = postService.findAll();
-        System.out.println(type);
+    @GetMapping("/postlist")
+    public String getList(Model model,
+                          @RequestParam(value = "search", required = false) String search,
+                          @RequestParam(value = "searchType", required = false) String searchType,
+                          @RequestParam(value = "type", required = false) String type
+    ) {
+
+        if (search == null)
+            search = "";
+        if (searchType == null)
+            searchType = "title";
+        if (type == null)
+            type = "latest";
+
         switch (type) {
-            case "latest":
-                Collections.sort(posts, Comparator.comparing(Post::getStartDate).reversed());
+            case "마감순":
+                type = "deadline";
                 break;
-            case "deadline":
-                Collections.sort(posts, Comparator.comparing(Post::getEndDate));
+            case "최신순":
+                type = "latest";
                 break;
         }
+
+        List<PostDepartmentResponse> posts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type);
+
         model.addAttribute("posts", posts);
+        model.addAttribute("search", search);
+
         return "post/postListView";
     }
-
-    // 검색
-    @GetMapping("/postlist/search")
-    public String getPostBySearch(Model model,
-                                  @RequestParam(value = "search") String search,
-                                  @RequestParam(value = "searchType") String value
-    ) {
-        switch (value) {
-            case "title":
-                model.addAttribute("posts", postService.findByTitle(search));
-                break;
-            case "department":
-                model.addAttribute("posts", postService.findByDepartmentName(search));
-        }
-        return "search/searchResultView";
-    }
+//
+//    // 검색
+//    @GetMapping("/postlist/search")
+//    public String getPostBySearch(Model model,
+//                                  @RequestParam(value = "search") String search,
+//                                  @RequestParam(value = "searchType") String value
+//    ) {
+//
+//        return "search/searchResultView";
+//    }
+//
+//    //정렬
+//    @GetMapping("/postlist/sort")
+//    public String getSortLatest(Model model, @RequestParam(value = "type") String type) {
+//        List<Post> posts = postService.findAll();
+//        System.out.println(type);
+//        switch (type) {
+//            case "latest":
+//                Collections.sort(posts, Comparator.comparing(Post::getStartDate).reversed());
+//                break;
+//            case "deadline":
+//                Collections.sort(posts, Comparator.comparing(Post::getEndDate));
+//                break;
+//        }
+//        model.addAttribute("posts", posts);
+//        return "post/postListView";
+//    }
 
     // 글 작성
     @GetMapping("/post/write")

@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.File;
 import pack01.domain.Post;
+import pack01.dto.post.response.PostDepartmentResponse;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
@@ -77,9 +78,21 @@ public class PostRepository {
         return jdbcTemplate.query(sql, new PostMapper(), "%" + postTitle + "%");
     }
 
+    public List<PostDepartmentResponse> findPostAndDepartmentByPostTitle(String postTitle) {
+        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
+                "WHERE P.title LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
+        return jdbcTemplate.query(sql, new PostDepartmentMapper(), "%" + postTitle + "%");
+    }
+
+    public List<PostDepartmentResponse> findPostAndDepartmentByDepartmentTitle(String departmentName) {
+        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
+                "WHERE D.name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
+        return jdbcTemplate.query(sql, new PostDepartmentMapper(), "%" + departmentName + "%");
+    }
+
     public List<Post> findByDepartmentName(String departmentName) {
         String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-                "WHERE name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
+                "WHERE D.name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
         return jdbcTemplate.query(sql, new PostMapper(), "%" + departmentName + "%");
     }
 
@@ -112,6 +125,28 @@ public class PostRepository {
             Long adminId = rs.getLong("admin_id");
             Long departmentId = rs.getLong("department_id");
             return new Post(postId, title, createdAt, updatedAt, startDate, endDate, description, adminId, departmentId);
+        }
+    }
+
+    private static class PostDepartmentMapper implements RowMapper<PostDepartmentResponse> {
+        @Override
+        public PostDepartmentResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long postId = rs.getLong("post_id");
+            String title = rs.getString("title");
+            Timestamp createdAt = rs.getTimestamp("created_at");
+            Timestamp updatedAt = rs.getTimestamp("updated_at");
+            Date startDate = rs.getDate("start_date");
+            Date endDate = rs.getDate("end_date");
+            String description = rs.getString("description");
+            Long adminId = rs.getLong("admin_id");
+            Long departmentId = rs.getLong("department_id");
+            String name = rs.getString("name");
+            String telephoneNumber = rs.getString("telephone_number");
+            String deptKey = rs.getString("dept_key");
+            String location = rs.getString("location");
+            double y = rs.getDouble("x");
+            double x = rs.getDouble("y");
+            return new PostDepartmentResponse(postId, title, createdAt, updatedAt, startDate, endDate, description, adminId, departmentId, name, telephoneNumber, deptKey, location, x, y);
         }
     }
 }
