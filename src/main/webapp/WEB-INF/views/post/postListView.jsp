@@ -6,6 +6,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>채용공고</title>
     <style>
         /*@font-face {*/
@@ -97,7 +99,7 @@
 <div class="body">
     <h1>채용공고</h1>
     <div class="search-form">
-        <form class="search" method="get" action="/postlist">
+        <form id="frm" class="search" method="get" action="/postlist">
             <select name="searchType" class="search-input">
                 <option value="title">공고 제목</option>
                 <option value="department">부서</option>
@@ -105,6 +107,7 @@
             <input type="text" name="search" class="search-input" placeholder="관심 부서나 공고 제목으로 검색하세요."
                    value="<%=search%>">
             <input type="submit" value="검색" class="search-button">
+            <input type="hidden" class="hidPage" name="page" value="">
             <input type="submit" name="type" value="최신순" class="sort-button" id="latestButton">
             <input type="submit" name="type" value="마감순" class="sort-button" id="deadlineButton">
         </form>
@@ -126,6 +129,21 @@
             }
         %>
     </div>
+    <div class="">
+        <a class="page" data-page="0">1</a>
+        <a class="page" data-page="1">2</a>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            $('.page').click(function (){
+               var i =  $(this).data('page');
+               $('.hidPage').val(i)
+               $('#frm').submit();
+            })
+
+        });
+    </script>
 </div>
 </body>
 </html>

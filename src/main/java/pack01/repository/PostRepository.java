@@ -101,9 +101,9 @@ public class PostRepository {
         return jdbcTemplate.query(sql, new PostMapper(), "%" + postTitle + "%");
     }
 
-    public List<PostDepartmentResponse> findPostAndDepartmentByPostTitle(String postTitle) {
+    public List<PostDepartmentResponse> findPostAndDepartmentByPostTitle(String postTitle,Integer page) {
         String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-                "WHERE P.title LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
+                "WHERE P.title LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date limit " + page*9 +", 9";
         return jdbcTemplate.query(sql, new PostDepartmentMapper(), "%" + postTitle + "%");
     }
 
