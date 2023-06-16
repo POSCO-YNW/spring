@@ -36,6 +36,17 @@ public class Post {
         this.adminId = adminId;
         this.departmentId = departmentId;
     }
+    // 수정할 때 필요한 값
+    public Post(String title, Timestamp updatedAt, Date startDate, Date endDate, String description, Long adminId, Long departmentId) {
+        this.title = title;
+        this.updatedAt = updatedAt;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.adminId = adminId;
+        this.departmentId = departmentId;
+    }
+
     public Long getPostId() {
         return postId;
     }

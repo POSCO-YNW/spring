@@ -154,7 +154,7 @@
         <div class="form-group">
             <label for="sosical[<%=i%>]"><%=socialTypes[i] + " ID "%>
             </label>
-            <input type="text" id="sosical[<%=i%>]" name="social[]" placeholder="없을 시 공백" required/>
+            <input type="text" id="sosical[<%=i%>]" name="social[]" placeholder="없을 시 공백"/>
         </div>
         <%
             }
