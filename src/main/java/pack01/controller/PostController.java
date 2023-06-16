@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pack01.domain.NeedItem;
 import pack01.domain.Post;
+import pack01.domain.User;
 import pack01.service.NeedItemService;
 import pack01.service.PostService;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final NeedItemService needItemService;
+
     @Autowired
     public PostController(PostService postService, NeedItemService needItemService) {
         this.postService = postService;
@@ -28,22 +30,23 @@ public class PostController {
     }
 
     @GetMapping("/postlist")
-    public String getList(Model model){
+    public String getList(Model model) {
         model.addAttribute("posts", postService.findAll());
         return "post/postListView";
     }
+
     @GetMapping("/postlist/post")
-    public String getPostById(Model model, @RequestParam(value = "id") Long postId){
+    public String getPostById(Model model, @RequestParam(value = "id") Long postId) {
         model.addAttribute("post", postService.findById(postId));
         return "post/postDetailView";
     }
 
     //정렬
     @GetMapping("/postlist/sort")
-    public String getSortLatest(Model model, @RequestParam(value = "type") String type){
+    public String getSortLatest(Model model, @RequestParam(value = "type") String type) {
         List<Post> posts = postService.findAll();
         System.out.println(type);
-        switch (type){
+        switch (type) {
             case "latest":
                 Collections.sort(posts, Comparator.comparing(Post::getStartDate).reversed());
                 break;
@@ -60,8 +63,8 @@ public class PostController {
     public String getPostBySearch(Model model,
                                   @RequestParam(value = "search") String search,
                                   @RequestParam(value = "searchType") String value
-    ){
-        switch (value){
+    ) {
+        switch (value) {
             case "title":
                 model.addAttribute("posts", postService.findByTitle(search));
                 break;
@@ -85,18 +88,17 @@ public class PostController {
                              @RequestParam("description") String description,
                              @RequestParam(value = "needItems[]", required = false) List<String> needItems,
                              HttpSession session
-                             ){
+    ) {
 
         Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
-        Long userId = (Long) session.getAttribute("user_id");
-        Long departmentId = (Long) session.getAttribute("department_id");
-        Post post = new Post(title, createdAt, null, startDate, endDate, description, userId, departmentId);
-        postService.save(post);
+        User loginUser = (User) session.getAttribute("loginUser");
+        Post post = new Post(title, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
+        Long postId = postService.save(post);
         for (String item : needItems) {
-            NeedItem needItem = new NeedItem(item, post.getPostId());
+            NeedItem needItem = new NeedItem(item, postId);
             needItemService.save(needItem);
         }
-        return "redirect:/post/writeSuccessView";
+        return "redirect:/postlist";
     }
 
 }
