@@ -128,7 +128,7 @@
     </div>
 
     <div class="description">
-        <h3>직무 정보</h3>
+        <h3>모집 안내</h3>
         <p><%= post.getDescription() %>
         </p>
     </div>

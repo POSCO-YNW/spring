@@ -62,6 +62,9 @@
             cursor: pointer;
             margin-top: 10px;
         }
+        .cancel-btn{
+            background-color: red;
+        }
     </style>
     <script>
         function removeItem(item) {
@@ -104,6 +107,9 @@
 
             let needItemsContainer = document.getElementById('need-items');
             needItemsContainer.appendChild(newItemContainer);
+        }
+        const onCancel = ()=>{
+            window.location.href = "/postlist";
         }
     </script>
 </head>
@@ -151,6 +157,9 @@
     </div>
     <div class="form-group">
         <button type="submit"><%= exist ? "수정하기" : "작성하기" %></button>
+    </div>
+    <div class="form-group">
+        <button type="button" class="cancel-btn" onclick="onCancel()">취소하기</button>
     </div>
 </form>
 </body>

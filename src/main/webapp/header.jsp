@@ -1,5 +1,6 @@
 <%@ page import="pack01.domain.User" %>
 <%@ page import="pack01.domain.type.RoleType" %>
+<%@ page import="java.util.UUID" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <html>
@@ -111,15 +112,28 @@
         }
     </style>
     <script src="https://kit.fontawesome.com/e3a7d25f3f.js" crossorigin="anonymous"></script>
+    <script>
+        const copyCode = () =>{
+            var inviteUrl = document.getElementById('inviteUrl');
+            inviteUrl.select();
+            document.execCommand('copy');
+            alert('초대 URL이 클립보드에 복사되었습니다.');
+        }
+    </script>
 </head>
 <body>
+<%
+    User user = (User) session.getAttribute("loginUser");
+    String inviteCode = UUID.randomUUID().toString().replace("-", "");
+    String inviteUrl = request.getRequestURL().toString() + "?code=" + inviteCode);
+%>
 <div class="page">
     <header>
         <a href="/postlist"><h2>PoCruit</h2></a>
         <nav>
             <ul>
                 <li><a href="/postlist">채용공고</a></li>
-                <% User user = (User) session.getAttribute("loginUser");
+                <%
                     if (user != null && RoleType.APPLICANT.equals(user.getRole())) { %>
                 <li><a href="/mypage/get">마이페이지</a></li>
                 <%
@@ -128,6 +142,7 @@
                 %>
                 <li><a href="/postlist/post/write">채용공고 작성</a></li>
                 <li><a href="/">지원자 현황</a></li>
+                <li><button onclick="copyCode()">초대코드 생성</button></li>
             </ul>
         </nav>
         <nav>
