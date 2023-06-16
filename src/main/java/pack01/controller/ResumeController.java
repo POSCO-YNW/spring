@@ -164,8 +164,10 @@ public class ResumeController {
         }
 
         Resume resume = resumeService.findById(resumeId);
+        List<Department> defaultDept = departmentService.findByName("무소속");
 
         resumeService.updateStatus(resume.getResumeId(), ResumeStatusType.FAIL);
+        userService.updateDepartmentByUserId(resume.getApplicantId(), defaultDept.get(0).getDepartmentId());
 
         return "redirect:/resume/list?postId=" + postId;
     }

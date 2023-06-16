@@ -18,7 +18,6 @@ public class NeedItemService {
         this.needItemRepository = needItemRepository;
     }
 
-<<<<<<< HEAD
     public Long save(NeedItem needItem) {
         return needItemRepository.save(needItem);
     }
@@ -42,13 +41,8 @@ public class NeedItemService {
     public List<NeedItem> findByPostId(Long postId) {
         return needItemRepository.findByPostId(postId);
     }
-=======
-    public Long save(NeedItem needItem) { return needItemRepository.save(needItem); }
-    public void update(NeedItem needItem) { needItemRepository.update(needItem); }
-    public void delete(Long needItemId) { needItemRepository.delete(needItemId); }
-    public void deleteByPostId(Long postId) { needItemRepository.deleteByPostId(postId); }
 
-    public NeedItem findByNeedItemId(Long needItemId) { return needItemRepository.findByNeedItemId(needItemId); }
-    public List<NeedItem> findByPostId(Long postId) { return needItemRepository.findByPostId(postId); }
->>>>>>> 32cb8de71d28d097c28894bf76076502edd28e54
+    public void deleteByPostId(Long postId) {
+        needItemRepository.deleteByPostId(postId);
+    }
 }
