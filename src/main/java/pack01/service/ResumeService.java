@@ -6,6 +6,7 @@ import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
+import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.repository.*;
 
 import java.sql.Date;
@@ -48,6 +49,10 @@ public class ResumeService {
 
     public List<Resume> findAll() {
         return resumeRepository.findAll();
+    }
+
+    public List<ResumeUserResponse> findResumeUserResponseByPostId(Long postId) {
+        return resumeRepository.findResumeUserResponseByPostId(postId);
     }
 
     public void update(Resume resume) {

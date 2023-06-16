@@ -9,6 +9,7 @@ import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
+import pack01.domain.type.RoleType;
 import pack01.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -86,5 +87,22 @@ public class ResumeController {
         resumeService.saveResumeForm(resumeId, resumeForm);
 
         return "submitSuccessView";
+    }
+
+    @GetMapping("list")
+    public String resumeList(@RequestParam("postId") Long postId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        Post post = postService.findById(postId);
+
+        List<Resume> resumes = resumeService.findByPostId(postId);
+        model.addAttribute("resumes", resumes);
+        model.addAttribute("post", post);
+        model.addAttribute("department", departmentService.findById(post.getDepartmentId()));
+
+        return "resume/resumeList";
     }
 }
