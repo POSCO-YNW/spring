@@ -13,6 +13,7 @@ import pack01.repository.PostRepository;
 import pack01.repository.UserRepository;
 import pack01.service.DepartmentService;
 import pack01.service.PostService;
+import pack01.service.SocialAccountService;
 import pack01.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -25,18 +26,19 @@ public class MypageController {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final DepartmentService departmentService;
+    private final SocialAccountService socialAccountService;
 
 
     @Autowired
-    public MypageController(PostRepository postRepository, UserRepository userRepository, DepartmentService departmentService) {
+    public MypageController(PostRepository postRepository, UserRepository userRepository, DepartmentService departmentService, SocialAccountService socialAccountService) {
         this.postRepository = postRepository;
-
         this.userRepository = userRepository;
         this.departmentService = departmentService;
+        this.socialAccountService = socialAccountService;
     }
 
     @GetMapping("/get")
-    public String myPage(HttpSession session, Model model){
+    public String myPage(HttpSession session, Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
         System.out.println("마이페이지");
         PostService postService = new PostService(postRepository);
@@ -48,11 +50,11 @@ public class MypageController {
     }
 
     @GetMapping("/edituser")
-    public String editUser(HttpSession session, Model model){
+    public String editUser(HttpSession session, Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
         System.out.println("개인정보수정");
 
-        UserService userService = new UserService(userRepository,departmentService);
+        UserService userService = new UserService(userRepository, departmentService);
         User user = userService.findById(loginUser.getUserId());
 
         model.addAttribute("userlist", user);
@@ -70,12 +72,18 @@ public class MypageController {
             @RequestParam("birthday") Date birthday,
             @RequestParam("address") String address,
             HttpSession session, Model model
-            ) {
+    ) {
 
+        UserService userService = new UserService(userRepository, departmentService);
 
+        User loginUser = (User) session.getAttribute("loginUser");
 
+        User user = new User(loginUser.getUserId(), name, password, email, phoneNumber,
+                birthday, loginUser.getRole(), address, loginUser.getCreatedAt(),
+                loginUser.getUpdatedAt(), loginUser.getDepartmentId());
 
+        userService.update(user);
 
-        return "mypage/edituserView";
+        return "mypage/mypageView";
     }
 }
