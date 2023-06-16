@@ -42,4 +42,7 @@ public class SocialAccountService {
         socialAccountRepository.delete(socialAccountId);
     }
 
+    public void deleteByUserId(Long userId) {
+        socialAccountRepository.deleteByUserId(userId);
+    }
 }

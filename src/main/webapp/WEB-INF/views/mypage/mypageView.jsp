@@ -33,7 +33,7 @@
         .post-card {
             padding: 10px;
             background-color: #f1f1f1;
-            border-radius: 5px;
+            border-radius: 10px;
         }
 
         .user-info {
@@ -44,6 +44,51 @@
         .user-info h3 {
             margin-right: 20px;
         }
+
+        /* 버튼 스타일 추가 */
+        .edit-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .edit-button input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-button input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .resume-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .resume-button input[type="submit"] {
+            background-color: deepskyblue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .resume-button input[type="submit"]:hover {
+            background-color: dodgerblue;
+        }
     </style>
 </head>
 <body>
@@ -51,21 +96,32 @@
 <% User user = (User) session.getAttribute("loginUser"); %>
 <div class="container">
     <h1>마이페이지</h1>
+    <div class="edit-button">
+        <form action="/mypage/edituser">
+            <input class="button" type="submit" value="개인정보 수정">
+        </form>
+    </div>
+    <hr>
+
     <h2>내가 지원한 공고</h2>
 
     <div class="post-container">
-        <c:forEach var="post" items="${myresume}">
+        <c:forEach var="resume" items="${ResumePostResponses}">
             <div class="post-card">
-                <h3>${post.title}</h3>
-                <p>시작일: ${post.startDate}</p>
-                <p>종료일: ${post.endDate}</p>
+                <h3>${resume.title}</h3>
+                <p>상태: ${resume.status.description}</p>
+                <p>마감일: ${resume.endDate}</p>
+                <div class="resume-button">
+                    <form id="resumeForm" action="/resume/detail" method="get">
+                        <input type="hidden" name="postId" value="${resume.postId}">
+                        <input type="hidden" name="resumeId" value="${resume.resumeId}">
+                        <input type="hidden" name="userId" value="${resume.applicantId}">
+                        <input class="button" type="submit" value="이력서 보기">
+                    </form>
+                </div>
             </div>
         </c:forEach>
     </div>
-
-    <form action="/mypage/edituser">
-        <input class="button" type="submit" value="개인정보 수정">
-    </form>
 
 </div>
 </body>

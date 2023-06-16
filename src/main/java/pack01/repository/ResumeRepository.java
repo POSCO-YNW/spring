@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import pack01.domain.Resume;
 import pack01.domain.type.ResumeStatusType;
 import pack01.domain.type.RoleType;
+import pack01.dto.resume.response.ResumePostResponse;
 import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.repository.db.ConnectionManager;
 
@@ -64,6 +65,11 @@ public class ResumeRepository {
     public List<Resume> findByPostId(Long postId) {
         String sql = "SELECT * FROM resume WHERE post_id = ?";
         return jdbcTemplate.query(sql, new ResumeMapper(), postId);
+    }
+
+    public List<ResumePostResponse> findResumePostResponseByApplicantId(Long userId) {
+        String sql = "SELECT * FROM resume join post on resume.post_id = post.post_id WHERE applicant_id = ?";
+        return jdbcTemplate.query(sql, new ResumePostResponseMapper(), userId);
     }
 
     public List<Resume> findAll() {
@@ -124,6 +130,28 @@ public class ResumeRepository {
             Timestamp updatedAt = rs.getTimestamp("updated_at");
 
             return new ResumeUserResponse(resumeId, applicantId, postId, departmentId, status, description, username, password, email, phoneNumber, birthday, role, address, createdAt, updatedAt);
+        }
+    }
+
+    private static class ResumePostResponseMapper implements RowMapper<ResumePostResponse> {
+        @Override
+        public ResumePostResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long resumeId = rs.getLong("resume_id");
+            Long applicantId = rs.getLong("applicant_id");
+            Long postId = rs.getLong("post_id");
+            Long departmentId = rs.getLong("department_id");
+            ResumeStatusType status = ResumeStatusType.valueOf(rs.getString("status"));
+            String description = rs.getString("description");
+            String title = rs.getString("title");
+            Timestamp createdAt = rs.getTimestamp("created_at");
+            Timestamp updatedAt = rs.getTimestamp("updated_at");
+            Date startDate = rs.getDate("start_date");
+            Date endDate = rs.getDate("end_date");
+            String postDescription = rs.getString("description");
+            Long adminId = rs.getLong("admin_id");
+
+            return new ResumePostResponse(resumeId, applicantId, postId, departmentId, status, description,
+                    title, createdAt, updatedAt, startDate, endDate, postDescription, adminId);
         }
     }
 }

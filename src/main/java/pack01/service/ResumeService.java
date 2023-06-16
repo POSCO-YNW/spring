@@ -6,6 +6,7 @@ import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
+import pack01.dto.resume.response.ResumePostResponse;
 import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.dto.resume.response.ResumeVoteResponse;
 import pack01.repository.*;
@@ -136,6 +137,10 @@ public class ResumeService {
 
     public ResumeUserResponse findResumeUserResponseByResumeId(Long resumeId) {
         return resumeRepository.findResumeUserResponseByPostIdAndUserId(resumeId);
+    }
+
+    public List<ResumePostResponse> findResumePostResponseByApplicantId(Long applicantId) {
+        return resumeRepository.findResumePostResponseByApplicantId(applicantId);
     }
 
     public List<ResumeVoteResponse> makeResumeVoteReponse(List<ResumeUserResponse> resumes, List<Vote> votes) {

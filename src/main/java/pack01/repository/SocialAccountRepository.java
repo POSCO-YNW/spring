@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.SocialAccount;
+import pack01.domain.type.SocialType;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
@@ -27,14 +28,14 @@ public class SocialAccountRepository {
     }
 
     public Long save(SocialAccount socialAccount) {
-        String sql = "INSERT INTO social_account (social_account_id, type, account_id, link, user_id) " +
+        String sql = "INSERT INTO social_account (type, account_id, link, user_id) " +
                 "VALUES (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, socialAccount.getType());
+            ps.setString(1, String.valueOf(socialAccount.getType()));
             ps.setString(2, socialAccount.getAccountId());
             ps.setString(3, socialAccount.getLink());
             ps.setLong(4, socialAccount.getUserId());
@@ -72,11 +73,16 @@ public class SocialAccountRepository {
         return jdbcTemplate.query(sql, new SocialAccountMapper(), userId);
     }
 
+    public void deleteByUserId(Long userId) {
+        String sql = "DELETE FROM social_account WHERE user_id = ?";
+        jdbcTemplate.update(sql, userId);
+    }
+
     private static class SocialAccountMapper implements RowMapper<SocialAccount> {
         @Override
         public SocialAccount mapRow(ResultSet rs, int rowNum) throws SQLException {
             Long socialAccountId = rs.getLong("social_account_id");
-            String type = rs.getString("type");
+            SocialType type = SocialType.valueOf(rs.getString("type"));
             String accountId = rs.getString("account_id");
             String link = rs.getString("link");
             Long userId = rs.getLong("user_id");

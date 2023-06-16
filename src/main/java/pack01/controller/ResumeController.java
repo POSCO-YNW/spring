@@ -136,7 +136,7 @@ public class ResumeController {
     @GetMapping("/detail")
     public String resumeDetail(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, @RequestParam("userId") Long userId, HttpSession session, Model model) {
         User user = (User) session.getAttribute("loginUser");
-        if (user == null || user.getRole().equals(RoleType.APPLICANT)) {
+        if (user == null) {
             return "redirect:/postlist/post?id=" + postId;
         }
 

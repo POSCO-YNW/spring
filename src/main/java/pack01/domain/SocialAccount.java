@@ -1,8 +1,10 @@
 package pack01.domain;
 
+import pack01.domain.type.SocialType;
+
 public class SocialAccount {
     private Long socialAccountId;
-    private String type;
+    private SocialType type;
     private String accountId;
     private String link;
     private Long userId;
@@ -10,8 +12,15 @@ public class SocialAccount {
     public SocialAccount() {
     }
 
-    public SocialAccount(Long socialAccountId, String type, String accountId, String link, Long userId) {
+    public SocialAccount(Long socialAccountId, SocialType type, String accountId, String link, Long userId) {
         this.socialAccountId = socialAccountId;
+        this.type = type;
+        this.accountId = accountId;
+        this.link = link;
+        this.userId = userId;
+    }
+
+    public SocialAccount(SocialType type, String accountId, String link, Long userId) {
         this.type = type;
         this.accountId = accountId;
         this.link = link;
@@ -22,7 +31,7 @@ public class SocialAccount {
         return socialAccountId;
     }
 
-    public String getType() {
+    public SocialType getType() {
         return type;
     }
 

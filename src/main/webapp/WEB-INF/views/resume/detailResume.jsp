@@ -186,10 +186,10 @@
 
     <h2>소셜 계정</h2>
     <% for (SocialAccount social : socials) { %>
-    <h3><%= SocialType.valueOf(social.getType()).getDescription() %>: </h3>
+    <h3><%= social.getType().getDescription() %>: </h3>
     <%
         String url = "";
-        switch (SocialType.valueOf(social.getType())) {
+        switch (social.getType()) {
             case GITHUB:
                 url = "https://github.com/" + social.getAccountId();
                 break;
@@ -203,7 +203,7 @@
     <a style="color: blue" href="<%=url%>"><%= social.getAccountId() %>(바로가기)
     </a>
     <%
-        if (SocialType.GITHUB.equals(SocialType.valueOf(social.getType()))) {
+        if (SocialType.GITHUB.equals(social.getType())) {
     %>
     <div>
         <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=<%=social.getAccountId()%>&layout=compact&theme=tokyonight"
@@ -212,7 +212,7 @@
              alt="stats">
     </div>
     <%
-    } else if (SocialType.BOJ.equals(SocialType.valueOf(social.getType()))) {
+    } else if (SocialType.BOJ.equals(social.getType())) {
     %>
     <div>
         <a href="https://solved.ac/jh0902">
