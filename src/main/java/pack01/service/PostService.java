@@ -6,6 +6,10 @@ import pack01.domain.Post;
 import pack01.dto.post.response.PostDepartmentResponse;
 import pack01.repository.PostRepository;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,7 +73,20 @@ public class PostService {
                 posts.sort(Comparator.comparing(PostDepartmentResponse::getStartDate).reversed());
                 break;
             case "deadline":
-                posts.sort(Comparator.comparing(PostDepartmentResponse::getEndDate));
+                Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
+                posts.sort((p1, p2) -> {
+                    Date endDate1 = p1.getEndDate();
+                    Date endDate2 = p2.getEndDate();
+
+                    if (endDate1.after(currentTimestamp) && endDate2.before(currentTimestamp)) {
+                        return -1;
+                    } else if (endDate1.before(currentTimestamp) && endDate2.after(currentTimestamp)) {
+                        return 1;
+                    } else {
+                        return endDate1.compareTo(endDate2);
+                    }
+                });
                 break;
         }
 
