@@ -67,6 +67,11 @@ public class SocialAccountRepository {
         jdbcTemplate.update(sql, id);
     }
 
+    public List<SocialAccount> findByUserId(Long userId) {
+        String sql = "SELECT * FROM social_account where user_id = ?";
+        return jdbcTemplate.query(sql, new SocialAccountMapper(), userId);
+    }
+
     private static class SocialAccountMapper implements RowMapper<SocialAccount> {
         @Override
         public SocialAccount mapRow(ResultSet rs, int rowNum) throws SQLException {

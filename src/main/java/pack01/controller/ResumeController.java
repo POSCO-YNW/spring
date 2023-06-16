@@ -10,6 +10,7 @@ import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
 import pack01.domain.type.RoleType;
+import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -24,13 +25,15 @@ public class ResumeController {
     private final DepartmentService departmentService;
     private final NeedItemService needItemService;
     private final ResumeService resumeService;
+    private final SocialAccountService socialAccountService;
 
     @Autowired
-    public ResumeController(PostService postService, DepartmentService departmentService, NeedItemService needItemService, ResumeService resumeService) {
+    public ResumeController(PostService postService, DepartmentService departmentService, NeedItemService needItemService, ResumeService resumeService, SocialAccountService socialAccountService) {
         this.postService = postService;
         this.departmentService = departmentService;
         this.needItemService = needItemService;
         this.resumeService = resumeService;
+        this.socialAccountService = socialAccountService;
     }
 
     ///resume/post?postId=1&departmentId=2
@@ -98,10 +101,26 @@ public class ResumeController {
 
         Post post = postService.findById(postId);
 
-        List<Resume> resumes = resumeService.findByPostId(postId);
+        List<ResumeUserResponse> resumes = resumeService.findResumeUserResponseByPostId(postId);
         model.addAttribute("resumes", resumes);
         model.addAttribute("post", post);
         model.addAttribute("department", departmentService.findById(post.getDepartmentId()));
+
+        return "resume/resumeList";
+    }
+
+    @GetMapping("detail")
+    public String resumeDetail(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, @RequestParam("userId") Long userId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        ResumeUserResponse resume = resumeService.findResumeUserResponseByPostIdAndUserId(resumeId, userId);
+
+        model.addAttribute("resume", resume);
+        model.addAttribute("socials", socialAccountService.findByUserId(userId));
+        model.addAttribute("needItems", departmentService.findById(post.getDepartmentId()));
 
         return "resume/resumeList";
     }

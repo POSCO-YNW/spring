@@ -170,15 +170,5 @@
         }
     %>
 </div>
-</div>
-<%
-    if (user != null && RoleType.ADMIN.equals(user.getRole())) { %>
-        <a href="/postlist/post/edit?id=<%=post.getPostId()%>" class="apply-button">수정하기</a>
-        <a href="/postlist/post/delete?id=<%=post.getPostId()%>" class="apply-button">삭제하기</a>
-<%
-    }else{
-%>
-        <a href="/resume/post?postId=<%=post.getPostId()%>&departmentId=<%=post.getDepartmentId()%>" class="apply-button">지원하기</a>
-<% }%>
 </body>
 </html>

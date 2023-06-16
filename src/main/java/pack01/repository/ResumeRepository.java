@@ -58,6 +58,11 @@ public class ResumeRepository {
         return jdbcTemplate.query(sql, new ResumeUserResponseMapper(), postId);
     }
 
+    public ResumeUserResponse findResumeUserResponseByPostIdAndUserId(Long resumeId, Long userId) {
+        String sql = "SELECT * FROM resume join user on resume.applicant_id = user.user_id where resume.post_id = ? and resume.applicant_id = ?";
+        return jdbcTemplate.queryForObject(sql, new ResumeUserResponseMapper(), resumeId, userId);
+    }
+
     public List<Resume> findByPostId(Long postId) {
         String sql = "SELECT * FROM resume WHERE post_id = ?";
         return jdbcTemplate.query(sql, new ResumeMapper(), postId);

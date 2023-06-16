@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="pack01.domain.Post" %>
 <%@ page import="pack01.domain.Department" %>
+<%@ page import="pack01.dto.resume.response.ResumeUserResponse" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -18,7 +19,7 @@
 <body>
 <div class="body">
     <%
-        List<Resume> resumes = (List<Resume>) request.getAttribute("resumes");
+        List<ResumeUserResponse> resumes = (List<ResumeUserResponse>) request.getAttribute("resumes");
         Post post = (Post) request.getAttribute("post");
         Department department = (Department) request.getAttribute("department");
     %>
@@ -39,16 +40,15 @@
         <tbody>
         <%-- Iterate over the list of resumes and display each item --%>
         <%
-            for (Resume resume : resumes) { %>
+            for (ResumeUserResponse resume : resumes) { %>
         <tr>
             <td hidden="hidden"><%= resume.getResumeId() %>
             <td>
-                <a href="/resume/list?resumeId=<%= resume.getResumeId() %>">
+                <a href="/resume/detail?postId=<%=resume.getPostId()%>&resumeId=<%= resume.getDescription() %>&userId=<%=resume.getApplicantId()%>">
                     <%= resume.getDescription() %>
                 </a>
             </td>
-            </td>
-            <td><%= resume.getApplicantId() %>
+            <td><%= resume.getUsername() %>
             </td>
             <td><%= resume.getStatus() %>
             </td>

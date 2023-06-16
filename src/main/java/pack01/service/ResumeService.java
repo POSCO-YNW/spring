@@ -120,4 +120,8 @@ public class ResumeService {
 
         return new ResumeForm(certificationList, skillList, experienceList, questions, answers);
     }
+
+    public ResumeUserResponse findResumeUserResponseByPostIdAndUserId(Long resumeId, Long userId) {
+        return resumeRepository.findResumeUserResponseByPostIdAndUserId(resumeId, userId);
+    }
 }
