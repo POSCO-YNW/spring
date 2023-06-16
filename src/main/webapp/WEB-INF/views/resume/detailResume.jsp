@@ -4,6 +4,7 @@
 <%@ page import="pack01.dto.resume.response.ResumeUserResponse" %>
 <%@ page import="pack01.domain.type.SocialType" %>
 <%@ page import="pack01.domain.type.RoleType" %>
+<%@ page import="pack01.domain.type.ResumeStatusType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -313,7 +314,7 @@
         </form>
 
         <%
-            if (user.getRole().equals(RoleType.ADMIN)) {
+            if (user.getRole().equals(RoleType.ADMIN) && (resume.getStatus().equals(ResumeStatusType.UNREAD) || resume.getStatus().equals(ResumeStatusType.READ))) {
         %>
         <form method="post" action="/resume/pass">
             <label>
