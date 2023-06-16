@@ -1,3 +1,6 @@
+<%@ page import="pack01.domain.Post" %>
+<%@ page import="pack01.domain.NeedItem" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,7 +14,7 @@
 
         form {
             max-width: 500px;
-            margin: 0 auto;
+            margin: 50px auto;
         }
 
         .form-group {
@@ -21,7 +24,10 @@
         label {
             font-weight: bold;
         }
-
+        h3{
+            text-align: center;
+            margin: 50px 0 10px 0;
+        }
         input[type="text"],
         input[type="date"],
         textarea {
@@ -32,7 +38,9 @@
             box-sizing: border-box;
             font-size: 14px;
         }
-
+        textarea{
+            min-height: 250px;
+        }
         button {
             background-color: #4CAF50;
             color: white;
@@ -46,7 +54,9 @@
         button:hover {
             background-color: #45a049;
         }
-
+        .need-item-input{
+            margin-bottom: 10px;x
+        }
         .remove-item {
             color: red;
             cursor: pointer;
@@ -80,6 +90,7 @@
             newItemInput.name = 'needItems[]';
             newItemInput.placeholder = '지원자에게 궁금한 점을 입력하세요';
             newItemInput.required = true;
+            newItemInput.className = 'need-item-input'
 
             let removeItemSpan = document.createElement('button');
             removeItemSpan.className = 'remove-item';
@@ -96,36 +107,52 @@
     </script>
 </head>
 <body>
-<form action="/post/create" method="post">
+<%
+    Post post = (Post) request.getAttribute("post");
+    Boolean exist = (post!=null)? true : false;
+    List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
+    System.out.println(post.getPostId());
+    String editUrl = "/postlist/post/edit?" + post.getPostId();
+%>
+<form action="<%= exist ? editUrl : "/postlist/post/create" %>" method="post">
     <div class="form-group">
         <label for="title">제목</label>
-        <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+        <input type="text" id="title" name="title" placeholder="제목을 입력하세요" value="<%= exist ? post.getTitle() : "" %>" required>
     </div>
     <div class="form-group">
         <label for="startDate">시작일</label>
-        <input type="date" id="startDate" name="startDate" required>
+        <input type="date" id="startDate" name="startDate" value="<%= exist ? post.getStartDate() : "" %>" required>
     </div>
     <div class="form-group">
         <label for="endDate">마감일</label>
-        <input type="date" id="endDate" name="endDate" required>
+        <input type="date" id="endDate" name="endDate" value="<%= exist ? post.getEndDate() : "" %>" required>
     </div>
     <div class="form-group">
         <label for="description">모집 안내</label>
-        <textarea id="description" name="description" placeholder="설명을 입력하세요" required></textarea>
+        <textarea id="description" name="description" placeholder="설명을 입력하세요" value="<%= exist ? post.getDescription() : "" %>" required></textarea>
     </div>
     <h3>이력서 항목 작성</h3>
     <div id="need-items">
+        <% if (exist) { %>
+        <% for (NeedItem item : needItems) { %>
         <div class="form-group item">
-            <%--            <label for="needItems">질문1</label>--%>
-            <%--            <input type="text" id="needItems" name="needItems[]" required>--%>
-            <%--            <button class="remove-item" onclick="removeItem(this)">항목 제거</button>--%>
+            <label for="needItems">질문</label>
+            <input type="text" id="needItems" name="needItems[]" value="<%= item.getTitle() %>" required>
+            <button class="remove-item" onclick="removeItem(this)">항목 제거</button>
         </div>
+        <div class="form-group">
+            <button type="button" onclick="addItem()">항목 추가</button>
+        </div>
+        <% } %>
+        <% } else { %>
+        <div class="form-group item"></div>
+        <% } %>
     </div>
     <div class="form-group">
         <button type="button" onclick="addItem()">항목 추가</button>
     </div>
     <div class="form-group">
-        <button type="submit">작성하기</button>
+        <button type="submit"><%= exist ? "수정하기" : "작성하기" %></button>
     </div>
 </form>
 </body>

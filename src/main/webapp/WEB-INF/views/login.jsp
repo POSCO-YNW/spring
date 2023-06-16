@@ -5,15 +5,23 @@
 <head>
     <title>로그인</title>
     <style>
+        /*@font-face {*/
+        /*    font-family: 'KBO-Dia-Gothic_bold';*/
+        /*    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');*/
+        /*    font-weight: 300;*/
+        /*    font-style: normal;*/
+        /*}*/
         body {
             background-image: url('/resources/static/images/background/poscotower.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;
+            overflow-y: hidden;
+            /*font-family: "KBO-Dia-Gothic_bold", sans-serif;*/
         }
 
         .container {
-            max-width: 400px;
+            width: 100%;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,7 +29,9 @@
         }
 
         .login-form {
-            width: 100%;
+            width: 400px;
+            max-width: 400px;
+            margin: auto;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 5px;
@@ -32,8 +42,11 @@
             text-align: center;
         }
 
-        .login-form .form-group {
+        .login-form > .form-group {
+            width: 80%;
+            margin: auto;
             margin-bottom: 15px;
+
         }
 
         .login-form label {
@@ -43,14 +56,17 @@
 
         .login-form input[type="email"],
         .login-form input[type="password"] {
-            width: 100%;
+            width: 90%;
+            margin: auto;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
 
-        .login-form button {
-            width: 100%;
+        .login-form button, .signup-link a {
+            width: 60%;
+            margin: auto;
+            text-align: center;
             padding: 10px;
             background-color: #4CAF50;
             color: #fff;
@@ -74,26 +90,26 @@
             margin-bottom: 20px;
         }
 
-        .signup-link {
-            text-align: center;
+        .login-link a{
             margin-top: 10px;
         }
 
         .signup-link a {
-            color: #000;
+            margin-top: 10px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <form action="<c:url value="/login"/>" method="post" class="login-form">
+    <form action="/login" method="post" class="login-form">
         <h2>로그인</h2>
         <div class="form-group">
-            <label for="email">이메일: </label>
+            <label for="email">이메일 </label>
             <input type="email" id="email" name="email" required/>
         </div>
         <div class="form-group">
-            <label for="password">비밀번호: </label>
+            <label for="password">비밀번호 </label>
             <input type="password" id="password" name="password" required/>
         </div>
         <div class="form-group">
@@ -101,7 +117,7 @@
         </div>
         <p class="error-message">${error}</p>
         <div class="signup-link">
-            <a href="<c:url value="/signup"/>">회원가입</a>
+            <a href="/signup">회원가입</a>
         </div>
     </form>
 </div>
