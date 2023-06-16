@@ -120,7 +120,7 @@
   <div id="need-items">
     <div class="form-group item">
       <label for="needItems">질문1</label>
-      <input type="text" id="needItems" name="item1" required>
+      <input type="text" id="needItems" name="needItems[]" required>
       <button class="remove-item" onclick="removeItem(this)">항목 제거</button>
     </div>
   </div>

@@ -15,5 +15,6 @@
     String context = (String) request.getAttribute("context");
 %>
 <h1><%=context%>></h1>
+<a href="/" class="home-button">홈으로 가기</a>
 </body>
 </html>

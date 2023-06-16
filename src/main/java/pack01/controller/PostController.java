@@ -83,7 +83,7 @@ public class PostController {
                              @RequestParam("startDate") Date startDate,
                              @RequestParam("endDate") Date endDate,
                              @RequestParam("description") String description,
-                             @RequestParam("needItem") String needItem,
+                             @RequestParam(value = "needItems[]", required = false) List<String> needItems,
                              HttpSession session
                              ){
 
@@ -92,8 +92,10 @@ public class PostController {
         Long departmentId = (Long) session.getAttribute("department_id");
         Post post = new Post(title, createdAt, null, startDate, endDate, description, userId, departmentId);
         postService.save(post);
-        NeedItem item = new NeedItem(title, post.getPostId());
-        needItemService.save(item);
+        for (String item : needItems) {
+            NeedItem needItem = new NeedItem(item, post.getPostId());
+            needItemService.save(needItem);
+        }
         return "redirect:/post/writeSuccessView";
     }
 
