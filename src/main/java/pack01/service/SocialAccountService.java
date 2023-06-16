@@ -26,6 +26,10 @@ public class SocialAccountService {
         return socialAccountRepository.findById(socialAccountId);
     }
 
+    public List<SocialAccount> findByUserId(Long userId) {
+        return socialAccountRepository.findByUserId(userId);
+    }
+
     public List<SocialAccount> findAll() {
         return  socialAccountRepository.findAll();
     }

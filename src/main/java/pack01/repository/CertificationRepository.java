@@ -34,10 +34,10 @@ public class CertificationRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1,certification.getName());
+            ps.setString(1, certification.getName());
             ps.setString(2, certification.getLevel());
             ps.setDate(3, certification.getDate());
-            ps.setLong(4,certification.getResumeId());
+            ps.setLong(4, certification.getResumeId());
 
             return ps;
         }, keyHolder);
@@ -67,6 +67,11 @@ public class CertificationRepository {
         jdbcTemplate.update(sql, certificationId);
     }
 
+    public List<Certification> findByResumeId(Long resumeId) {
+        String sql = "SELECT * FROM certification where resume_id = ?";
+        return jdbcTemplate.query(sql, new CertificationMapper(), resumeId);
+    }
+
     private static class CertificationMapper implements RowMapper<Certification> {
         @Override
         public Certification mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -79,12 +84,6 @@ public class CertificationRepository {
             return new Certification(certificationId, name, level, date, resumeId);
         }
     }
-
-
-
-
-
-
 
 
 }

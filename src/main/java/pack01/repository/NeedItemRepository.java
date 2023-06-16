@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.NeedItem;
+import pack01.dto.needitem.response.NeedItemResumeItem;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
@@ -67,6 +68,11 @@ public class NeedItemRepository {
         return jdbcTemplate.query(sql, new NeedItemMapper(), postId);
     }
 
+    public List<NeedItemResumeItem> findBydResumeId(Long resumeId) {
+        String sql = "SELECT * FROM need_item n join resume_item r on n.need_item_id = r.need_item_id WHERE resume_id = ?";
+        return jdbcTemplate.query(sql, new NeedItemResumeItemMapper(), resumeId);
+    }
+
     private static class NeedItemMapper implements RowMapper<NeedItem> {
         @Override
         public NeedItem mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -74,6 +80,19 @@ public class NeedItemRepository {
             String title = rs.getString("title");
             Long postId = rs.getLong("post_id");
             return new NeedItem(needItemId, title, postId);
+        }
+    }
+
+    private static class NeedItemResumeItemMapper implements RowMapper<NeedItemResumeItem> {
+        @Override
+        public NeedItemResumeItem mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long needItemId = rs.getLong("need_item_id");
+            String title = rs.getString("title");
+            Long postId = rs.getLong("post_id");
+            Long resumeItemId = rs.getLong("resume_item_id");
+            String description = rs.getString("description");
+            Long resumeId = rs.getLong("resume_id");
+            return new NeedItemResumeItem(needItemId, title, postId, resumeItemId, description, resumeId);
         }
     }
 

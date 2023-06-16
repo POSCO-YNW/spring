@@ -35,4 +35,8 @@ public class ExperienceService {
     public void delete(Long experienceId) {
         experienceRepository.delete(experienceId);
     }
+
+    public List<Experience> findByResumeId(Long resumeId) {
+        return experienceRepository.findByResumeId(resumeId);
+    }
 }

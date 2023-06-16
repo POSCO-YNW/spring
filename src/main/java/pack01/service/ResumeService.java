@@ -6,10 +6,10 @@ import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
+import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.repository.*;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,10 @@ public class ResumeService {
         return resumeRepository.findAll();
     }
 
+    public List<ResumeUserResponse> findResumeUserResponseByPostId(Long postId) {
+        return resumeRepository.findResumeUserResponseByPostId(postId);
+    }
+
     public void update(Resume resume) {
         resumeRepository.update(resume);
     }
@@ -80,6 +84,11 @@ public class ResumeService {
         for (int i = 0; i < questions.size(); i++) {
             resumeItemRepository.save(new ResumeItem(answers.get(i), questions.get(i), resumeId));
         }
+    }
+
+    public void updateStatus(Long resumeId, ResumeStatusType status) {
+        Resume resume = resumeRepository.findById(resumeId);
+        resumeRepository.updateStatus(resume, status);
     }
 
     public ResumeForm makeResumeForm(Long resumeId, List<String> certifications, List<String> certificationLevels, List<String> certificationDates,
@@ -114,5 +123,9 @@ public class ResumeService {
 
 
         return new ResumeForm(certificationList, skillList, experienceList, questions, answers);
+    }
+
+    public ResumeUserResponse findResumeUserResponseByResumeId(Long resumeId) {
+        return resumeRepository.findResumeUserResponseByPostIdAndUserId(resumeId);
     }
 }

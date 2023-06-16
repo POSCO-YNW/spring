@@ -62,6 +62,11 @@ public class ExperienceRepository {
         jdbcTemplate.update(sql, experienceId);
     }
 
+    public List<Experience> findByResumeId(Long resumeId) {
+        String sql = "SELECT * FROM experience where resume_id = ?";
+        return jdbcTemplate.query(sql, new ExperienceMapper(), resumeId);
+    }
+
     private static class ExperienceMapper implements RowMapper<Experience> {
         @Override
         public Experience mapRow(ResultSet rs, int rowNum) throws SQLException {

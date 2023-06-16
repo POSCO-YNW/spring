@@ -62,6 +62,11 @@ public class SkillRepository {
         jdbcTemplate.update(sql, skillId);
     }
 
+    public List<Skill> findByResumeId(Long resumeId) {
+        String sql = "SELECT * FROM skill where resume_id = ?";
+        return jdbcTemplate.query(sql, new SkillMapper(), resumeId);
+    }
+
     private static class SkillMapper implements RowMapper<Skill> {
         @Override
         public Skill mapRow(ResultSet rs, int rowNum) throws SQLException {

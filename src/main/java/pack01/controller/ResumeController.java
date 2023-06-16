@@ -9,6 +9,8 @@ import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
+import pack01.domain.type.RoleType;
+import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.service.*;
 
 import javax.servlet.http.HttpSession;
@@ -23,13 +25,25 @@ public class ResumeController {
     private final DepartmentService departmentService;
     private final NeedItemService needItemService;
     private final ResumeService resumeService;
+    private final SocialAccountService socialAccountService;
+    private final ExperienceService experienceService;
+    private final CertificationService certificationService;
+    private final EducationService educationService;
+    private final SkillService skillService;
+    private final UserService userService;
 
     @Autowired
-    public ResumeController(PostService postService, DepartmentService departmentService, NeedItemService needItemService, ResumeService resumeService) {
+    public ResumeController(PostService postService, DepartmentService departmentService, NeedItemService needItemService, ResumeService resumeService, SocialAccountService socialAccountService, ExperienceService experienceService, CertificationService certificationService, EducationService educationService, SkillService skillService, UserService userService) {
         this.postService = postService;
         this.departmentService = departmentService;
         this.needItemService = needItemService;
         this.resumeService = resumeService;
+        this.socialAccountService = socialAccountService;
+        this.experienceService = experienceService;
+        this.certificationService = certificationService;
+        this.educationService = educationService;
+        this.skillService = skillService;
+        this.userService = userService;
     }
 
     ///resume/post?postId=1&departmentId=2
@@ -86,5 +100,73 @@ public class ResumeController {
         resumeService.saveResumeForm(resumeId, resumeForm);
 
         return "submitSuccessView";
+    }
+
+    @GetMapping("/list")
+    public String resumeList(@RequestParam("postId") Long postId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        Post post = postService.findById(postId);
+
+        List<ResumeUserResponse> resumes = resumeService.findResumeUserResponseByPostId(postId);
+        model.addAttribute("resumes", resumes);
+        model.addAttribute("post", post);
+        model.addAttribute("department", departmentService.findById(post.getDepartmentId()));
+
+        return "resume/resumeList";
+    }
+
+    @GetMapping("/detail")
+    public String resumeDetail(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, @RequestParam("userId") Long userId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        ResumeUserResponse resume = resumeService.findResumeUserResponseByResumeId(resumeId);
+        if (resume.getStatus().equals(ResumeStatusType.UNREAD))
+            resumeService.updateStatus(resumeId, ResumeStatusType.READ);
+
+        model.addAttribute("resume", resume);
+        model.addAttribute("socials", socialAccountService.findByUserId(userId));
+        model.addAttribute("needItems", needItemService.findBydResumeId(resumeId));
+        model.addAttribute("experiences", experienceService.findByResumeId(resumeId));
+        model.addAttribute("certifications", certificationService.findByResumeId(resumeId));
+        model.addAttribute("skills", skillService.findByResumeId(resumeId));
+        model.addAttribute("educations", educationService.findByResumeId(resumeId));
+
+        return "resume/detailResume";
+    }
+
+    @PostMapping("/pass")
+    public String passResume(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        Resume resume = resumeService.findById(resumeId);
+
+        resumeService.updateStatus(resume.getResumeId(), ResumeStatusType.PASS);
+        userService.updateDepartmentByUserId(resume.getApplicantId(), resume.getDepartmentId());
+
+        return "redirect:/resume/list?postId=" + postId;
+    }
+
+    @PostMapping("/fail")
+    public String failResume(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        Resume resume = resumeService.findById(resumeId);
+
+        resumeService.updateStatus(resume.getResumeId(), ResumeStatusType.FAIL);
+
+        return "redirect:/resume/list?postId=" + postId;
     }
 }

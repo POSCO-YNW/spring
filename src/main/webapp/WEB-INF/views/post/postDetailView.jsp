@@ -157,10 +157,20 @@
     } else {
     %>
     <h4>채용이 마감되었습니다.</h4>
+    <br>
+    <%
+        }
+        if (user != null && (user.getRole().equals(RoleType.ADMIN) || user.getRole().equals(RoleType.EMPLOYEE))) {
+    %>
+    <a href="/resume/list?postId=<%=post.getPostId()%>"
+       class="apply-button">지원자 현황</a>
     <%
         }
     %>
 </div>
+<<<<<<< HEAD
+=======
 </div>
+>>>>>>> 32cb8de71d28d097c28894bf76076502edd28e54
 </body>
 </html>

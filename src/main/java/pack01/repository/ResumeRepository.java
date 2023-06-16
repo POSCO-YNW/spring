@@ -1,21 +1,18 @@
 package pack01.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import pack01.domain.Education;
 import pack01.domain.Resume;
 import pack01.domain.type.ResumeStatusType;
+import pack01.domain.type.RoleType;
+import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,6 +51,16 @@ public class ResumeRepository {
         return jdbcTemplate.queryForObject(sql, new ResumeMapper(), resumeId);
     }
 
+    public List<ResumeUserResponse> findResumeUserResponseByPostId(Long postId) {
+        String sql = "SELECT * FROM resume join user on resume.applicant_id = user.user_id where resume.post_id = ?";
+        return jdbcTemplate.query(sql, new ResumeUserResponseMapper(), postId);
+    }
+
+    public ResumeUserResponse findResumeUserResponseByPostIdAndUserId(Long resumeId) {
+        String sql = "SELECT * FROM resume join user on resume.applicant_id = user.user_id where resume.resume_id = ?";
+        return jdbcTemplate.queryForObject(sql, new ResumeUserResponseMapper(), resumeId);
+    }
+
     public List<Resume> findByPostId(Long postId) {
         String sql = "SELECT * FROM resume WHERE post_id = ?";
         return jdbcTemplate.query(sql, new ResumeMapper(), postId);
@@ -72,6 +79,12 @@ public class ResumeRepository {
                 resume.getStatus(), resume.getDescription(), resume.getResumeId());
     }
 
+    public void updateStatus(Resume resume, ResumeStatusType resumeStatusType) {
+        String sql = "UPDATE resume SET status = ?WHERE resume_id = ?";
+
+        jdbcTemplate.update(sql, resumeStatusType.toString(), resume.getResumeId());
+    }
+
     public void delete(Long id) {
         String sql = "DELETE FROM resume WHERE resume_id = ?";
         jdbcTemplate.update(sql, id);
@@ -88,6 +101,29 @@ public class ResumeRepository {
             String description = rs.getString("description");
 
             return new Resume(resumeId, applicantId, postId, departmentId, status, description);
+        }
+    }
+
+    private static class ResumeUserResponseMapper implements RowMapper<ResumeUserResponse> {
+        @Override
+        public ResumeUserResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long resumeId = rs.getLong("resume_id");
+            Long applicantId = rs.getLong("applicant_id");
+            Long postId = rs.getLong("post_id");
+            Long departmentId = rs.getLong("department_id");
+            ResumeStatusType status = ResumeStatusType.valueOf(rs.getString("status"));
+            String description = rs.getString("description");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            String email = rs.getString("email");
+            String phoneNumber = rs.getString("phone_number");
+            Date birthday = rs.getDate("birthday");
+            RoleType role = RoleType.valueOf(rs.getString("role"));
+            String address = rs.getString("address");
+            Timestamp createdAt = rs.getTimestamp("created_at");
+            Timestamp updatedAt = rs.getTimestamp("updated_at");
+
+            return new ResumeUserResponse(resumeId, applicantId, postId, departmentId, status, description, username, password, email, phoneNumber, birthday, role, address, createdAt, updatedAt);
         }
     }
 }
