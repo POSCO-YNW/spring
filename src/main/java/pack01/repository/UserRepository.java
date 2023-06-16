@@ -71,9 +71,9 @@ public class UserRepository {
     }
 
     public void update(User user) {
-        String sql = "UPDATE user SET username = ?, password = ?, email = ?, phone_number, birthday = ?, role = ?, address = ?, updated_at = ?, department_id = ? WHERE user_id = ?";
+        String sql = "UPDATE user SET username = ?, password = ?, email = ?, phone_number = ?, birthday = ?, role = ?, address = ?, created_at = ?, updated_at = ?, department_id = ? WHERE user_id = ?";
         jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(), user.getPhoneNumber(), user.getBirthday(),
-                user.getRole().toString(), user.getAddress(), Timestamp.valueOf(LocalDateTime.now()), user.getDepartmentId(), user.getUserId());
+                user.getRole().toString(), user.getAddress(), user.getCreatedAt(), Timestamp.valueOf(LocalDateTime.now()), user.getDepartmentId(), user.getUserId());
     }
 
     public void delete(Long userId) {

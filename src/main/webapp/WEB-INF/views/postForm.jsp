@@ -111,10 +111,9 @@
     Post post = (Post) request.getAttribute("post");
     Boolean exist = (post!=null)? true : false;
     List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
-    System.out.println(post.getPostId());
-    String editUrl = "/postlist/post/edit?" + post.getPostId();
+//    String editUrl = "/postlist/post/edit?" + post.getPostId();
 %>
-<form action="<%= exist ? editUrl : "/postlist/post/create" %>" method="post">
+<form action="<%= exist ? "/postlist/post/edit?" + post.getPostId() : "/postlist/post/create" %>" method="post">
     <div class="form-group">
         <label for="title">제목</label>
         <input type="text" id="title" name="title" placeholder="제목을 입력하세요" value="<%= exist ? post.getTitle() : "" %>" required>
