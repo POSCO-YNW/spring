@@ -81,8 +81,10 @@ public class ResumeService {
             experience.setResumeId(resumeId);
             experienceRepository.save(experience);
         }
-        for (int i = 0; i < questions.size(); i++) {
-            resumeItemRepository.save(new ResumeItem(answers.get(i), questions.get(i), resumeId));
+        if (questions != null) {
+            for (int i = 0; i < questions.size(); i++) {
+                resumeItemRepository.save(new ResumeItem(answers.get(i), questions.get(i), resumeId));
+            }
         }
     }
 
@@ -101,26 +103,31 @@ public class ResumeService {
         List<Skill> skillList = new ArrayList<>();
         List<Experience> experienceList = new ArrayList<>();
 
-        for (int i = 0; i < certifications.size(); i++) {
-            java.util.Date parsedDate = null;
-            try {
-                parsedDate = dateFormat.parse(certificationDates.get(i));
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (certifications != null) {
+            for (int i = 0; i < certifications.size(); i++) {
+                java.util.Date parsedDate = null;
+                try {
+                    parsedDate = dateFormat.parse(certificationDates.get(i));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Date sqlDate = new Date(Objects.requireNonNull(parsedDate).getTime());
+                certificationList.add(new Certification(certifications.get(i), certificationLevels.get(i), sqlDate, resumeId));
             }
-
-            Date sqlDate = new Date(Objects.requireNonNull(parsedDate).getTime());
-            certificationList.add(new Certification(certifications.get(i), certificationLevels.get(i), sqlDate, resumeId));
         }
 
-        for (int i = 0; i < skillStacks.size(); i++) {
-            skillList.add(new Skill(skillStacks.get(i), skillLevels.get(i), resumeId));
+        if (skillStacks != null) {
+            for (int i = 0; i < skillStacks.size(); i++) {
+                skillList.add(new Skill(skillStacks.get(i), skillLevels.get(i), resumeId));
+            }
         }
 
-        for (int i = 0; i < experiencePeriods.size(); i++) {
-            experienceList.add(new Experience(experienceCompanies.get(i), experiencePeriods.get(i), experienceWorks.get(i), resumeId));
+        if (experiencePeriods != null) {
+            for (int i = 0; i < experiencePeriods.size(); i++) {
+                experienceList.add(new Experience(experienceCompanies.get(i), experiencePeriods.get(i), experienceWorks.get(i), resumeId));
+            }
         }
-
 
         return new ResumeForm(certificationList, skillList, experienceList, questions, answers);
     }

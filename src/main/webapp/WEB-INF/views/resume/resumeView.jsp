@@ -53,7 +53,7 @@
 
         textarea {
             width: 100%;
-            height: 300px;
+            height: 100px;
             padding: 5px;
             margin-bottom: 10px;
             border-radius: 4px;
@@ -174,6 +174,14 @@
 
 <form action="/resume/post?postId=${post.getPostId()}&departmentId=${department.getDepartmentId()}" method="POST">
     <div>
+        <h1>한 줄 소개</h1>
+        <label for="desc"></label>
+        <input type="text" id="desc" name="desc" required>
+    </div>
+
+    <hr>
+
+    <div>
         <h1>지원자 정보</h1>
         <label for="username">사용자 이름:</label>
         <input type="text" id="username" name="username" value="${userInfo.getUsername()}" readonly required>
@@ -247,3 +255,4 @@
 </form>
 </body>
 </html>
+

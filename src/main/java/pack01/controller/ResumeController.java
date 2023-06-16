@@ -76,6 +76,7 @@ public class ResumeController {
             @RequestParam("email") String email,
             @RequestParam("birthday") String birthday,
             @RequestParam("address") String address,
+            @RequestParam("desc") String description,
             @RequestParam(value = "certification[]", required = false) List<String> certifications,
             @RequestParam(value = "cf_level[]", required = false) List<String> certificationLevels,
             @RequestParam(value = "cf_date[]", required = false) List<String> certificationDates,
@@ -90,7 +91,7 @@ public class ResumeController {
             Model model) {
         User loginUser = (User) session.getAttribute("loginUser");
 
-        Long resumeId = resumeService.save(new Resume(loginUser.getUserId(), postId, departmentId, ResumeStatusType.UNREAD, null));
+        Long resumeId = resumeService.save(new Resume(loginUser.getUserId(), postId, departmentId, ResumeStatusType.UNREAD, description));
 
         ResumeForm resumeForm = resumeService.makeResumeForm(resumeId, certifications, certificationLevels, certificationDates,
                 skillStacks, skillLevels,
@@ -99,7 +100,7 @@ public class ResumeController {
 
         resumeService.saveResumeForm(resumeId, resumeForm);
 
-        return "submitSuccessView";
+        return "resume/resumeResult";
     }
 
     @GetMapping("/list")
