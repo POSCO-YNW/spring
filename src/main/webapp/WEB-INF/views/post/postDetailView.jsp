@@ -2,8 +2,11 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="pack01.domain.User" %>
 <%@ page import="pack01.domain.type.RoleType" %>
+<<<<<<< Updated upstream
 <%@ page import="java.util.Objects" %>
 <%@ page import="java.sql.Date" %>
+=======
+>>>>>>> Stashed changes
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -167,5 +170,15 @@
         }
     %>
 </div>
+</div>
+<%
+    if (user != null && RoleType.ADMIN.equals(user.getRole())) { %>
+        <a href="/postlist/post/edit?id=<%=post.getPostId()%>" class="apply-button">수정하기</a>
+        <a href="/postlist/post/delete?id=<%=post.getPostId()%>" class="apply-button">삭제하기</a>
+<%
+    }else{
+%>
+        <a href="/resume/post?postId=<%=post.getPostId()%>&departmentId=<%=post.getDepartmentId()%>" class="apply-button">지원하기</a>
+<% }%>
 </body>
 </html>

@@ -18,7 +18,7 @@
 
         a:hover {
             transition: 0.3s ease-in;
-            color: #0033ff;
+            color: #05507d;
             cursor: pointer;
         }
 
@@ -35,12 +35,12 @@
             width: 80%;
             margin: 0 auto 70px auto;
             padding: 0 20px;
-            border-bottom: 2px solid black;
+            border-bottom: 3px solid black;
         }
 
         header {
             width: 100%;
-            height: 80px;
+            height: 150px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -53,7 +53,8 @@
         header > nav {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            border: 1px solid red;
         }
 
         header ul {
@@ -62,14 +63,23 @@
             display: flex;
             justify-content: space-between;
         }
+        header ul:first-child {
+            margin-right: auto;
+        }
 
+        header ul:last-child {
+            margin-left: auto;
+        }
+        .user{
+
+        }
         header ul > li {
             font-size: 16px;
             height: 100%;
             display: flex;
             align-items: center;
-            padding: 10px;
-            margin-right: 10px;
+            padding: 20px;
+            /*margin-right: 10px;*/
         }
 
         .copy-button {
@@ -84,7 +94,12 @@
             transition: 0.3s ease-in;
             cursor: pointer;
         }
-
+        i{
+            color: #05507d;
+            font-size: 20px;
+            border: 1px solid blue;
+            padding: 30px 10px 0px 10px;
+        }
         @media (max-width: 600px) {
             header > h2 {
                 font-size: 24px;
@@ -95,6 +110,7 @@
             }
         }
     </style>
+    <script src="https://kit.fontawesome.com/e3a7d25f3f.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="page">
@@ -105,29 +121,31 @@
                 <li><a href="/postlist">채용공고</a></li>
                 <% User user = (User) session.getAttribute("loginUser");
                     if (user != null && RoleType.APPLICANT.equals(user.getRole())) { %>
-                <li><a href="/mypage/get">나의 지원서</a></li>
+                <li><a href="/mypage/get">마이페이지</a></li>
                 <%
                     }
                     if (user != null && RoleType.ADMIN.equals(user.getRole())) {
                 %>
-                <li><a href="/post/write">채용공고 작성</a></li>
-                <li><a href="/post/write">지원자 현황</a></li>
+                <li><a href="/postlist/post/write">채용공고 작성</a></li>
+                <li><a href="/">지원자 현황</a></li>
+            </ul>
+        </nav>
+        <nav>
+            <ul class="user">
                 <% }
                     if (user != null) {
                 %>
-                <li><a href="/logout" class="logout">로그아웃</a></li>
+                        <i class="fa-solid fa-user"></i>
+                        <li><%= user.getUsername()%>님 환영합니다</li>
+                        <li><a href="/logout" class="logout">로그아웃</a></li>
                 <%
                 } else {
                 %>
-                <li><a href="/login" class="logout">로그인</a></li>
+                        <li><a href="/login" class="logout">로그인</a></li>
                 <%
                     }
                 %>
-                <% if (user != null) { %>
-                <li><a><%= user.getUsername()%>님 환영합니다.</a></li>
-                <% } %>
             </ul>
-
         </nav>
     </header>
 </div>

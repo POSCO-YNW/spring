@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
+@RequestMapping("/postlist")
 public class PostController {
     private final PostService postService;
     private final NeedItemService needItemService;
@@ -31,13 +32,19 @@ public class PostController {
         this.needItemService = needItemService;
     }
 
-    @GetMapping("/postlist/post")
+    @GetMapping("/post")
     public String getPostById(Model model, @RequestParam(value = "id") Long postId) {
         model.addAttribute("post", postService.findById(postId));
         return "post/postDetailView";
     }
+    @GetMapping("/post/edit")
+    public String getPostEditInfo(Model model, @RequestParam(value = "id") Long postId) {
+        model.addAttribute("post", postService.findById(postId));
+        model.addAttribute("needItems", needItemService.findByPostId(postId));
+        return "post/postWritingView";
+    }
 
-    @GetMapping("/postlist/deadline")
+    @GetMapping("/deadline")
     public String updateEndDateSetDeadline(@RequestParam(value = "id") Long postId, HttpSession session) {
         User loginUser = (User) session.getAttribute("loginUser");
         Post post = postService.findById(postId);
@@ -47,7 +54,7 @@ public class PostController {
         return "redirect:/postlist/post?id=" + postId;
     }
 
-    @GetMapping("/postlist")
+    @GetMapping
     public String getList(Model model,
                           @RequestParam(value = "search", required = false) String search,
                           @RequestParam(value = "searchType", required = false) String searchType,
@@ -132,4 +139,44 @@ public class PostController {
         return "redirect:/postlist";
     }
 
+    @PostMapping("/post/edit")
+    public String postEdit(Model model,
+                             @RequestParam("title") String title,
+                             @RequestParam("startDate") Date startDate,
+                             @RequestParam("endDate") Date endDate,
+                             @RequestParam("description") String description,
+                             @RequestParam(value = "needItems[]", required = false) List<String> needItems,
+                             HttpSession session
+    ) {
+
+        Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
+        User loginUser = (User) session.getAttribute("loginUser");
+        Post post = new Post(title, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
+        Long postId = postService.save(post);
+        for (String item : needItems) {
+            NeedItem needItem = new NeedItem(item, postId);
+            needItemService.save(needItem);
+        }
+        return "redirect:/postlist";
+    }
+    @DeleteMapping("/post/delete")
+    public String postDelete(Model model,
+                             @RequestParam("title") String title,
+                             @RequestParam("startDate") Date startDate,
+                             @RequestParam("endDate") Date endDate,
+                             @RequestParam("description") String description,
+                             @RequestParam(value = "needItems[]", required = false) List<String> needItems,
+                             HttpSession session
+    ) {
+
+        Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
+        User loginUser = (User) session.getAttribute("loginUser");
+        Post post = new Post(title, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
+        Long postId = postService.save(post);
+        for (String item : needItems) {
+            NeedItem needItem = new NeedItem(item, postId);
+            needItemService.save(needItem);
+        }
+        return "redirect:/postlist";
+    }
 }

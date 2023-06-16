@@ -8,6 +8,15 @@
 <head>
     <title>채용공고</title>
     <style>
+        /*@font-face {*/
+        /*    font-family: 'KBO-Dia-Gothic_bold';*/
+        /*    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');*/
+        /*    font-weight: 400;*/
+        /*    font-style: normal;*/
+        /*}*/
+        /*body{*/
+        /*    font-family: "KBO-Dia-Gothic_bold", sans-serif;*/
+        /*}*/
         .body {
             max-width: 1440px;
             width: 80%;
