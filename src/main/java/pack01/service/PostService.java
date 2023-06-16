@@ -48,6 +48,9 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<Post> findBymyResume(Long id) {
+        return postRepository.findByMyResume(id);
+    }
 
     public List<PostDepartmentResponse> findBySearchAndSearchTypeAndSort(String search, String searchType, String type) {
         List<PostDepartmentResponse> posts = new ArrayList<>();

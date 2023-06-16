@@ -97,14 +97,14 @@ public class PostRepository {
     }
 
     public List<Post> findByMyResume(Long id) {
-        String sql = "select * " +
+        String sql = "select distinct * " +
                 "from user " +
                 "join resume rs on user.user_id = rs.applicant_id " +
                 "join post ps on rs.post_id = ps.post_id " +
                 "join department dp on ps.department_id = dp.department_id " +
                 "where user.user_id = ? ORDER BY CASE WHEN ps.end_date > CURDATE() THEN 0 ELSE 1 END, ps.end_date";
 
-        return jdbcTemplate.query(sql, new PostMapper());
+        return jdbcTemplate.query(sql, new PostMapper(), id);
     }
 
     public List<Post> findAll() {

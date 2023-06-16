@@ -54,8 +54,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            /*flex-grow: 0.2;*/
-            /*width: fit-content;*/
         }
 
         header ul {
@@ -107,7 +105,7 @@
                 <li><a href="/postlist">채용공고</a></li>
                 <% User user = (User) session.getAttribute("loginUser");
                     if (user != null && RoleType.APPLICANT.equals(user.getRole())) { %>
-                <li><a href="/">나의 지원서</a></li>
+                <li><a href="/mypage/get">나의 지원서</a></li>
                 <%
                     }
                     if (user != null && RoleType.ADMIN.equals(user.getRole())) {
@@ -125,7 +123,11 @@
                 <%
                     }
                 %>
+                <% if (user != null) { %>
+                <li><a><%= user.getUsername()%>님 환영합니다.</a></li>
+                <% } %>
             </ul>
+
         </nav>
     </header>
 </div>
