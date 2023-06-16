@@ -151,9 +151,19 @@
             <input type="text" id="address" name="address" required/>
         </div>
 
-        <input type="hidden" id="role" name="role" value=<%=RoleType.APPLICANT%>>
-
+        <%
+            if (department.getName() != null && !department.getName().equals("무소속")) {
+        %>
+        <input type="hidden" id="role" name="role" value="<%= RoleType.EMPLOYEE %>">
         <input type="hidden" id="deptId" name="deptId" value=<%=department.getDepartmentId()%>>
+        <%
+        } else {
+        %>
+        <input type="hidden" id="role" name="role" value="<%= RoleType.APPLICANT %>">
+        <input type="hidden" id="deptId" name="deptId" value="<%= -1 %>">
+        <%
+            }
+        %>
 
         <hr/>
 

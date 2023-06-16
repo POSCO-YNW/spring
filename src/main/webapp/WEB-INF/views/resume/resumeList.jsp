@@ -3,6 +3,8 @@
 <%@ page import="pack01.domain.Post" %>
 <%@ page import="pack01.domain.Department" %>
 <%@ page import="pack01.dto.resume.response.ResumeUserResponse" %>
+<%@ page import="pack01.domain.Vote" %>
+<%@ page import="pack01.dto.resume.response.ResumeVoteResponse" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -41,6 +43,7 @@
         List<ResumeUserResponse> resumes = (List<ResumeUserResponse>) request.getAttribute("resumes");
         Post post = (Post) request.getAttribute("post");
         Department department = (Department) request.getAttribute("department");
+        List<ResumeVoteResponse> resumeVoteResponses = (List<ResumeVoteResponse>) request.getAttribute("resumeVoteResponses");
     %>
     <h1 class="center"><%= post.getTitle() %>
     </h1>
@@ -53,6 +56,7 @@
             <th>제목</th>
             <th>지원자 이름</th>
             <th>상태</th>
+            <th>찬/반</th>
         </tr>
         </thead>
         <tbody>
@@ -72,6 +76,27 @@
             <td><%= resume.getUsername() %>
             </td>
             <td><%= resume.getStatus().getDescription() %>
+            </td>
+            <td>
+                <%
+                    int agree = 0;
+                    int disagree = 0;
+                    for (ResumeVoteResponse resumeVoteResponse : resumeVoteResponses) {
+                        if (resume.getResumeId().equals(resumeVoteResponse.getResumeId())) {
+                            List<Vote> votes = resumeVoteResponse.getVotes();
+                            int voteCount = votes.size();
+                            for (int i = 0; i < voteCount; i++) {
+                                Vote vote = votes.get(i);
+                                if (vote.getVote() == 0) {
+                                    disagree++;
+                                } else {
+                                    agree++;
+                                }
+                            }
+                        }
+                    }
+                %>
+                <%=agree + "/" + disagree%>
             </td>
         </tr>
         <% } %>

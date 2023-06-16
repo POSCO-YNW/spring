@@ -7,11 +7,13 @@ import pack01.domain.*;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
 import pack01.dto.resume.response.ResumeUserResponse;
+import pack01.dto.resume.response.ResumeVoteResponse;
 import pack01.repository.*;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -134,5 +136,28 @@ public class ResumeService {
 
     public ResumeUserResponse findResumeUserResponseByResumeId(Long resumeId) {
         return resumeRepository.findResumeUserResponseByPostIdAndUserId(resumeId);
+    }
+
+    public List<ResumeVoteResponse> makeResumeVoteReponse(List<ResumeUserResponse> resumes, List<Vote> votes) {
+        List<ResumeVoteResponse> resumeVoteResponses = new ArrayList<>();
+        List<Vote> remainingVotes = new ArrayList<>(votes);
+
+        for (ResumeUserResponse resume : resumes) {
+            Long resumeId = resume.getResumeId();
+            List<Vote> voteForResume = new ArrayList<>();
+
+            Iterator<Vote> iterator = remainingVotes.iterator();
+            while (iterator.hasNext()) {
+                Vote vote = iterator.next();
+                if (Objects.equals(vote.getResumeId(), resumeId)) {
+                    voteForResume.add(vote);
+                    iterator.remove();
+                }
+            }
+
+            resumeVoteResponses.add(new ResumeVoteResponse(resumeId, voteForResume));
+        }
+
+        return resumeVoteResponses;
     }
 }

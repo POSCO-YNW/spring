@@ -108,7 +108,7 @@ public class LoginController {
         Date sqlDate = new Date(parsedDate.getTime());
         User user = new User();
 
-        if (deptId != null) {
+        if (deptId >= 0) {
             user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), deptId);
         } else {
             user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), null);

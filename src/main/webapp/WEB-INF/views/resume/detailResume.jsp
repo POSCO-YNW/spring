@@ -119,8 +119,18 @@
     List<Certification> certifications = (List<Certification>) request.getAttribute("certifications");
     List<Skill> skills = (List<Skill>) request.getAttribute("skills");
     List<Education> educations = (List<Education>) request.getAttribute("educations");
+    List<Vote> votes = (List<Vote>) request.getAttribute("votes");
 
     User user = (User) session.getAttribute("loginUser");
+
+    boolean voted = false;
+
+    for (Vote vote : votes) {
+        if (vote.getUserId().equals(user.getUserId())) {
+            voted = true;
+            break;
+        }
+    }
 %>
 
 <div class="body">
@@ -334,6 +344,28 @@
                 <input type="text" name="postId" hidden="hidden" value="<%=resume.getPostId()%>">
             </label>
             <input type="submit" value="불합격" class="fail-button">
+        </form>
+        <%
+        } else if (user.getRole().equals(RoleType.EMPLOYEE) && !voted && (resume.getStatus().equals(ResumeStatusType.UNREAD) || resume.getStatus().equals(ResumeStatusType.READ))) {
+        %>
+        <form method="post" action="/resume/agree">
+            <label>
+                <input type="text" name="resumeId" hidden="hidden" value="<%=resume.getResumeId()%>">
+            </label>
+            <label>
+                <input type="text" name="postId" hidden="hidden" value="<%=resume.getPostId()%>">
+            </label>
+            <input type="submit" value="찬성" class="pass-button">
+        </form>
+
+        <form method="post" action="/resume/disagree">
+            <label>
+                <input type="text" name="resumeId" hidden="hidden" value="<%=resume.getResumeId()%>">
+            </label>
+            <label>
+                <input type="text" name="postId" hidden="hidden" value="<%=resume.getPostId()%>">
+            </label>
+            <input type="submit" value="반대" class="fail-button">
         </form>
         <%
             }

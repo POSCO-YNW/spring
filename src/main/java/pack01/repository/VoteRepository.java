@@ -15,13 +15,14 @@ import java.util.List;
 @Repository
 public class VoteRepository {
     private final JdbcTemplate jdbcTemplate;
+
     public VoteRepository() {
         DataSource dataSource = ConnectionManager.getDataSource();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public void save(Vote vote) {
-        String sql = "INSERT INTO vote (vote, user_id, resume_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO vote (vote, user_id, resume_id) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, vote.getVote(), vote.getUserId(), vote.getResumeId());
     }
 

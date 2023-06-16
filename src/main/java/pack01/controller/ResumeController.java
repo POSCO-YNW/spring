@@ -11,9 +11,11 @@ import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
 import pack01.domain.type.RoleType;
 import pack01.dto.resume.response.ResumeUserResponse;
+import pack01.dto.resume.response.ResumeVoteResponse;
 import pack01.service.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,9 +33,10 @@ public class ResumeController {
     private final EducationService educationService;
     private final SkillService skillService;
     private final UserService userService;
+    private final VoteService voteService;
 
     @Autowired
-    public ResumeController(PostService postService, DepartmentService departmentService, NeedItemService needItemService, ResumeService resumeService, SocialAccountService socialAccountService, ExperienceService experienceService, CertificationService certificationService, EducationService educationService, SkillService skillService, UserService userService) {
+    public ResumeController(PostService postService, DepartmentService departmentService, NeedItemService needItemService, ResumeService resumeService, SocialAccountService socialAccountService, ExperienceService experienceService, CertificationService certificationService, EducationService educationService, SkillService skillService, UserService userService, VoteService voteService) {
         this.postService = postService;
         this.departmentService = departmentService;
         this.needItemService = needItemService;
@@ -44,6 +47,7 @@ public class ResumeController {
         this.educationService = educationService;
         this.skillService = skillService;
         this.userService = userService;
+        this.voteService = voteService;
     }
 
     ///resume/post?postId=1&departmentId=2
@@ -106,7 +110,7 @@ public class ResumeController {
     @GetMapping("/list")
     public String resumeList(@RequestParam("postId") Long postId, HttpSession session, Model model) {
         User user = (User) session.getAttribute("loginUser");
-        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+        if (user == null || user.getRole().equals(RoleType.APPLICANT)) {
             return "redirect:/postlist/post?id=" + postId;
         }
 
@@ -117,13 +121,22 @@ public class ResumeController {
         model.addAttribute("post", post);
         model.addAttribute("department", departmentService.findById(post.getDepartmentId()));
 
+        List<Vote> votes = new ArrayList<>();
+        for (ResumeUserResponse resume : resumes) {
+            votes.addAll(voteService.findByResumeId(resume.getResumeId()));
+        }
+
+        List<ResumeVoteResponse> resumeVoteResponses = resumeService.makeResumeVoteReponse(resumes, votes);
+
+        model.addAttribute("resumeVoteResponses", resumeVoteResponses);
+
         return "resume/resumeList";
     }
 
     @GetMapping("/detail")
     public String resumeDetail(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, @RequestParam("userId") Long userId, HttpSession session, Model model) {
         User user = (User) session.getAttribute("loginUser");
-        if (user == null || user.getRole().equals(RoleType.EMPLOYEE)) {
+        if (user == null || user.getRole().equals(RoleType.APPLICANT)) {
             return "redirect:/postlist/post?id=" + postId;
         }
 
@@ -138,6 +151,7 @@ public class ResumeController {
         model.addAttribute("certifications", certificationService.findByResumeId(resumeId));
         model.addAttribute("skills", skillService.findByResumeId(resumeId));
         model.addAttribute("educations", educationService.findByResumeId(resumeId));
+        model.addAttribute("votes", voteService.findByResumeId(resumeId));
 
         return "resume/detailResume";
     }
@@ -169,6 +183,29 @@ public class ResumeController {
 
         resumeService.updateStatus(resume.getResumeId(), ResumeStatusType.FAIL);
         userService.updateDepartmentByUserId(resume.getApplicantId(), defaultDept.get(0).getDepartmentId());
+
+        return "redirect:/resume/list?postId=" + postId;
+    }
+
+    @PostMapping("/agree")
+    public String agreeResume(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.APPLICANT)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+        voteService.save(new Vote(1, user.getUserId(), resumeId));
+
+        return "redirect:/resume/list?postId=" + postId;
+    }
+
+    @PostMapping("/disagree")
+    public String diagreeResume(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || user.getRole().equals(RoleType.APPLICANT)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        voteService.save(new Vote(0, user.getUserId(), resumeId));
 
         return "redirect:/resume/list?postId=" + postId;
     }
