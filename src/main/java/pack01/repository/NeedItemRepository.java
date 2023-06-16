@@ -46,15 +46,18 @@ public class NeedItemRepository {
     }
 
     public void update(NeedItem needItem) {
-        String sql = "UPDATE need_item SET need_item_id = ?, title = ?, post_id = ? WHERE need_item_id = ?";
-        jdbcTemplate.update(sql, needItem.getNeedItemId(), needItem.getTitle(), needItem.getPostId(), needItem.getNeedItemId());
+        String sql = "UPDATE need_item SET title = ? WHERE need_item_id = ?";
+        jdbcTemplate.update(sql, needItem.getTitle(), needItem.getNeedItemId());
     }
 
     public void delete(Long needItemId) {
         String sql = "DELETE FROM need_item WHERE need_item_id = ?";
         jdbcTemplate.update(sql, needItemId);
     }
-
+    public void deleteByPostId(Long postId) {
+        String sql = "DELETE FROM need_item WHERE post_id = ?";
+        jdbcTemplate.update(sql, postId);
+    }
     public NeedItem findByNeedItemId(Long needItemId) {
         String sql = "SELECT * FROM need_item WHERE need_item_id = ?";
         return jdbcTemplate.queryForObject(sql, new NeedItemMapper(), needItemId);

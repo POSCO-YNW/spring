@@ -13,6 +13,8 @@ import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,11 +58,27 @@ public class PostRepository {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
-    public void update(Post post) {
+    public void update(Post post, Long postId) {
         String sql = "UPDATE post SET title = ?, updated_at = ?, start_date = ?, end_date = ?, description = ?, " +
                 "admin_id = ?, department_id = ? WHERE post_id = ?";
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//        Timestamp updatedAt = Timestamp.valueOf(LocalDateTime.now());
+//        jdbcTemplate.update(connection -> {
+//            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//            ps.setString(1, post.getTitle());
+//            ps.setTimestamp(2, updatedAt);
+//            ps.setDate(3, post.getStartDate());
+//            ps.setDate(4, post.getEndDate());
+//            ps.setString(5, post.getDescription());
+//            ps.setLong(6, post.getAdminId());
+//            ps.setLong(7, post.getDepartmentId());
+//            ps.setLong(8, post.getPostId());
+//            return ps;
+//        }, keyHolder);
+//
+//        return Objects.requireNonNull(keyHolder.getKey()).longValue();
         jdbcTemplate.update(sql, post.getTitle(), post.getUpdatedAt(), post.getStartDate(), post.getEndDate(),
-                post.getDescription(), post.getAdminId(), post.getDepartmentId(), post.getPostId());
+                post.getDescription(), post.getAdminId(), post.getDepartmentId(), postId);
     }
 
     public void updateEndDateSetDeadline(Long postId) {

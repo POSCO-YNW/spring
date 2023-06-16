@@ -55,11 +55,12 @@
             background-color: #45a049;
         }
         .need-item-input{
-            margin-bottom: 10px;x
+            margin-bottom: 10px;
         }
         .remove-item {
             color: red;
             cursor: pointer;
+            margin-top: 10px;
         }
     </style>
     <script>
@@ -113,7 +114,7 @@
     List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
 //    String editUrl = "/postlist/post/edit?" + post.getPostId();
 %>
-<form action="<%= exist ? "/postlist/post/edit?" + post.getPostId() : "/postlist/post/create" %>" method="post">
+<form action="<%= exist ? "/postlist/post/edit?id=" + post.getPostId() : "/postlist/post/create" %>" method="post">
     <div class="form-group">
         <label for="title">제목</label>
         <input type="text" id="title" name="title" placeholder="제목을 입력하세요" value="<%= exist ? post.getTitle() : "" %>" required>
@@ -128,7 +129,7 @@
     </div>
     <div class="form-group">
         <label for="description">모집 안내</label>
-        <textarea id="description" name="description" placeholder="설명을 입력하세요" value="<%= exist ? post.getDescription() : "" %>" required></textarea>
+        <textarea id="description" name="description" placeholder="설명을 입력하세요" required><%= exist ? post.getDescription() : "" %></textarea>
     </div>
     <h3>이력서 항목 작성</h3>
     <div id="need-items">
@@ -136,11 +137,9 @@
         <% for (NeedItem item : needItems) { %>
         <div class="form-group item">
             <label for="needItems">질문</label>
+            <input type="hidden" id="needItemsId" name="needItemsId[]" value="<%=item.getNeedItemId()%>"/>
             <input type="text" id="needItems" name="needItems[]" value="<%= item.getTitle() %>" required>
             <button class="remove-item" onclick="removeItem(this)">항목 제거</button>
-        </div>
-        <div class="form-group">
-            <button type="button" onclick="addItem()">항목 추가</button>
         </div>
         <% } %>
         <% } else { %>

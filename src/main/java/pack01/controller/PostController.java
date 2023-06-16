@@ -141,42 +141,33 @@ public class PostController {
 
     @PostMapping("/post/edit")
     public String postEdit(Model model,
+                             @RequestParam("id") Long postId,
                              @RequestParam("title") String title,
                              @RequestParam("startDate") Date startDate,
                              @RequestParam("endDate") Date endDate,
                              @RequestParam("description") String description,
                              @RequestParam(value = "needItems[]", required = false) List<String> needItems,
-                             HttpSession session
+                           HttpSession session
     ) {
 
-        Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp updateAt = Timestamp.valueOf(LocalDateTime.now());
         User loginUser = (User) session.getAttribute("loginUser");
-        Post post = new Post(title, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
-        Long postId = postService.save(post);
-        for (String item : needItems) {
-            NeedItem needItem = new NeedItem(item, postId);
-            needItemService.save(needItem);
+        Post post = new Post(title, updateAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
+        postService.update(post, postId);
+
+        needItemService.deleteByPostId(postId);
+
+        if (needItems != null) {
+            for (String item : needItems) {
+                NeedItem needItem = new NeedItem(item, postId);
+                needItemService.save(needItem);
+            }
         }
         return "redirect:/postlist";
     }
-    @DeleteMapping("/post/delete")
-    public String postDelete(Model model,
-                             @RequestParam("title") String title,
-                             @RequestParam("startDate") Date startDate,
-                             @RequestParam("endDate") Date endDate,
-                             @RequestParam("description") String description,
-                             @RequestParam(value = "needItems[]", required = false) List<String> needItems,
-                             HttpSession session
-    ) {
-
-        Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
-        User loginUser = (User) session.getAttribute("loginUser");
-        Post post = new Post(title, createdAt, createdAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
-        Long postId = postService.save(post);
-        for (String item : needItems) {
-            NeedItem needItem = new NeedItem(item, postId);
-            needItemService.save(needItem);
-        }
+    @GetMapping("/post/delete")
+    public String postDelete(Model model, @RequestParam("id") Long postId) {
+        postService.delete(postId);
         return "redirect:/postlist";
     }
 }

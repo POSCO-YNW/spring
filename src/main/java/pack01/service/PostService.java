@@ -28,9 +28,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public void update(Post post) {
-        postRepository.update(post);
-    }
+    public void update(Post post, Long postId) { postRepository.update(post, postId); }
 
     public void delete(Long postId) {
         postRepository.delete(postId);

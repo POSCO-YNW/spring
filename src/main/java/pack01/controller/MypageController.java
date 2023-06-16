@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pack01.domain.Post;
+import pack01.domain.SocialAccount;
 import pack01.domain.User;
 import pack01.repository.PostRepository;
+import pack01.repository.SocialAccountRepository;
 import pack01.repository.UserRepository;
 import pack01.service.DepartmentService;
 import pack01.service.PostService;
@@ -26,15 +28,16 @@ public class MypageController {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final DepartmentService departmentService;
-    private final SocialAccountService socialAccountService;
+    //private final SocialAccountRepository socialAccountRepository;
 
 
     @Autowired
-    public MypageController(PostRepository postRepository, UserRepository userRepository, DepartmentService departmentService, SocialAccountService socialAccountService) {
+    public MypageController(PostRepository postRepository, UserRepository userRepository, DepartmentService departmentService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.departmentService = departmentService;
-        this.socialAccountService = socialAccountService;
+        //this.socialAccountRepository = socialAccountRepository;
+
     }
 
     @GetMapping("/get")
@@ -55,9 +58,13 @@ public class MypageController {
         System.out.println("개인정보수정");
 
         UserService userService = new UserService(userRepository, departmentService);
+        //SocialAccountService socialAccountService = new SocialAccountService(socialAccountRepository);
+
+        //SocialAccount socialAccount = socialAccountService.findById(loginUser.getUserId());
         User user = userService.findById(loginUser.getUserId());
 
         model.addAttribute("userlist", user);
+        //model.addAttribute("usersocial", socialAccount);
 
         System.out.println("개인정보수정끝");
         return "mypage/edituserView";

@@ -2,11 +2,7 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="pack01.domain.User" %>
 <%@ page import="pack01.domain.type.RoleType" %>
-<<<<<<< Updated upstream
 <%@ page import="java.util.Objects" %>
-<%@ page import="java.sql.Date" %>
-=======
->>>>>>> Stashed changes
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -154,6 +150,8 @@
     %>
     <a href="/postlist/deadline?id=<%=post.getPostId()%>"
        class="end-button">마감하기</a>
+    <a href="/postlist/post/edit?id=<%=post.getPostId()%>" class="apply-button">수정하기</a>
+    <a href="/postlist/post/delete?id=<%=post.getPostId()%>" class="apply-button">삭제하기</a>
     <%
         }
     } else {
@@ -170,5 +168,9 @@
         }
     %>
 </div>
+<<<<<<< HEAD
+=======
+</div>
+>>>>>>> 32cb8de71d28d097c28894bf76076502edd28e54
 </body>
 </html>
