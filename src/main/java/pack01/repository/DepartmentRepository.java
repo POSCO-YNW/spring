@@ -73,6 +73,16 @@ public class DepartmentRepository {
         return jdbcTemplate.query(sql, new DepartmentRowMapper());
     }
 
+    public void updateKeyById(Long deptId, String key) {
+        String sql = "UPDATE department SET dept_key = ? WHERE department_id = ?";
+        jdbcTemplate.update(sql, key, deptId);
+    }
+
+    public Department findByKey(String deptKey) {
+        String sql = "SELECT * FROM department WHERE dept_key = ?";
+        return jdbcTemplate.queryForObject(sql, new DepartmentRowMapper(), deptKey);
+    }
+
     private static class DepartmentRowMapper implements RowMapper<Department> {
         @Override
         public Department mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -69,13 +69,18 @@ public class LoginController {
     }
 
     @GetMapping("/signup")
-    public String showSignupPage(HttpSession session, Model model) {
+    public String showSignupPage(@RequestParam(value = "deptKey", required = false) String deptKey, HttpSession session, Model model) {
         if (session.getAttribute("loginUser") != null) {
             return "redirect:/postlist";
         }
 
         List<RoleType> roleTypes = Arrays.asList(RoleType.values());
         model.addAttribute("roleTypes", roleTypes);
+
+        if (deptKey != null) {
+            Department department = departmentService.findByKey(deptKey);
+            model.addAttribute("department", department);
+        }
 
         return "signup";
     }
@@ -88,6 +93,7 @@ public class LoginController {
                                 @RequestParam("birthday") String birthday,
                                 @RequestParam("address") String address,
                                 @RequestParam("role") RoleType role,
+                                @RequestParam(value = "deptId", required = false) Long deptId,
                                 RedirectAttributes redirectAttributes) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -100,9 +106,13 @@ public class LoginController {
         }
 
         Date sqlDate = new Date(parsedDate.getTime());
+        User user = new User();
 
-        User user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), null);
-
+        if (deptId != null) {
+            user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), deptId);
+        } else {
+            user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), null);
+        }
         Long saveId = userService.save(user);
 
         if (saveId != null) {

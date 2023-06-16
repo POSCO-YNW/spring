@@ -64,6 +64,7 @@
             display: flex;
             justify-content: space-between;
         }
+
         header ul:first-child {
             margin-right: auto;
         }
@@ -71,9 +72,11 @@
         header ul:last-child {
             margin-left: auto;
         }
-        .user{
+
+        .user {
 
         }
+
         header ul > li {
             font-size: 16px;
             height: 100%;
@@ -95,12 +98,14 @@
             transition: 0.3s ease-in;
             cursor: pointer;
         }
-        i{
+
+        i {
             color: #05507d;
             font-size: 20px;
             border: 1px solid blue;
             padding: 30px 10px 0px 10px;
         }
+
         @media (max-width: 600px) {
             header > h2 {
                 font-size: 24px;
@@ -113,11 +118,38 @@
     </style>
     <script src="https://kit.fontawesome.com/e3a7d25f3f.js" crossorigin="anonymous"></script>
     <script>
-        const copyCode = () =>{
-            var inviteUrl = document.getElementById('inviteUrl');
-            inviteUrl.select();
+        function updateKeyAndCopyText(serverIp, deptId) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/department/updateKey?deptId=' + deptId, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let dk = xhr.responseText;
+                        copyText(serverIp, dk);
+                    } else {
+                        console.error('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
+                        alert('초대 코드를 업데이트하는 중에 오류가 발생했습니다.');
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function copyText(serverIp, deptKey) {
+            const copyText = serverIp + '/signup?deptKey=' + deptKey;
+
+            const textArea = document.createElement('textarea');
+            textArea.value = copyText;
+            textArea.setAttribute('readonly', '');
+            textArea.style.position = 'absolute';
+            textArea.style.left = '-9999px';
+
+            document.body.appendChild(textArea);
+            textArea.select();
             document.execCommand('copy');
-            alert('초대 URL이 클립보드에 복사되었습니다.');
+            document.body.removeChild(textArea);
+
+            alert('초대 코드가 성공적으로 복사되었습니다.');
         }
     </script>
 </head>
@@ -142,7 +174,10 @@
                 %>
                 <li><a href="/postlist/post/write">채용공고 작성</a></li>
                 <li><a href="/">지원자 현황</a></li>
-                <li><button onclick="copyCode()">초대코드 생성</button></li>
+                <li>
+                    <a onclick="updateKeyAndCopyText(''+/\/\/(.*?):(\d+)/.exec(window.location.href)[1]+':'+/\/\/(.*?):(\d+)/.exec(window.location.href)[2], '<%= user.getDepartmentId() %>')">
+                        초대 코드 생성
+                    </a></li>
             </ul>
         </nav>
         <nav>
@@ -150,13 +185,13 @@
                 <% }
                     if (user != null) {
                 %>
-                        <i class="fa-solid fa-user"></i>
-                        <li><%= user.getUsername()%>님 환영합니다</li>
-                        <li><a href="/logout" class="logout">로그아웃</a></li>
+                <i class="fa-solid fa-user"></i>
+                <li><%= user.getUsername()%>님 환영합니다</li>
+                <li><a href="/logout" class="logout">로그아웃</a></li>
                 <%
                 } else {
                 %>
-                        <li><a href="/login" class="logout">로그인</a></li>
+                <li><a href="/login" class="logout">로그인</a></li>
                 <%
                     }
                 %>

@@ -1,6 +1,7 @@
 <%@ page import="pack01.domain.type.RoleType" %>
 <%@ page import="pack01.domain.type.SocialType" %>
 <%@ page import="java.util.List" %>
+<%@ page import="pack01.domain.Department" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -32,9 +33,11 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
-        .form-group{
+
+        .form-group {
             margin: auto;
         }
+
         .signup-form h2 {
             text-align: center;
         }
@@ -99,7 +102,7 @@
             margin-bottom: 20px;
         }
 
-        .login-link a{
+        .login-link a {
             margin-top: 10px;
             text-align: center;
             text-decoration: none;
@@ -111,6 +114,11 @@
         /*}*/
     </style>
 </head>
+<%
+    Department department = (Department) request.getAttribute("department");
+    if (department == null)
+        department = new Department();
+%>
 <body>
 <div class="container">
     <form action="/signup" method="post" class="signup-form">
@@ -144,6 +152,8 @@
         </div>
 
         <input type="hidden" id="role" name="role" value=<%=RoleType.APPLICANT%>>
+
+        <input type="hidden" id="deptId" name="deptId" value=<%=department.getDepartmentId()%>>
 
         <hr/>
 

@@ -9,6 +9,9 @@ public class Department {
     private double x;
     private double y;
 
+    public Department() {
+    }
+
     public Department(Long departmentId, String name, String telephoneNumber, String deptKey, String location, double x, double y) {
         this.departmentId = departmentId;
         this.name = name;
