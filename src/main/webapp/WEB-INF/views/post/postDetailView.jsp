@@ -95,12 +95,29 @@
         .apply-button:hover {
             background-color: #0056b3;
         }
+        textarea[readonly] {
+            border: none;
+            resize: none;
+            background-color: transparent;
+            height: auto;
+            overflow: hidden;
+            padding: 0;
+            line-height: 1.2em; /* 줄 간격 설정 */
+            pointer-events: none;
+        }
     </style>
     <script>
         const onClick = () => {
             console.log("지원하기 버튼 눌림");
             window.location.href = "/resume/post"; // /resume/post?postId=1&departmentId=2
         }
+        window.addEventListener("DOMContentLoaded", () => {
+            const textareas = document.querySelectorAll("textarea[readonly]");
+            textareas.forEach((textarea) => {
+                textarea.style.height = "auto";
+                textarea.style.height = textarea.scrollHeight + "px";
+            });
+        });
     </script>
 </head>
 <body>
@@ -135,11 +152,11 @@
 
         <h2>자격 요건</h2>
         <hr/>
-        <p><%=descLines[1]%></p>
+        <textarea readonly><%=descLines[1]%></textarea>
 
         <h2>수행 업무</h2>
         <hr/>
-        <p><%=descLines[2]%></p>
+        <textarea readonly><%=descLines[2]%></textarea>
 
         <h2>채용 인원</h2>
         <hr/>
@@ -151,7 +168,7 @@
 
         <h2>근무 조건 및 복리 후생</h2>
         <hr/>
-        <p><%=descLines[5]%></p>
+        <textarea readonly><%=descLines[5]%></textarea>
     </div>
 
     <div class="image-file"></div>
