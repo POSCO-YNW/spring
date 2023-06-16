@@ -44,8 +44,7 @@ public class PostController {
         return "post/postWritingView";
     }
 
-<<<<<<< Updated upstream
-    @GetMapping("/postlist/deadline")
+    @GetMapping("/deadline")
     public String updateEndDateSetDeadline(@RequestParam(value = "id") Long postId, HttpSession session) {
         User loginUser = (User) session.getAttribute("loginUser");
         Post post = postService.findById(postId);
@@ -55,10 +54,7 @@ public class PostController {
         return "redirect:/postlist/post?id=" + postId;
     }
 
-    @GetMapping("/postlist")
-=======
     @GetMapping
->>>>>>> Stashed changes
     public String getList(Model model,
                           @RequestParam(value = "search", required = false) String search,
                           @RequestParam(value = "searchType", required = false) String searchType,
