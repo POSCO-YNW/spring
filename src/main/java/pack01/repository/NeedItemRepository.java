@@ -31,14 +31,13 @@ public class NeedItemRepository {
 //        jdbcTemplate.update(sql, needItem.getResumeItem(), needItem.getTitle(), needItem.getPostId());
 //    }
     public Long save(NeedItem needItem) {
-        String sql = "INSERT INTO need_item (need_item_id, title, post_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO need_item (title, post_id) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, needItem.getNeedItemId());
-            ps.setString(2, needItem.getTitle());
-            ps.setLong(3, needItem.getPostId());
+            ps.setString(1, needItem.getTitle());
+            ps.setLong(2, needItem.getPostId());
             return ps;
         }, keyHolder);
 

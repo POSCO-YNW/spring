@@ -18,6 +18,7 @@ import java.util.Objects;
 @Repository
 public class PostRepository {
     private final JdbcTemplate jdbcTemplate;
+
     public PostRepository() {
         DataSource dataSource = ConnectionManager.getDataSource();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -27,7 +28,7 @@ public class PostRepository {
 //        this.jdbcTemplate = jdbcTemplate;
 //    }
 
-//    public void save(Post post) {
+    //    public void save(Post post) {
 //        String sql = "INSERT INTO post (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
 //                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 //        jdbcTemplate.update(sql, post.getTitle(), post.getCreatedAt(), post.getUpdatedAt(), post.getStartDate(),
@@ -70,13 +71,15 @@ public class PostRepository {
         String sql = "SELECT * FROM post WHERE post_id = ?";
         return jdbcTemplate.queryForObject(sql, new PostMapper(), postId);
     }
+
     public List<Post> findByTitle(String postTitle) {
-        String sql = "SELECT * FROM post WHERE title LIKE ?";
+        String sql = "SELECT * FROM post WHERE title LIKE ? ORDER BY CASE WHEN end_date > CURDATE() THEN 0 ELSE 1 END, end_date";
         return jdbcTemplate.query(sql, new PostMapper(), "%" + postTitle + "%");
     }
+
     public List<Post> findByDepartmentName(String departmentName) {
         String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-                "WHERE name LIKE ?";
+                "WHERE name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
         return jdbcTemplate.query(sql, new PostMapper(), "%" + departmentName + "%");
     }
 
@@ -86,7 +89,7 @@ public class PostRepository {
                 "join resume rs on user.user_id = rs.applicant_id " +
                 "join post ps on rs.post_id = ps.post_id " +
                 "join department dp on ps.department_id = dp.department_id " +
-                "where user.user_id = ?";
+                "where user.user_id = ? ORDER BY CASE WHEN ps.end_date > CURDATE() THEN 0 ELSE 1 END, ps.end_date";
 
         return jdbcTemplate.query(sql, new PostMapper(), id);
     }
@@ -95,6 +98,7 @@ public class PostRepository {
         String sql = "SELECT * FROM post";
         return jdbcTemplate.query(sql, new PostMapper());
     }
+
     private static class PostMapper implements RowMapper<Post> {
         @Override
         public Post mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -10,6 +10,10 @@ public class NeedItem {
         this.title = title;
         this.postId = postId;
     }
+    public NeedItem(String title, Long postId) {
+        this.title = title;
+        this.postId = postId;
+    }
 
     public Long getNeedItemId() {
         return needItemId;

@@ -85,6 +85,6 @@ public class ResumeController {
 
         resumeService.saveResumeForm(resumeId, resumeForm);
 
-        return "resume/resumeResult";
+        return "submitSuccessView";
     }
 }

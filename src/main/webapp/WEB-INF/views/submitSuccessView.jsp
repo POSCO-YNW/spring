@@ -8,9 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>공고 작성 완료 페이지</title>
+    <title>공고 작성, 지원서작성 완료 페이지</title>
 </head>
 <body>
-
+<%
+    String context = (String) request.getAttribute("context");
+%>
+<h1><%=context%>></h1>
+<a href="/" class="home-button">홈으로 가기</a>
 </body>
 </html>
