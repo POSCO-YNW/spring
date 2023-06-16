@@ -62,6 +62,11 @@
             </div>
         </c:forEach>
     </div>
+
+    <form action="/mypage/edituser">
+        <input class="button" type="submit" value="개인정보 수정">
+    </form>
+
 </div>
 </body>
 </html>
