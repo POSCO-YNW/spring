@@ -23,4 +23,8 @@ public class EducationService {
     public List<Education> findAll() {
         return educationRepository.findAll();
     }
+
+    public List<Education> findByResumeId(Long resumeId) {
+        return educationRepository.findByResumeId(resumeId);
+    }
 }

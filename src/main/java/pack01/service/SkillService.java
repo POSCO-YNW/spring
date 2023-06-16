@@ -35,4 +35,8 @@ public class SkillService {
     public void delete(Long skillId) {
         skillRepository.delete(skillId);
     }
+
+    public List<Skill> findByResumeId(Long resumeId) {
+        return skillRepository.findByResumeId(resumeId);
+    }
 }

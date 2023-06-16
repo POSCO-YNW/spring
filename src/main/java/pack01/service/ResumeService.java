@@ -10,7 +10,6 @@ import pack01.dto.resume.response.ResumeUserResponse;
 import pack01.repository.*;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +86,11 @@ public class ResumeService {
         }
     }
 
+    public void updateStatus(Long resumeId, ResumeStatusType status) {
+        Resume resume = resumeRepository.findById(resumeId);
+        resumeRepository.updateStatus(resume, status);
+    }
+
     public ResumeForm makeResumeForm(Long resumeId, List<String> certifications, List<String> certificationLevels, List<String> certificationDates,
                                      List<String> skillStacks, List<LevelType> skillLevels,
                                      List<String> experienceCompanies, List<Integer> experiencePeriods, List<String> experienceWorks,
@@ -121,7 +125,7 @@ public class ResumeService {
         return new ResumeForm(certificationList, skillList, experienceList, questions, answers);
     }
 
-    public ResumeUserResponse findResumeUserResponseByPostIdAndUserId(Long resumeId, Long userId) {
-        return resumeRepository.findResumeUserResponseByPostIdAndUserId(resumeId, userId);
+    public ResumeUserResponse findResumeUserResponseByResumeId(Long resumeId) {
+        return resumeRepository.findResumeUserResponseByPostIdAndUserId(resumeId);
     }
 }

@@ -5,7 +5,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import pack01.domain.Department;
 import pack01.domain.User;
-import pack01.domain.type.RoleType;
 import pack01.repository.UserRepository;
 
 import java.util.List;
@@ -64,5 +63,9 @@ public class UserService {
 
     public void delete(Long userId) {
         userRepository.delete(userId);
+    }
+
+    public void updateDepartmentByUserId(Long applicantId, Long departmentId) {
+        userRepository.updateDepartmentByUserId(applicantId, departmentId);
     }
 }

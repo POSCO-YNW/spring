@@ -81,6 +81,11 @@ public class UserRepository {
         jdbcTemplate.update(sql, userId);
     }
 
+    public void updateDepartmentByUserId(Long applicantId, Long departmentId) {
+        String sql = "UPDATE user SET department_id = ? WHERE user_id = ?";
+        jdbcTemplate.update(sql, departmentId, applicantId);
+    }
+
     private static class UserMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {

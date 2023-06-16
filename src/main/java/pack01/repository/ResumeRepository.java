@@ -1,12 +1,10 @@
 package pack01.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import pack01.domain.Education;
 import pack01.domain.Resume;
 import pack01.domain.type.ResumeStatusType;
 import pack01.domain.type.RoleType;
@@ -58,9 +56,9 @@ public class ResumeRepository {
         return jdbcTemplate.query(sql, new ResumeUserResponseMapper(), postId);
     }
 
-    public ResumeUserResponse findResumeUserResponseByPostIdAndUserId(Long resumeId, Long userId) {
-        String sql = "SELECT * FROM resume join user on resume.applicant_id = user.user_id where resume.post_id = ? and resume.applicant_id = ?";
-        return jdbcTemplate.queryForObject(sql, new ResumeUserResponseMapper(), resumeId, userId);
+    public ResumeUserResponse findResumeUserResponseByPostIdAndUserId(Long resumeId) {
+        String sql = "SELECT * FROM resume join user on resume.applicant_id = user.user_id where resume.resume_id = ?";
+        return jdbcTemplate.queryForObject(sql, new ResumeUserResponseMapper(), resumeId);
     }
 
     public List<Resume> findByPostId(Long postId) {
@@ -79,6 +77,12 @@ public class ResumeRepository {
 
         jdbcTemplate.update(sql, resume.getApplicantId(), resume.getPostId(), resume.getDepartmentId(),
                 resume.getStatus(), resume.getDescription(), resume.getResumeId());
+    }
+
+    public void updateStatus(Resume resume, ResumeStatusType resumeStatusType) {
+        String sql = "UPDATE resume SET status = ?WHERE resume_id = ?";
+
+        jdbcTemplate.update(sql, resumeStatusType.toString(), resume.getResumeId());
     }
 
     public void delete(Long id) {
@@ -112,12 +116,12 @@ public class ResumeRepository {
             String username = rs.getString("username");
             String password = rs.getString("password");
             String email = rs.getString("email");
-            String phoneNumber = rs.getString("phoneNumber");
+            String phoneNumber = rs.getString("phone_number");
             Date birthday = rs.getDate("birthday");
             RoleType role = RoleType.valueOf(rs.getString("role"));
             String address = rs.getString("address");
-            Timestamp createdAt = rs.getTimestamp("createdAt");
-            Timestamp updatedAt = rs.getTimestamp("updatedAt");
+            Timestamp createdAt = rs.getTimestamp("created_at");
+            Timestamp updatedAt = rs.getTimestamp("updated_at");
 
             return new ResumeUserResponse(resumeId, applicantId, postId, departmentId, status, description, username, password, email, phoneNumber, birthday, role, address, createdAt, updatedAt);
         }

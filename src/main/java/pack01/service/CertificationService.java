@@ -12,7 +12,7 @@ public class CertificationService {
     private CertificationRepository certificationRepository;
 
     @Autowired
-    public CertificationService(CertificationRepository certificationRepository){
+    public CertificationService(CertificationRepository certificationRepository) {
         this.certificationRepository = certificationRepository;
     }
 
@@ -25,7 +25,7 @@ public class CertificationService {
     }
 
     public List<Certification> findAll() {
-        return  certificationRepository.findAll();
+        return certificationRepository.findAll();
     }
 
     public void update(Certification certification) {
@@ -34,5 +34,9 @@ public class CertificationService {
 
     public void delete(Long certificationId) {
         certificationRepository.delete(certificationId);
+    }
+
+    public List<Certification> findByResumeId(Long resumeId) {
+        return certificationRepository.findByResumeId(resumeId);
     }
 }

@@ -65,6 +65,11 @@ public class EducationRepository {
         jdbcTemplate.update(sql, educationId);
     }
 
+    public List<Education> findByResumeId(Long resumeId) {
+        String sql = "SELECT * FROM education where resume_id = ?";
+        return jdbcTemplate.query(sql, new EducationMapper(),resumeId);
+    }
+
     private static class EducationMapper implements RowMapper<Education> {
         @Override
         public Education mapRow(ResultSet rs, int rowNum) throws SQLException {
