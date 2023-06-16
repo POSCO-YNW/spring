@@ -20,7 +20,9 @@ public class PostService {
     public Post findById(Long postId) { return postRepository.findById(postId); }
     public List<Post> findByTitle(String postTitle) { return postRepository.findByTitle(postTitle); }
     public List<Post> findByDepartmentName(String departmentName) { return postRepository.findByDepartmentName(departmentName); }
-
+    public List<Post> findBymyResume(Long id) {
+        return postRepository.findByMyResume(id);
+    }
     public List<Post> findAll() { return postRepository.findAll(); }
 
 
