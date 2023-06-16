@@ -5,19 +5,12 @@
 <head>
     <title>로그인</title>
     <style>
-        /*@font-face {*/
-        /*    font-family: 'KBO-Dia-Gothic_bold';*/
-        /*    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');*/
-        /*    font-weight: 300;*/
-        /*    font-style: normal;*/
-        /*}*/
         body {
             background-image: url('/resources/static/images/background/poscotower.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center center;
             overflow-y: hidden;
-            /*font-family: "KBO-Dia-Gothic_bold", sans-serif;*/
         }
 
         .container {
@@ -64,19 +57,21 @@
         }
 
         .login-form button, .signup-link a {
-            width: 60%;
+            width: 70px;
             margin: auto;
             text-align: center;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #05507d;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 14px;
         }
 
-        .login-form button:hover {
-            background-color: #45a049;
+        .login-form button:hover, .signup-link a:hover {
+            background-color: #1288d9;
+            transition: 0.3s ease-in;
         }
 
         .error-message {
@@ -84,11 +79,6 @@
             margin-top: 10px;
         }
 
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 20px;
-        }
 
         .login-link a{
             margin-top: 10px;
@@ -97,6 +87,13 @@
         .signup-link a {
             margin-top: 10px;
             text-decoration: none;
+        }
+        .btn-container{
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+            margin: auto;
         }
     </style>
 </head>
@@ -112,12 +109,14 @@
             <label for="password">비밀번호 </label>
             <input type="password" id="password" name="password" required/>
         </div>
-        <div class="form-group">
-            <button type="submit">로그인</button>
-        </div>
-        <p class="error-message">${error}</p>
-        <div class="signup-link">
-            <a href="/signup">회원가입</a>
+        <div class="btn-container">
+            <div class="form-group">
+                <button type="submit">로그인</button>
+            </div>
+            <p class="error-message">${error}</p>
+            <div class="signup-link">
+                <a href="/signup">회원가입</a>
+            </div>
         </div>
     </form>
 </div>

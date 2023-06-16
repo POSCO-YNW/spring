@@ -9,12 +9,13 @@
     <style>
         ul {
             list-style: none;
+            color: white;
         }
 
         a {
             text-decoration: none;
             outline: none;
-            color: black;
+            color: white;
         }
 
         a:hover {
@@ -31,31 +32,37 @@
             color: red;
         }
 
-        .page {
-            max-width: 1440px;
-            width: 80%;
+        .header-page {
+            /*max-width: 1440px;*/
+            width: 100%;
             margin: 0 auto 70px auto;
-            padding: 0 20px;
+            /*padding: 0 20px;*/
             border-bottom: 3px solid black;
+            background-image: url("/resources/static/images/background/pohang_light.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         header {
-            width: 100%;
-            height: 150px;
+            width: 80%;
+            margin: auto;
+            height: 250px;
+            /*height: 150px; */
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        header > h2 {
+        header > h1 {
             margin-left: 20px;
+            font-size: 40px;
         }
 
         header > nav {
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid red;
         }
 
         header ul {
@@ -71,10 +78,6 @@
 
         header ul:last-child {
             margin-left: auto;
-        }
-
-        .user {
-
         }
 
         header ul > li {
@@ -159,9 +162,9 @@
     String inviteCode = UUID.randomUUID().toString().replace("-", "");
     String inviteUrl = request.getRequestURL().toString() + "?code=" + inviteCode;
 %>
-<div class="page">
+<div class="header-page">
     <header>
-        <a href="/postlist"><h2>PoCruit</h2></a>
+        <a href="/postlist"><h1>PoCruit</h1></a>
         <nav>
             <ul>
                 <li><a href="/postlist">채용공고</a></li>
@@ -191,7 +194,7 @@
                 <%
                 } else {
                 %>
-                <li><a href="/login" class="logout">로그인</a></li>
+                <li><a href="/login">로그인</a></li>
                 <%
                     }
                 %>

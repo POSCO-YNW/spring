@@ -24,6 +24,7 @@
 
         label {
             font-weight: bold;
+            margin-bottom: 8px;
         }
         h3{
             text-align: center;
@@ -41,9 +42,10 @@
         }
         textarea{
             min-height: 250px;
+            resize: none;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #05507d;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -53,18 +55,28 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #05507d;
+            transition: 0.3s ease-in;
         }
         .need-item-input{
             margin-bottom: 10px;
         }
         .remove-item {
-            color: red;
+            background-color: red;
             cursor: pointer;
             margin-top: 10px;
         }
         .cancel-btn{
             background-color: red;
+        }
+        .btn-container{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
         }
     </style>
     <script>
@@ -199,11 +211,13 @@
     <div class="form-group">
         <button type="button" onclick="addItem()">항목 추가</button>
     </div>
-    <div class="form-group">
-        <button type="submit"><%= exist ? "수정하기" : "작성하기" %></button>
-    </div>
-    <div class="form-group">
-        <button type="button" class="cancel-btn" onclick="onCancel()">취소하기</button>
+    <div class="btn-container">
+        <div class="form-group">
+            <button type="submit"><%= exist ? "수정하기" : "작성하기" %></button>
+        </div>
+        <div class="form-group">
+            <button type="button" class="cancel-btn" onclick="onCancel()">취소하기</button>
+        </div>
     </div>
 </form>
 </body>

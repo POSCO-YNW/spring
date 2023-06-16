@@ -17,6 +17,7 @@
         .card-title {
             font-weight: bold;
             font-size: 20px;
+            color: black;
         }
 
         .department {

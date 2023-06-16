@@ -75,19 +75,20 @@
         }
 
         .signup-form button, .login-link a {
-            width: 60%;
+            width: 70px;
             margin: auto;
             text-align: center;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: #05507d;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 14px;
         }
 
-        .signup-form button:hover {
-            background-color: #45a049;
+        .signup-form button:hover, .login-link a:hover {
+            background-color: #1288d9;
             transition: 0.3s ease-in;
         }
 
@@ -96,22 +97,19 @@
             margin-top: 10px;
         }
 
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
         .login-link a {
             margin-top: 10px;
             text-align: center;
             text-decoration: none;
         }
 
-        /*.login-link a {*/
-        /*    */
-        /*    color: #000;*/
-        /*}*/
+        .btn-container{
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            align-items: center;
+            margin: 20px auto;
+        }
     </style>
 </head>
 <%
@@ -182,12 +180,14 @@
 
         <hr/>
 
-        <div class="form-group">
-            <button type="submit">가입하기</button>
-        </div>
-        <p class="error-message">${error}</p>
-        <div class="login-link">
-            <a href="/login">로그인</a>
+        <div class="btn-container">
+            <div class="form-group">
+                <button type="submit">가입하기</button>
+            </div>
+            <p class="error-message">${error}</p>
+            <div class="login-link">
+                <a href="/login">로그인</a>
+            </div>
         </div>
     </form>
 </div>

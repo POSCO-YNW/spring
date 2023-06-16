@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: slide 3s infinite;
         }
 
         .carousel-slide {
@@ -45,27 +45,18 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            animation: slide 3s infinite;
+            animation: fade-in 2s forwards;
         }
 
-        @keyframes slide {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(1.2);
-            }
-
-            10%, 90% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .carousel-slide:first-child {
+            animation-delay: 3s;
         }
 
-        @keyframes fade {
-            0%, 100% {
+        @keyframes fade-in {
+            0% {
                 opacity: 0;
             }
-
-            10%, 90% {
+            100% {
                 opacity: 1;
             }
         }
@@ -90,6 +81,8 @@
             justify-content: center;
             text-align: center;
             z-index: 1;
+            color: white;
+            gap: 10px;
         }
 
         .carousel-overlay-text {
@@ -100,6 +93,8 @@
             padding: 10px 20px;
             border-radius: 20px;
             cursor: pointer;
+            margin-top: 50px;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -111,21 +106,30 @@
         <div class="carousel-slide"
              style="background-image: url(/resources/static/images/background/pohang_light.jpg);"></div>
     </div>
-    <img src="/resources/static/images/poscoDX.png" alt="Logo" class="logo">
+    <img src="/resources/static/images/poscoDXWhite.png" alt="Logo" class="logo">
     <div class="carousel-overlay">
-        <a href="/postlist" class="carousel-overlay-text">지원하러 가기 &gt;</a>
+        <h1>POCRUIT</h1>
+        <p>=================================================</p>
+        <h3>PoCruit에 오신걸 환영합니다</h3>
+        <a href="/postlist" class="carousel-overlay-text">지원하러 가기</a>
     </div>
 </div>
 
 <script>
-    setInterval(function () {
+    // 이미지 로드 후 애니메이션 시작
+    window.addEventListener('load', function() {
         let slides = document.getElementsByClassName('carousel-slide');
-        let activeSlide = document.querySelector('.carousel-slide.active');
+        let activeSlide = slides[0];
 
-        activeSlide.classList.remove('active');
-        let nextSlide = activeSlide.nextElementSibling || slides[0];
-        nextSlide.classList.add('active');
-    }, 3000);
+        activeSlide.style.opacity = 1;
+
+        setInterval(function () {
+            activeSlide.style.opacity = 0;
+            let nextSlide = activeSlide.nextElementSibling || slides[0];
+            nextSlide.style.opacity = 1;
+            activeSlide = nextSlide;
+        }, 3000);
+    });
 </script>
 </body>
 </html>

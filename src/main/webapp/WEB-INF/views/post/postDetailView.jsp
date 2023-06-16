@@ -25,7 +25,7 @@
         }
 
         .title-container {
-            padding: 20px;
+            padding-bottom: 20px;
         }
 
         .title {
@@ -43,8 +43,10 @@
             border-radius: 5px;
             padding: 20px;
             display: flex;
-            align-content: space-around;
-            justify-content: center;
+            justify-items: center;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
         }
 
         .d-day {
@@ -69,10 +71,14 @@
         }
 
         .description {
-            margin-bottom: 20px;
+            width: 80%;
+            margin: auto auto 20px auto;
+        }
+        .description h1{
+            margin-bottom: 30px;
         }
 
-        .apply-button {
+        .apply-button, .end-button{
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -80,16 +86,13 @@
             border-radius: 5px;
             cursor: pointer;
             text-align: center;
+            display: block;
+            width: fit-content;
+            margin: auto;
         }
 
         .end-button {
             background-color: red;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
         }
 
         .apply-button:hover {
@@ -102,8 +105,16 @@
             height: auto;
             overflow: hidden;
             padding: 0;
-            line-height: 1.2em; /* 줄 간격 설정 */
+            line-height: 2em; /* 줄 간격 설정 */
             pointer-events: none;
+        }
+        .btn-container{
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        h4{
+           text-align: center;
         }
     </style>
     <script>
@@ -147,32 +158,31 @@
         <h1>모집 안내</h1>
 
         <h2>채용 구분</h2>
-        <hr/>
         <p><%=descLines[0]%></p>
+        <hr/>
 
         <h2>자격 요건</h2>
-        <hr/>
         <textarea readonly><%=descLines[1]%></textarea>
+        <hr/>
 
         <h2>수행 업무</h2>
-        <hr/>
         <textarea readonly><%=descLines[2]%></textarea>
+        <hr/>
 
         <h2>채용 인원</h2>
-        <hr/>
         <p><%=descLines[3]%></p>
+        <hr/>
 
         <h2>예상 급여</h2>
-        <hr/>
         <p><%=descLines[4]%></p>
+        <hr/>
 
         <h2>근무 조건 및 복리 후생</h2>
-        <hr/>
         <textarea readonly><%=descLines[5]%></textarea>
+
     </div>
 
     <div class="image-file"></div>
-    <hr>
     <%
         User user = (User) session.getAttribute("loginUser");
 
@@ -184,15 +194,17 @@
     <%
     } else if (Objects.equals(user.getUserId(), post.getAdminId())) {
     %>
-    <a href="/postlist/deadline?id=<%=post.getPostId()%>"
-       class="end-button">마감하기</a>
-    <a href="/postlist/post/edit?id=<%=post.getPostId()%>" class="apply-button">수정하기</a>
-    <a href="/postlist/post/delete?id=<%=post.getPostId()%>" class="apply-button">삭제하기</a>
+    <div class="btn-container">
+        <a href="/postlist/deadline?id=<%=post.getPostId()%>"
+           class="end-button">마감하기</a>
+        <a href="/postlist/post/edit?id=<%=post.getPostId()%>" class="apply-button">수정하기</a>
+        <a href="/postlist/post/delete?id=<%=post.getPostId()%>" class="end-button">삭제하기</a>
+    </div>
     <%
         }
     } else {
     %>
-    <h4>채용이 마감되었습니다.</h4>
+    <h2>채용이 마감되었습니다.</h2>
     <br>
     <%
         }

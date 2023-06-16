@@ -10,15 +10,6 @@
 
     <title>채용공고</title>
     <style>
-        /*@font-face {*/
-        /*    font-family: 'KBO-Dia-Gothic_bold';*/
-        /*    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');*/
-        /*    font-weight: 400;*/
-        /*    font-style: normal;*/
-        /*}*/
-        /*body{*/
-        /*    font-family: "KBO-Dia-Gothic_bold", sans-serif;*/
-        /*}*/
         .body {
             max-width: 1440px;
             width: 80%;
@@ -33,11 +24,15 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 20px;
+            margin-top: 20px;
+        }
+        .card-container h3{
+            text-align: center;
         }
 
         select {
             width: 80px;
-            padding: 5px;
+            padding: 10px;
             border: 1px solid #999;
             border-radius: 3px;
             -webkit-appearance: none;
@@ -51,7 +46,7 @@
 
         input[type="text"] {
             width: 250px;
-            padding: 5px;
+            padding: 10px;
             border: 1px solid #999;
             border-radius: 3px;
             -webkit-appearance: none;
@@ -63,10 +58,10 @@
             outline: none;
         }
 
-        .search-button {
-            display: inline-block;
-            width: 50px;
-            padding: 5px;
+        .search-button, .sort-button{
+            display: flex;
+            /*width: 50px;*/
+            padding: 10px;
             background-color: #007bff;
             border: none;
             border-radius: 5px;
@@ -76,16 +71,22 @@
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: 0.3s ease;
         }
 
         .search-button:hover {
             background-color: #0056b3;
         }
 
-        .search-button:focus {
-            outline: none;
-            box-shadow: 0 0 5px #007bff;
+        .search-container, .sort-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .sort-container{
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -100,16 +101,20 @@
     <h1>채용공고</h1>
     <div class="search-form">
         <form id="frm" class="search" method="get" action="/postlist">
-            <select name="searchType" class="search-input">
-                <option value="title">공고 제목</option>
-                <option value="department">부서</option>
-            </select>
-            <input type="text" name="search" class="search-input" placeholder="관심 부서나 공고 제목으로 검색하세요."
-                   value="<%=search%>">
-            <input type="submit" value="검색" class="search-button">
-            <input type="hidden" class="hidPage" name="page" value="">
-            <input type="submit" name="type" value="최신순" class="sort-button" id="latestButton">
-            <input type="submit" name="type" value="마감순" class="sort-button" id="deadlineButton">
+            <div class="search-container">
+                <select name="searchType" class="search-input">
+                    <option value="title">공고 제목</option>
+                    <option value="department">부서</option>
+                </select>
+                <input type="text" name="search" class="search-input" placeholder="관심 부서나 공고 제목으로 검색하세요."
+                       value="<%=search%>">
+                <input type="submit" value="검색" class="search-button">
+                <input type="hidden" class="hidPage" name="page" value="">
+            </div>
+            <div class="sort-container">
+                <input type="submit" name="type" value="최신순" class="sort-button" id="latestButton">
+                <input type="submit" name="type" value="마감순" class="sort-button" id="deadlineButton">
+            </div>
         </form>
     </div>
     <hr/>
@@ -145,5 +150,6 @@
         });
     </script>
 </div>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>
