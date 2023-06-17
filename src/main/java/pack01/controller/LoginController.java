@@ -5,16 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pack01.common.StaticValue;
 import pack01.domain.Department;
+import pack01.domain.SocialAccount;
 import pack01.domain.User;
 import pack01.domain.type.RoleType;
+import pack01.domain.type.SocialType;
 import pack01.service.DepartmentService;
+import pack01.service.SocialAccountService;
 import pack01.service.UserService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -33,11 +33,13 @@ public class LoginController {
 
     private final UserService userService;
     private final DepartmentService departmentService;
+    private final SocialAccountService socialAccountService;
 
     @Autowired
-    public LoginController(UserService userService, DepartmentService departmentService) {
+    public LoginController(UserService userService, DepartmentService departmentService, SocialAccountService socialAccountService) {
         this.userService = userService;
         this.departmentService = departmentService;
+        this.socialAccountService = socialAccountService;
     }
 
     @GetMapping("/login")
@@ -111,6 +113,7 @@ public class LoginController {
                                 @RequestParam("address") String address,
                                 @RequestParam("role") RoleType role,
                                 @RequestParam(value = "deptId", required = false) Long deptId,
+                                @RequestParam(value = "social[]", required = false) List<String> socials,
                                 RedirectAttributes redirectAttributes) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -131,6 +134,21 @@ public class LoginController {
             user = new User(username, password, email, phoneNumber, sqlDate, role, address, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), null);
         }
         Long saveId = userService.save(user);
+
+        for (int i = 0; i < socials.size(); i++) {
+            switch (i) {
+                case 0:
+                    socialAccountService.save(new SocialAccount(SocialType.GITHUB, socials.get(i), "https://github.com/" + socials.get(i), saveId));
+                    break;
+                case 1:
+                    socialAccountService.save(new SocialAccount(SocialType.TISTORY, socials.get(i), "https://" + socials.get(i) + ".tistory.com/", saveId));
+                    break;
+                case 2:
+                    socialAccountService.save(new SocialAccount(SocialType.BOJ, socials.get(i), "https://www.acmicpc.net/user/" + socials.get(i), saveId));
+                    break;
+            }
+
+        }
 
         if (saveId != null) {
             return "redirect:/login";
