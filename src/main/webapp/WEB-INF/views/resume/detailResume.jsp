@@ -257,7 +257,7 @@
         <tr>
             <th>이름</th>
             <th>점수</th>
-            <th>취득일/th>
+            <th>취득일</th>
         </tr>
         <% for (Certification certification : certifications) { %>
         <tr>
