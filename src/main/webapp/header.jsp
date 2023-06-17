@@ -33,24 +33,21 @@
         }
 
         .header-page {
-            /*max-width: 1440px;*/
             width: 100%;
             margin: 0 auto 70px auto;
-            /*padding: 0 20px;*/
-            border-bottom: 3px solid black;
-            background-image: url("/resources/static/images/background/pohang_light.jpg");
-            background-position: center;
+            background-image: url("/resources/static/images/posco-seoul.jpg");
+            background-position: center top; /* 상단 위치에 맞게 조정 */
             background-repeat: no-repeat;
             background-size: cover;
         }
 
         header {
             width: 90%;
-            margin: auto;
-            height: 300px;
+            margin: 0 auto;
+            height: 350px;
             /*height: 150px; */
             display: flex;
-            align-items: center;
+            /*align-items: center;*/
             justify-content: space-between;
         }
 
@@ -61,8 +58,8 @@
 
         header > nav {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            /*align-items: center;*/
+            /*justify-content: center;*/
         }
 
         header ul {
@@ -84,7 +81,7 @@
             font-size: 18px;
             height: 100%;
             display: flex;
-            align-items: center;
+            /*align-items: center;*/
             padding: 20px;
             /*margin-right: 10px;*/
         }
