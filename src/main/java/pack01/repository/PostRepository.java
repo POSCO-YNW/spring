@@ -1,20 +1,17 @@
 package pack01.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import pack01.domain.File;
 import pack01.domain.Post;
 import pack01.dto.post.response.PostDepartmentResponse;
+import pack01.dto.post.response.PostPagingResponse;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -101,17 +98,42 @@ public class PostRepository {
         return jdbcTemplate.query(sql, new PostMapper(), "%" + postTitle + "%");
     }
 
-    public List<PostDepartmentResponse> findPostAndDepartmentByPostTitle(String postTitle,Integer page) {
-        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-                "WHERE P.title LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date limit " + page*9 +", 9";
-        return jdbcTemplate.query(sql, new PostDepartmentMapper(), "%" + postTitle + "%");
+    public PostPagingResponse findPostAndDepartmentByPostTitle(String postTitle, Integer page) {
+        int offset = page * 9;
+        int limit = 9;
+
+        String query = "SELECT * FROM post P JOIN department D ON P.department_id = D.department_id " +
+                "WHERE P.title LIKE ? " +
+                "ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date " +
+                "LIMIT ?, ?";
+
+        String countQuery = "SELECT COUNT(*) AS total_count FROM post P JOIN department D ON P.department_id = D.department_id " +
+                "WHERE P.title LIKE ?";
+
+        List<PostDepartmentResponse> results = jdbcTemplate.query(query, new PostDepartmentMapper(), "%" + postTitle + "%", offset, limit);
+        int totalCount = jdbcTemplate.queryForObject(countQuery, Integer.class, "%" + postTitle + "%");
+
+        return new PostPagingResponse(results, totalCount);
     }
 
-    public List<PostDepartmentResponse> findPostAndDepartmentByDepartmentTitle(String departmentName) {
-        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-                "WHERE D.name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
-        return jdbcTemplate.query(sql, new PostDepartmentMapper(), "%" + departmentName + "%");
+    public PostPagingResponse findPostAndDepartmentByDepartmentTitle(String departmentName, Integer page) {
+        int offset = page * 9;
+        int limit = 9;
+
+        String query = "SELECT * FROM post P JOIN department D ON P.department_id = D.department_id " +
+                "WHERE D.name LIKE ? " +
+                "ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date " +
+                "LIMIT ?, ?";
+
+        String countQuery = "SELECT COUNT(*) AS total_count FROM post P JOIN department D ON P.department_id = D.department_id " +
+                "WHERE D.name LIKE ?";
+
+        List<PostDepartmentResponse> results = jdbcTemplate.query(query, new PostDepartmentMapper(), "%" + departmentName + "%", offset, limit);
+        int totalCount = jdbcTemplate.queryForObject(countQuery, Integer.class, "%" + departmentName + "%");
+
+        return new PostPagingResponse(results, totalCount);
     }
+
 
     public List<Post> findByDepartmentName(String departmentName) {
         String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
@@ -133,6 +155,11 @@ public class PostRepository {
     public List<Post> findAll() {
         String sql = "SELECT * FROM post";
         return jdbcTemplate.query(sql, new PostMapper());
+    }
+
+    public int findAllPostList() {
+        String sql = "select count(*) as total from post";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     private static class PostMapper implements RowMapper<Post> {
@@ -167,8 +194,8 @@ public class PostRepository {
             String telephoneNumber = rs.getString("telephone_number");
             String deptKey = rs.getString("dept_key");
             String location = rs.getString("location");
-            double y = rs.getDouble("x");
-            double x = rs.getDouble("y");
+            double x = rs.getDouble("x");
+            double y = rs.getDouble("y");
             return new PostDepartmentResponse(postId, title, createdAt, updatedAt, startDate, endDate, description, adminId, departmentId, name, telephoneNumber, deptKey, location, x, y);
         }
     }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pack01.domain.NeedItem;
 import pack01.domain.Post;
 import pack01.domain.User;
-import pack01.dto.post.response.PostDepartmentResponse;
+import pack01.dto.post.response.PostPagingResponse;
 import pack01.service.NeedItemService;
 import pack01.service.PostService;
 
@@ -15,8 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,10 +58,10 @@ public class PostController {
                           @RequestParam(value = "search", required = false) String search,
                           @RequestParam(value = "searchType", required = false) String searchType,
                           @RequestParam(value = "type", required = false) String type,
-                             @RequestParam(value = "page", required = false) Integer page
+                          @RequestParam(value = "page", required = false) Integer page
     ) {
 
-        page  =(page == null) ? 0 : page;
+        page = (page == null) ? 0 : page;
 
         if (search == null)
             search = "";
@@ -81,9 +79,10 @@ public class PostController {
                 break;
         }
 
-        List<PostDepartmentResponse> posts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type,page);
+        PostPagingResponse pagingPosts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type, page);
 
-        model.addAttribute("posts", posts);
+        model.addAttribute("postall", pagingPosts.getTotalCount());
+        model.addAttribute("posts", pagingPosts.getResults());
         model.addAttribute("search", search);
 
         return "post/postListView";

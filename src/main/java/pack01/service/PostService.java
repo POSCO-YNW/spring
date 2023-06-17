@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pack01.domain.Post;
 import pack01.dto.post.response.PostDepartmentResponse;
+import pack01.dto.post.response.PostPagingResponse;
 import pack01.repository.PostRepository;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,7 +27,9 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public void update(Post post, Long postId) { postRepository.update(post, postId); }
+    public void update(Post post, Long postId) {
+        postRepository.update(post, postId);
+    }
 
     public void delete(Long postId) {
         postRepository.delete(postId);
@@ -50,24 +51,36 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<Post> findBymyResume(Long id) {
+    public List<Post> findByMyResume(Long id) {
         return postRepository.findByMyResume(id);
+    }
+
+    public int findAllPostList() {
+        return postRepository.findAllPostList();
     }
 
     public void updateEndDateSetDeadline(Long postId) {
         postRepository.updateEndDateSetDeadline(postId);
     }
 
-    public List<PostDepartmentResponse> findBySearchAndSearchTypeAndSort(String search, String searchType, String type,Integer page) {
+    public PostPagingResponse findBySearchAndSearchTypeAndSort(String search, String searchType, String type, Integer page) {
         List<PostDepartmentResponse> posts = new ArrayList<>();
+        int totalCount = 0;
 
         switch (searchType) {
             case "title":
-                posts = postRepository.findPostAndDepartmentByPostTitle(search,page);
+                PostPagingResponse titleResult = postRepository.findPostAndDepartmentByPostTitle(search, page);
+                posts = titleResult.getResults();
+                totalCount = titleResult.getTotalCount();
                 break;
             case "department":
-                posts = postRepository.findPostAndDepartmentByDepartmentTitle(search);
+                PostPagingResponse departmentResult = postRepository.findPostAndDepartmentByDepartmentTitle(search, page);
+                posts = departmentResult.getResults();
+                totalCount = departmentResult.getTotalCount();
                 break;
+            default:
+                // Handle invalid searchType if needed
+                return new PostPagingResponse(Collections.emptyList(), 0);
         }
 
         switch (type) {
@@ -90,8 +103,11 @@ public class PostService {
                     }
                 });
                 break;
+            default:
+                // Handle invalid type if needed
+                break;
         }
 
-        return posts;
+        return new PostPagingResponse(posts, totalCount);
     }
 }

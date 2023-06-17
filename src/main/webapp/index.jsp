@@ -111,7 +111,7 @@
         <h1>POCRUIT</h1>
         <p>=================================================</p>
         <h3>PoCruit에 오신걸 환영합니다</h3>
-        <a href="/postlist" class="carousel-overlay-text">지원하러 가기</a>
+        <a href="/postlist?page=0" class="carousel-overlay-text">지원하러 가기</a>
     </div>
 </div>
 

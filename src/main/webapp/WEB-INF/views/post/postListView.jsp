@@ -3,6 +3,8 @@
 <%@ page import="java.util.Collections" %>
 <%@ page import="java.util.Comparator" %>
 <%@ page import="pack01.dto.post.response.PostDepartmentResponse" %>
+<%@ page import="pack01.service.PostService" %>
+<%@ page import="pack01.repository.PostRepository" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -88,6 +90,26 @@
         .sort-container{
             margin-top: 10px;
         }
+        .paging {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .paging span {
+            margin: 0 5px;
+            padding: 5px;
+            text-decoration: none;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 3px;
+            cursor: pointer; /* 마우스 커서를 포인터(클릭) 모양으로 변경 */
+        }
+
+        .paging span:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +117,12 @@
 <%
     List<PostDepartmentResponse> posts = (List<PostDepartmentResponse>) request.getAttribute("posts");
     String search = (String) request.getAttribute("search");
+
+    int totalPosts = (int)request.getAttribute("postall");
+
+    int postsPerPage = 9; // 페이지당 보여지는 게시글 수
+
+    int totalPages = (int) Math.ceil((double) totalPosts / postsPerPage); // 전체 페이지 수
 %>
 
 <div class="body">
@@ -134,22 +162,31 @@
             }
         %>
     </div>
-    <div class="">
-        <a class="page" data-page="0">1</a>
-        <a class="page" data-page="1">2</a>
+
+    <div class="card-container">
+        <!-- 게시물 목록 표시 -->
     </div>
+
+    <div class="paging">
+        <%-- 서버에서 전달받은 총 페이지 수를 반복하여 페이지 링크 생성 --%>
+        <% for (int i = 0; i < totalPages; i++) { %>
+        <span class="page" data-page="<%= i %>"><%= i + 1 %></span>
+        <% } %>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-
             $('.page').click(function (){
-               var i =  $(this).data('page');
-               $('.hidPage').val(i)
-               $('#frm').submit();
+                let i =  $(this).data('page');
+                $('.hidPage').val(i);
+                $('#frm').submit();
             })
 
         });
     </script>
+
 </div>
+
 <jsp:include page="../../../footer.jsp"/>
 </body>
 </html>
