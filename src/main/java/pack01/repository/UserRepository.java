@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.User;
 import pack01.domain.type.RoleType;
+import pack01.dto.user.response.UserDepartmentResponse;
 import pack01.repository.db.ConnectionManager;
 
 import javax.sql.DataSource;
@@ -86,6 +87,11 @@ public class UserRepository {
         jdbcTemplate.update(sql, departmentId, applicantId);
     }
 
+    public List<UserDepartmentResponse> findByRole(RoleType roleType, Long departmentId) {
+        String sql = "select * from user u join department d on u.department_id = d.department_id where u.role = ? and u.department_id = ?";
+        return jdbcTemplate.query(sql, new UserDepartmentResponseMapper(), roleType.toString(), departmentId);
+    }
+
     private static class UserMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -102,6 +108,32 @@ public class UserRepository {
             Long departmentId = rs.getLong("department_id");
 
             return new User(userId, username, password, email, phoneNumber, birthday, role, address, createdAt, updatedAt, departmentId);
+        }
+    }
+
+    private static class UserDepartmentResponseMapper implements RowMapper<UserDepartmentResponse> {
+        @Override
+        public UserDepartmentResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long userId = rs.getLong("user_id");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            String email = rs.getString("email");
+            Date birthday = rs.getDate("birthday");
+            String phoneNumber = rs.getString("phone_number");
+            RoleType role = RoleType.valueOf(rs.getString("role"));
+            String address = rs.getString("address");
+            Timestamp createdAt = rs.getTimestamp("created_at");
+            Timestamp updatedAt = rs.getTimestamp("updated_at");
+            Long departmentId = rs.getLong("department_id");
+            String name = rs.getString("name");
+            String telephoneNumber = rs.getString("telephone_number");
+            String deptKey = rs.getString("dept_key");
+            String location = rs.getString("location");
+            Double x = rs.getDouble("x");
+            Double y = rs.getDouble("y");
+
+            return new UserDepartmentResponse(userId, username, password, email, phoneNumber, birthday, role, address, createdAt, updatedAt, departmentId,
+                    name, telephoneNumber, deptKey, location, x, y);
         }
     }
 }

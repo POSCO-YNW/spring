@@ -5,22 +5,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pack01.domain.User;
+import pack01.domain.type.RoleType;
+import pack01.dto.user.response.UserDepartmentResponse;
 import pack01.service.UserService;
+import pack01.service.VoteService;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final VoteService voteService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, VoteService voteService) {
         this.userService = userService;
+        this.voteService = voteService;
     }
 
     @GetMapping
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "user/user-list";
+        return "userList";
     }
 
     @GetMapping("/{id}")
@@ -53,5 +61,33 @@ public class UserController {
     public String deleteUser(@PathVariable("id") Long userId) {
         userService.delete(userId);
         return "redirect:/users";
+    }
+
+    @GetMapping("/manage")
+    public String userManage(Model model, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        if (!loginUser.getRole().equals(RoleType.ADMIN)) {
+            return "redirect:/postlist";
+        }
+
+        List<UserDepartmentResponse> users = userService.findByRole(RoleType.EMPLOYEE, loginUser.getDepartmentId());
+
+        model.addAttribute("users", users);
+
+        return "user/userList";
+    }
+
+    @GetMapping("/manage/delete")
+    public String deleteUser(@RequestParam("userId") Long userId, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        if (!loginUser.getRole().equals(RoleType.ADMIN)) {
+            return "redirect:/postlist";
+        }
+
+        voteService.deleteByUserId(userId);
+
+        userService.delete(userId);
+
+        return "redirect:/user/manage";
     }
 }

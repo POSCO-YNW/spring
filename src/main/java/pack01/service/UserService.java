@@ -5,6 +5,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import pack01.domain.Department;
 import pack01.domain.User;
+import pack01.domain.type.RoleType;
+import pack01.dto.user.response.UserDepartmentResponse;
 import pack01.repository.UserRepository;
 
 import java.util.List;
@@ -67,5 +69,9 @@ public class UserService {
 
     public void updateDepartmentByUserId(Long applicantId, Long departmentId) {
         userRepository.updateDepartmentByUserId(applicantId, departmentId);
+    }
+
+    public List<UserDepartmentResponse> findByRole(RoleType roleType, Long departmentId) {
+        return userRepository.findByRole(roleType, departmentId);
     }
 }

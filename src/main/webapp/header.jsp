@@ -20,7 +20,7 @@
 
         a:hover {
             transition: 0.3s ease-in;
-            color: #05507d;
+            color: #9b9b9b;
             cursor: pointer;
         }
 
@@ -45,7 +45,7 @@
         }
 
         header {
-            width: 80%;
+            width: 90%;
             margin: auto;
             height: 300px;
             /*height: 150px; */
@@ -175,7 +175,7 @@
                     if (user != null && RoleType.ADMIN.equals(user.getRole())) {
                 %>
                 <li><a href="/postlist/post/write">채용공고 작성</a></li>
-                <li><a href="/">지원자 현황</a></li>
+                <li><a href="/user/manage">직원 관리</a></li>
                 <li>
                     <a onclick="updateKeyAndCopyText(''+/\/\/(.*?):(\d+)/.exec(window.location.href)[1]+':'+/\/\/(.*?):(\d+)/.exec(window.location.href)[2], '<%= user.getDepartmentId() %>')">
                         초대 코드 생성
@@ -187,8 +187,8 @@
                 <% }
                     if (user != null) {
                 %>
-                <i class="fa-solid fa-user"></i>
-                <li><%= user.getRole().getDescription() + " " + user.getUsername()%>님 환영합니다</li>
+                <i class="fa-solid"></i>
+                <li><%= user.getRole().getDescription() + " " + user.getUsername()%>님 환영합니다.</li>
                 <li><a href="/logout" class="logout">로그아웃</a></li>
                 <%
                 } else {

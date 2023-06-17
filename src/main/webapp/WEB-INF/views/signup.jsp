@@ -182,7 +182,7 @@
 
         <div class="btn-container">
             <div class="form-group">
-                <button type="submit">가입하기</button>
+                <button type="submit">가입</button>
             </div>
             <p class="error-message">${error}</p>
             <div class="login-link">

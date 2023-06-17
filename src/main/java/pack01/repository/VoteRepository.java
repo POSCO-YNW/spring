@@ -51,6 +51,11 @@ public class VoteRepository {
         return jdbcTemplate.query(sql, new VoteMapper(), resumeId);
     }
 
+    public void deleteByUserId(Long userId) {
+        String sql = "DELETE FROM vote WHERE user_id = ?";
+        jdbcTemplate.update(sql, userId);
+    }
+
     private static class VoteMapper implements RowMapper<Vote> {
         @Override
         public Vote mapRow(ResultSet rs, int rowNum) throws SQLException {
