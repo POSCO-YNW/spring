@@ -157,11 +157,6 @@ public class PostRepository {
         return jdbcTemplate.query(sql, new PostMapper());
     }
 
-    public int findAllPostList() {
-        String sql = "select count(*) as total from post";
-        return jdbcTemplate.queryForObject(sql, Integer.class);
-    }
-
     private static class PostMapper implements RowMapper<Post> {
         @Override
         public Post mapRow(ResultSet rs, int rowNum) throws SQLException {

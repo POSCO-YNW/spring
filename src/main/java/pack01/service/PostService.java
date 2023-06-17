@@ -55,9 +55,6 @@ public class PostService {
         return postRepository.findByMyResume(id);
     }
 
-    public int findAllPostList() {
-        return postRepository.findAllPostList();
-    }
 
     public void updateEndDateSetDeadline(Long postId) {
         postRepository.updateEndDateSetDeadline(postId);
