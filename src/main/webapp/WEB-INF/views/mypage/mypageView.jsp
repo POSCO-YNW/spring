@@ -7,6 +7,7 @@
 <head>
     <title>마이페이지</title>
     <style>
+        body{margin: 0}
         /* 스타일을 추가하여 원하는 레이아웃을 구성하세요 */
         .container {
             max-width: 1440px;
@@ -124,5 +125,6 @@
     </div>
 
 </div>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

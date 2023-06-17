@@ -3,14 +3,16 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="../../font.jsp" %>
+
 <html>
 <head>
     <title>채용공고 작성 폼</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            /*font-family: Arial, sans-serif;*/
             margin: auto;
-            padding: 20px;
+            /*padding: 20px;*/
         }
 
         form {
@@ -52,10 +54,11 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
+            margin: 0;
         }
 
         button:hover {
-            background-color: #05507d;
+            background-color: #0771b0;
             transition: 0.3s ease-in;
         }
         .need-item-input{
@@ -67,7 +70,11 @@
             margin-top: 10px;
         }
         .cancel-btn{
+            background-color: #f54f4f;
+        }
+        .cancel-btn:hover{
             background-color: red;
+            transition: 0.3s ease-in;
         }
         .btn-container{
             display: flex;
@@ -78,6 +85,12 @@
             justify-content: center;
             margin: 20px auto;
         }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
     </style>
     <script>
         function removeItem(item) {
@@ -110,7 +123,7 @@
             newItemInput.className = 'need-item-input'
 
             let removeItemSpan = document.createElement('button');
-            removeItemSpan.className = 'remove-item';
+            removeItemSpan.className = 'remove-item btn-container';
             removeItemSpan.textContent = '항목 제거';
             removeItemSpan.setAttribute('onclick', 'removeItem(this)');
 
@@ -201,16 +214,19 @@
             <label for="needItems">질문</label>
             <input type="hidden" id="needItemsId" name="needItemsId[]" value="<%=item.getNeedItemId()%>"/>
             <input type="text" id="needItems" name="needItems[]" value="<%= item.getTitle() %>" required>
-            <button class="remove-item" onclick="removeItem(this)">항목 제거</button>
+            <div class="btn-container">
+                <button class="remove-item" onclick="removeItem(this)">항목 제거</button>
+            </div>
         </div>
         <% } %>
         <% } else { %>
         <div class="form-group item"></div>
         <% } %>
     </div>
-    <div class="form-group">
-        <button type="button" onclick="addItem()">항목 추가</button>
+    <div class="form-group btn-container">
+        <button type="button" class="add-item" onclick="addItem()">항목 추가</button>
     </div>
+
     <div class="btn-container">
         <div class="form-group">
             <button type="submit"><%= exist ? "수정하기" : "작성하기" %></button>

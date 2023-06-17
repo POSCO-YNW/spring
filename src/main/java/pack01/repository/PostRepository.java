@@ -135,10 +135,12 @@ public class PostRepository {
     }
 
 
-    public List<Post> findByDepartmentName(String departmentName) {
-        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-                "WHERE D.name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
-        return jdbcTemplate.query(sql, new PostMapper(), "%" + departmentName + "%");
+    public PostDepartmentResponse findByIdWithDepartment(Long postId) {
+//        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
+//                "WHERE D.name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
+        System.out.println("postId: "+postId);
+        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id WHERE post_id=?";
+        return jdbcTemplate.queryForObject(sql, new PostDepartmentMapper(), postId);
     }
 
     public List<Post> findByMyResume(Long id) {

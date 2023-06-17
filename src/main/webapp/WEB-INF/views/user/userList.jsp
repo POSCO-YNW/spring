@@ -6,15 +6,16 @@
     <title>직원 관리</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            /*font-family: Arial, sans-serif;*/
         }
 
         .container {
             width: 80%;
             margin: auto;
+            margin: 100px;
         }
 
-        h1 {
+        .container > h1 {
             color: #333;
         }
 
@@ -101,5 +102,6 @@
         }
     }
 </script>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

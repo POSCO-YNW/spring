@@ -5,10 +5,7 @@
 <head>
     <title>회원 정보 수정</title>
     <style>
-        /* 스타일을 추가하여 원하는 레이아웃을 구성하세요 */
-        body {
-            font-family: Arial, sans-serif;
-        }
+        body {margin: 0}
 
         .container {
             max-width: 600px;
@@ -118,5 +115,6 @@
         </div>
     </form>
 </div>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

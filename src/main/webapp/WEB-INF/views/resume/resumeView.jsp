@@ -62,15 +62,15 @@
 
         input[type="submit"],
         button {
-            width: 100px;
+            width: 60px;
             padding: 10px 0;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        input[type="submit"] {
-            background-color: #4CAF50;
+        input[type="submit"], .button-container a {
+            background-color: #05507d;
             color: white;
         }
 
@@ -81,7 +81,8 @@
 
         .button-container {
             display: flex;
-            justify-content: space-between;
+            /*justify-content: space-between;*/
+            gap: 20px;
             align-items: center;
         }
 
@@ -104,13 +105,13 @@
             let container = document.getElementById('certifications-container');
             let newField = document.createElement('div');
             newField.innerHTML = `
-                <label for="certification_${certifications}">자격증:</label>
+                <label for="certification_${certifications}">자격증</label>
                 <input type="text" id="certification_${certifications}" name="certification[]" required>
 
-                <label for="cf_level_${certifications}">점수:</label>
+                <label for="cf_level_${certifications}">점수</label>
                 <input type="text" id="cf_level_${certifications}" name="cf_level[]" required>
 
-                <label for="cf_date_${certifications}">취득일:</label>
+                <label for="cf_date_${certifications}">취득일</label>
                 <input type="date" id="cf_date_${certifications}" name="cf_date[]" required>
 
                 <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'certification')" style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">-</button>
@@ -121,10 +122,10 @@
             let container = document.getElementById('skills-container');
             let newField = document.createElement('div');
             newField.innerHTML = `
-                <label for="skill_stack_${skills}">기술 스택(언어):</label>
+                <label for="skill_stack_${skills}">기술 스택(언어)</label>
                 <input type="text" id="skill_stack_${skills}" name="skill_stack[]" required>
 
-                <label for="skill_level_${skills}">기술 수준:</label>
+                <label for="skill_level_${skills}">기술 수준</label>
                 <select id="skill_level_${skills}" name="skill_level[]" required>
                     <option value="HIGH">상</option>
                     <option value="MIDDLE">중</option>
@@ -140,13 +141,13 @@
             let container = document.getElementById('experiences-container');
             let newField = document.createElement('div');
             newField.innerHTML = `
-                <label for="ex_company_${experiences}">회사 이름:</label>
+                <label for="ex_company_${experiences}">회사 이름</label>
                 <input type="text" id="ex_company_${experiences}" name="ex_company[]" required>
 
-                <label for="ex_period_${experiences}">복무 개월:</label>
+                <label for="ex_period_${experiences}">복무 개월</label>
                 <input type="number" id="ex_period_${experiences}" name="ex_period[]" required>
 
-                <label for="ex_work_${experiences}">업무:</label>
+                <label for="ex_work_${experiences}">업무</label>
                 <input type="text" id="ex_work_${experiences}" name="ex_work[]" required>
 
                 <button class="remove-button" type="button" onclick="removeField(this.parentNode, 'experience')" style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">-</button>
@@ -183,19 +184,19 @@
 
     <div>
         <h1>지원자 정보</h1>
-        <label for="username">사용자 이름:</label>
+        <label for="username">사용자 이름</label>
         <input type="text" id="username" name="username" value="${userInfo.getUsername()}" readonly required>
 
-        <label for="email">이메일:</label>
+        <label for="email">이메일</label>
         <input type="email" id="email" name="email" value="${userInfo.getEmail()}" readonly required>
 
-        <label for="birthday">생년월일:</label>
+        <label for="birthday">생년월일</label>
         <input type="text" id="birthday" name="birthday" value="${userInfo.getBirthday()}" readonly required>
 
-        <label for="phoneNumber">전화번호:</label>
+        <label for="phoneNumber">전화번호</label>
         <input type="text" id="phoneNumber" name="phoneNumber" value="${userInfo.getPhoneNumber()}" readonly required>
 
-        <label for="address">주소:</label>
+        <label for="address">주소</label>
         <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
     </div>
 
@@ -248,11 +249,12 @@
         %>
 
         <div class="button-container">
-            <a href="/">취소</a>
+            <a href="/postlist">취소</a>
             <input type="submit" value="제출">
         </div>
     </div>
 </form>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>
 

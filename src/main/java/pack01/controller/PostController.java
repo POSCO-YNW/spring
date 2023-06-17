@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pack01.domain.Department;
 import pack01.domain.NeedItem;
 import pack01.domain.Post;
 import pack01.domain.User;
+import pack01.dto.post.response.PostDepartmentResponse;
 import pack01.dto.post.response.PostPagingResponse;
+import pack01.service.DepartmentService;
 import pack01.service.NeedItemService;
 import pack01.service.PostService;
 
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,16 +27,19 @@ import java.util.Objects;
 public class PostController {
     private final PostService postService;
     private final NeedItemService needItemService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public PostController(PostService postService, NeedItemService needItemService) {
+    public PostController(PostService postService, NeedItemService needItemService, DepartmentService departmentService) {
         this.postService = postService;
         this.needItemService = needItemService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/post")
     public String getPostById(Model model, @RequestParam(value = "id") Long postId) {
-        model.addAttribute("post", postService.findById(postId));
+        System.out.println("controller: "+postId);
+        model.addAttribute("post", postService.findByIdWithDepartment(postId));
         return "post/postDetailView";
     }
 
@@ -160,7 +167,21 @@ public class PostController {
         Timestamp updateAt = Timestamp.valueOf(LocalDateTime.now());
         User loginUser = (User) session.getAttribute("loginUser");
         String description = String.join("$$", descriptions);
-        String title2 = title + " [" + descriptions.get(0) + "]";
+
+        String title2 = title;
+        String descriptionType = descriptions.get(0);
+        if (title.contains("경력")) {
+            title2 = title.replace("[경력]", "");
+            title2 += " [" + descriptionType + "]";
+        } else if (title.contains("신입")) {
+            title2 = title.replace("[신입]", "");
+            title2 += " [" + descriptionType + "]";
+        } else {
+            title2 += " [" + descriptionType + "]";
+        }
+
+
+//        String title2 = title + " [" + descriptions.get(0) + "]";
 
         Post post = new Post(title2, updateAt, startDate, endDate, description, loginUser.getUserId(), loginUser.getDepartmentId());
         postService.update(post, postId);
@@ -181,4 +202,21 @@ public class PostController {
         postService.delete(postId);
         return "redirect:/postlist";
     }
+
+    @GetMapping("/kakaoMap")
+    public String showMap(Model model) {
+        List<Post> posts = postService.findAll();
+        List<Department> departments = new ArrayList<>();
+        List<PostDepartmentResponse> postDepartment = new ArrayList<>();
+
+        for (Post p : posts) {
+            postDepartment.add(postService.findByIdWithDepartment(p.getPostId()));
+//            Long deptId = p.getDepartmentId();
+//            departments.add(departmentService.findById(deptId));
+        }
+//        model.addAttribute("departments", departments);
+        model.addAttribute("postDepartment", postDepartment);
+        return "kakaoMap";
+    }
+
 }

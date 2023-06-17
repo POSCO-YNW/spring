@@ -79,5 +79,7 @@
     %>
 </div>
 <button class="back-btn" onclick="onClick()">뒤로 가기</button>
+<jsp:include page="../../../footer.jsp"/>
+
 </body>
 </html>

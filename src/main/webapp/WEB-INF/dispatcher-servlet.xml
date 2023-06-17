@@ -27,6 +27,7 @@
             <mvc:exclude-mapping path="/logout"/>
             <mvc:exclude-mapping path="/signup"/>
             <mvc:exclude-mapping path="/postlist"/>
+            <mvc:exclude-mapping path="/postlist/kakaoMap"/>
             <mvc:exclude-mapping path="/postlist/post"/>
             <mvc:exclude-mapping path="/postlist/sort"/>
             <mvc:exclude-mapping path="/postlist/search"/>

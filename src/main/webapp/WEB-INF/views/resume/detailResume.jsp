@@ -10,6 +10,7 @@
 <head>
     <title>지원서 상세</title>
     <style>
+        body{margin: 0}
         .body {
             max-width: 1080px;
             width: 60%;
@@ -186,7 +187,7 @@
 
     <h2>소셜 계정</h2>
     <% for (SocialAccount social : socials) { %>
-    <h3><%= social.getType().getDescription() %>: </h3>
+    <h3><%= social.getType().getDescription() %> </h3>
     <%
         String url = "";
         switch (social.getType()) {
@@ -372,5 +373,6 @@
         %>
     </div>
 </div>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

@@ -43,8 +43,8 @@ public class PostService {
         return postRepository.findByTitle(postTitle);
     }
 
-    public List<Post> findByDepartmentName(String departmentName) {
-        return postRepository.findByDepartmentName(departmentName);
+    public PostDepartmentResponse findByIdWithDepartment(Long postId) {
+        return postRepository.findByIdWithDepartment(postId);
     }
 
     public List<Post> findAll() {

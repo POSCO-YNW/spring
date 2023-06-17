@@ -2,6 +2,7 @@
 <%@ page import="pack01.domain.type.RoleType" %>
 <%@ page import="java.util.UUID" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="font.jsp" %>
 
 <html>
 <head>
@@ -20,13 +21,13 @@
 
         a:hover {
             transition: 0.3s ease-in;
-            color: #9b9b9b;
+            color: #1288d9;
             cursor: pointer;
         }
 
-        .logout {
-            font-family: "KIMM_Bold", sans-serif;
-        }
+        /*.logout {*/
+        /*    font-family: "KIMM_Bold", sans-serif;*/
+        /*}*/
 
         .logout:hover {
             color: red;
@@ -34,18 +35,20 @@
 
         .header-page {
             width: 100%;
-            margin: 0 auto 70px auto;
+            height: 350px;
+
+            margin: 0 auto 50px auto;
             background-image: url("/resources/static/images/posco-seoul.jpg");
-            background-position: center top; /* 상단 위치에 맞게 조정 */
+            background-position: center top;
             background-repeat: no-repeat;
             background-size: cover;
         }
 
         header {
-            width: 90%;
+            width: 80%;
             margin: 0 auto;
-            height: 350px;
-            /*height: 150px; */
+            /*height: 350px;*/
+            height: fit-content;
             display: flex;
             /*align-items: center;*/
             justify-content: space-between;
@@ -53,7 +56,7 @@
 
         header > h1 {
             margin-left: 20px;
-            font-size: 40px;
+            font-size: 50px;
         }
 
         header > nav {
@@ -82,21 +85,8 @@
             height: 100%;
             display: flex;
             /*align-items: center;*/
-            padding: 20px;
-            /*margin-right: 10px;*/
-        }
-
-        .copy-button {
             padding: 10px;
-        }
-
-        .copy-button:hover {
-            background-color: #0033ff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            transition: 0.3s ease-in;
-            cursor: pointer;
+            /*margin-right: 10px;*/
         }
 
         i {

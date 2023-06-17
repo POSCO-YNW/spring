@@ -29,6 +29,6 @@
 </head>
 <body>
 <h1>지원해 주셔서 감사합니다.</h1>
-<a href="/" class="home-button">홈으로 가기</a>
+<a href="/postlist" class="home-button">홈으로 가기</a>
 </body>
 </html>

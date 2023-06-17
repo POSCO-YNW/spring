@@ -10,6 +10,7 @@
 <head>
     <title>지원자 현황</title>
     <style>
+        body{margin: 0}
         .body {
             max-width: 1440px;
             width: 80%;
@@ -69,7 +70,7 @@
             </td>
             <td>
                 <a href="/resume/detail?postId=<%= resume.getPostId() %>&resumeId=<%= resume.getResumeId() %>&userId=<%= resume.getApplicantId() %>"
-                   style="display: inline-block; padding: 8px 12px; background-color: #f2f2f2; border-radius: 4px;">
+                   style="display: inline-block; padding: 8px 12px; background-color: #f2f2f2; color: #05507d; border-radius: 4px;">
                     <%= resume.getDescription() %>
                 </a>
             </td>
@@ -103,5 +104,6 @@
         </tbody>
     </table>
 </div>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

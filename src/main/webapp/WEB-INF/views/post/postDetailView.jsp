@@ -3,6 +3,7 @@
 <%@ page import="pack01.domain.User" %>
 <%@ page import="pack01.domain.type.RoleType" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="pack01.dto.post.response.PostDepartmentResponse" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -10,9 +11,7 @@
     <title>글 상세보기</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
         }
 
         .card {
@@ -93,10 +92,12 @@
 
         .end-button {
             background-color: red;
+            color: white;
         }
 
         .apply-button:hover {
             background-color: #0056b3;
+            color: white;
         }
         textarea[readonly] {
             border: none;
@@ -135,7 +136,9 @@
 <jsp:include page="../../../header.jsp"/>
 
 <%
-    Post post = (Post) request.getAttribute("post");
+//    Post post = (Post) request.getAttribute("post");
+    PostDepartmentResponse post = (PostDepartmentResponse) request.getAttribute("post");
+
     LocalDate currentDate = LocalDate.now();
     LocalDate endDate = post.getEndDate().toLocalDate();
     Long dDay = endDate.toEpochDay() - currentDate.toEpochDay();
@@ -144,7 +147,7 @@
 
 <div class="card">
     <div class="title-container">
-        <div class="department"><%= post.getDepartmentId() %> 부서</div>
+        <div class="department"><%= post.getName() %> 부서</div>
         <h1 class="title"><%= post.getTitle()%></h1>
     </div>
 
@@ -216,5 +219,6 @@
         }
     %>
 </div>
+<jsp:include page="../../../footer.jsp"/>
 </body>
 </html>

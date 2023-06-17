@@ -4,6 +4,7 @@
 <%@ page import="pack01.domain.Department" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../../font.jsp" %>
 
 <!DOCTYPE html>
 <html>
@@ -75,7 +76,7 @@
         }
 
         .signup-form button, .login-link a {
-            width: 70px;
+            width: 80px;
             margin: auto;
             text-align: center;
             padding: 10px;
@@ -182,7 +183,7 @@
 
         <div class="btn-container">
             <div class="form-group">
-                <button type="submit">가입</button>
+                <button type="submit">가입하기</button>
             </div>
             <p class="error-message">${error}</p>
             <div class="login-link">
