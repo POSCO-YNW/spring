@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pack01.common.StaticValue;
 import pack01.domain.Department;
 import pack01.domain.User;
 import pack01.domain.type.RoleType;
@@ -19,9 +20,12 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+
+import static pack01.common.StaticValue.*;
 
 @Controller
 @RequestMapping
@@ -41,6 +45,19 @@ public class LoginController {
         if (session.getAttribute("loginUser") != null) {
             return "redirect:/postlist";
         }
+
+        //어드민 계정 생성
+        List<Department> developDepartment = departmentService.findByName(DEVELOP_DEPARTMENT_NAME);
+        List<Department> hrDepartment = departmentService.findByName(HR_DEPARTMENT_NAME);
+
+        if (developDepartment.size() == 0 && hrDepartment.size() == 0) {
+            Long dev = departmentService.save(new Department(DEVELOP_DEPARTMENT_NAME, DEVELOP_DEPARTMENT_TELEPHONE_NUMBER, "", DEVELOP_DEPARTMENT_LOCATION, 0, 0));
+            Long hr = departmentService.save(new Department(HR_DEPARTMENT_NAME, HR_DEPARTMENT_TELEPHONE_NUMBER, "", HR_DEPARTMENT_LOCATION, 0, 0));
+
+            userService.save(new User(DEVELOP_ADMIN_NAME, DEVELOP_ADMIN_PASSWORD, DEVELOP_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, DEVELOP_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), dev));
+            userService.save(new User(HR_ADMIN_NAME, HR_ADMIN_PASSWORD, HR_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, HR_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), dev));
+        }
+
         return "login";
     }
 
