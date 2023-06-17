@@ -47,7 +47,7 @@
         header {
             width: 80%;
             margin: auto;
-            height: 250px;
+            height: 300px;
             /*height: 150px; */
             display: flex;
             align-items: center;
@@ -81,10 +81,9 @@
         }
 
         header ul > li {
-            font-size: 20px;
+            font-size: 18px;
             height: 100%;
             display: flex;
-            text
             align-items: center;
             padding: 20px;
             /*margin-right: 10px;*/
@@ -106,7 +105,6 @@
         i {
             color: #05507d;
             font-size: 20px;
-            border: 1px solid blue;
             padding: 30px 10px 0px 10px;
         }
 
@@ -190,7 +188,7 @@
                     if (user != null) {
                 %>
                 <i class="fa-solid fa-user"></i>
-                <li><%= user.getUsername()%>님 환영합니다</li>
+                <li><%= user.getRole().getDescription() + " " + user.getUsername()%>님 환영합니다</li>
                 <li><a href="/logout" class="logout">로그아웃</a></li>
                 <%
                 } else {

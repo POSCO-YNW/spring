@@ -19,7 +19,7 @@
             /*border: 1px solid #ccc;*/
             /*border-radius: 5px;*/
             padding: 20px;
-            width: 80%;
+            width: 60%;
             margin: auto;
             margin-bottom: 20px;
         }
