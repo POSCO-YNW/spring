@@ -109,7 +109,7 @@
     <img src="/resources/static/images/poscoDXWhite.png" alt="Logo" class="logo">
     <div class="carousel-overlay">
         <h1>POCRUIT</h1>
-        <p>=================================================</p>
+        <p>─────────────────────────────────────────────────</p>
         <h3>PoCruit에 오신걸 환영합니다</h3>
         <a href="/postlist?page=0" class="carousel-overlay-text">지원하러 가기</a>
     </div>

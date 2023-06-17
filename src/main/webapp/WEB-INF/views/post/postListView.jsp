@@ -28,7 +28,8 @@
             grid-gap: 20px;
             margin-top: 20px;
         }
-        .card-container h3{
+
+        .card-container h3 {
             text-align: center;
         }
 
@@ -60,7 +61,7 @@
             outline: none;
         }
 
-        .search-button, .sort-button{
+        .search-button, .sort-button {
             display: flex;
             /*width: 50px;*/
             padding: 10px;
@@ -87,9 +88,11 @@
             align-items: center;
             margin-bottom: 10px;
         }
-        .sort-container{
+
+        .sort-container {
             margin-top: 10px;
         }
+
         .paging {
             display: flex;
             justify-content: center;
@@ -112,13 +115,13 @@
         }
     </style>
 </head>
-<body>
 <jsp:include page="../../../header.jsp"/>
+<body>
 <%
     List<PostDepartmentResponse> posts = (List<PostDepartmentResponse>) request.getAttribute("posts");
     String search = (String) request.getAttribute("search");
 
-    int totalPosts = (int)request.getAttribute("postall");
+    int totalPosts = (int) request.getAttribute("postall");
 
     int postsPerPage = 9; // 페이지당 보여지는 게시글 수
 
@@ -131,8 +134,12 @@
         <form id="frm" class="search" method="get" action="/postlist">
             <div class="search-container">
                 <select name="searchType" class="search-input">
-                    <option value="title">공고 제목</option>
-                    <option value="department">부서</option>
+                    <option value="title"
+                            <% if ("title".equals(request.getParameter("searchType"))) { %>selected<% } %>>공고 제목
+                    </option>
+                    <option value="department"
+                            <% if ("department".equals(request.getParameter("searchType"))) { %>selected<% } %>>부서
+                    </option>
                 </select>
                 <input type="text" name="search" class="search-input" placeholder="관심 부서나 공고 제목으로 검색하세요."
                        value="<%=search%>">
@@ -176,8 +183,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            $('.page').click(function (){
-                let i =  $(this).data('page');
+            $('.page').click(function () {
+                let i = $(this).data('page');
                 $('.hidPage').val(i);
                 $('#frm').submit();
             })

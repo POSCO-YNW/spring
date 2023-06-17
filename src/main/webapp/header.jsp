@@ -81,9 +81,10 @@
         }
 
         header ul > li {
-            font-size: 16px;
+            font-size: 20px;
             height: 100%;
             display: flex;
+            text
             align-items: center;
             padding: 20px;
             /*margin-right: 10px;*/
