@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pack01.controller.form.ResumeForm;
 import pack01.domain.*;
+import pack01.domain.type.EducationType;
 import pack01.domain.type.LevelType;
 import pack01.domain.type.ResumeStatusType;
 import pack01.domain.type.RoleType;
@@ -81,6 +82,9 @@ public class ResumeController {
             @RequestParam("birthday") String birthday,
             @RequestParam("address") String address,
             @RequestParam("desc") String description,
+            @RequestParam("educationType") EducationType educationType,
+            @RequestParam("school") String school,
+            @RequestParam("grade") Integer grade,
             @RequestParam(value = "certification[]", required = false) List<String> certifications,
             @RequestParam(value = "cf_level[]", required = false) List<String> certificationLevels,
             @RequestParam(value = "cf_date[]", required = false) List<String> certificationDates,
@@ -103,6 +107,8 @@ public class ResumeController {
                 titles, descriptions);
 
         resumeService.saveResumeForm(resumeId, resumeForm);
+
+        educationService.save(new Education(educationType, school, grade, resumeId));
 
         return "resume/resumeResult";
     }
