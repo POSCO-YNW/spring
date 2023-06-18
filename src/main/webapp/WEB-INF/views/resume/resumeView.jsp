@@ -93,6 +93,7 @@
             font-size: 14px;
             padding: 6px 10px;
         }
+
         .submit-button {
             background-color: #05507d;
             color: white;
@@ -206,6 +207,24 @@
         <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
     </div>
 
+    <hr>
+    <div>
+        <h1>최종 학력</h1>
+        <div class="form-group">
+            <label for="educationType">학력</label>
+            <select id="educationType" name="educationType" required>
+                <option value="">선택하세요</option>
+                <option value="HIGHSCHOOL">고등학교</option>
+                <option value="UNIVERSITY">대학교</option>
+                <option value="GRADUATESCHOOL">대학원</option>
+            </select>
+        </div>
+        <label for="school">학교명</label>
+        <input type="text" id="school" name="school" required>
+
+        <label for="grade">학년</label>
+        <input type="number" id="grade" name="grade" required>
+    </div>
     <hr>
 
     <div>
