@@ -59,7 +59,7 @@ public class LoginController {
 
             userService.save(new User(DEVELOP_ADMIN_NAME, DEVELOP_ADMIN_PASSWORD, DEVELOP_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, DEVELOP_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), dev));
             userService.save(new User(HR_ADMIN_NAME, HR_ADMIN_PASSWORD, HR_ADMIN_EMAIL, "010-0000-2222", Date.valueOf(LocalDate.now()), RoleType.ADMIN, HR_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), hr));
-            userService.save(new User(CONSTRUCTION_ADMIN_NAME, CONSTRUCTION_ADMIN_PASSWORD, CONSTRUCTION_ADMIN_EMAIL, "010-1111-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, CONSTRUCTION_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), hr));
+            userService.save(new User(CONSTRUCTION_ADMIN_NAME, CONSTRUCTION_ADMIN_PASSWORD, CONSTRUCTION_ADMIN_EMAIL, "010-1111-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, CONSTRUCTION_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), construction));
         }
 
         return "login";
