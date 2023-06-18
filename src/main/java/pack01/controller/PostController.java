@@ -1,6 +1,7 @@
 package pack01.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -203,19 +204,21 @@ public class PostController {
         return "redirect:/postlist";
     }
 
+    @Value("${KAKAO_API_KEY}")
+    private String kakao_api_key;
+
     @GetMapping("/kakaoMap")
     public String showMap(Model model) {
+
         List<Post> posts = postService.findAll();
         List<Department> departments = new ArrayList<>();
         List<PostDepartmentResponse> postDepartment = new ArrayList<>();
 
         for (Post p : posts) {
             postDepartment.add(postService.findByIdWithDepartment(p.getPostId()));
-//            Long deptId = p.getDepartmentId();
-//            departments.add(departmentService.findById(deptId));
         }
-//        model.addAttribute("departments", departments);
         model.addAttribute("postDepartment", postDepartment);
+        model.addAttribute("kakao_api_key", kakao_api_key);
         return "kakaoMap";
     }
 

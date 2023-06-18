@@ -36,4 +36,13 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>config.properties</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
+

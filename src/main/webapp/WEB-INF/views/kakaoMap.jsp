@@ -2,6 +2,8 @@
 <%@ page import="pack01.domain.Department" %>
 <%@ page import="pack01.domain.Post" %>
 <%@ page import="pack01.dto.post.response.PostDepartmentResponse" %>
+<%@ page import="org.springframework.validation.annotation.Validated" %>
+<%@ page import="org.springframework.beans.factory.annotation.Value" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -41,8 +43,11 @@
 <div id="button-container">
     <button class="map-button" onclick="redirectToPostList()">채용공고 리스트로 보기</button>
 </div>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5de208c2b2b16684295de665156c03dd"></script>
+<%
+    String kakao_api_key = (String) request.getAttribute("kakao_api_key");
+    System.out.println(kakao_api_key);
+%>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=kakao_api_key%>"></script>
 <script>
     // 지도 생성
     var container = document.getElementById('map');
