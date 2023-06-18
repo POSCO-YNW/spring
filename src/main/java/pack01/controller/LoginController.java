@@ -55,9 +55,11 @@ public class LoginController {
         if (developDepartment.size() == 0 && hrDepartment.size() == 0) {
             Long dev = departmentService.save(new Department(DEVELOP_DEPARTMENT_NAME, DEVELOP_DEPARTMENT_TELEPHONE_NUMBER, "", DEVELOP_DEPARTMENT_LOCATION, 37.403671, 127.103126));
             Long hr = departmentService.save(new Department(HR_DEPARTMENT_NAME, HR_DEPARTMENT_TELEPHONE_NUMBER, "", HR_DEPARTMENT_LOCATION, 36.004516, 129.395506));
+            Long construction = departmentService.save(new Department(CONSTRUCTION_DEPARTMENT_NAME, CONSTRUCTION_DEPARTMENT_TELEPHONE_NUMBER, "", CONSTRUCTION_DEPARTMENT_LOCATION, 37.392346, 126.634134));
 
             userService.save(new User(DEVELOP_ADMIN_NAME, DEVELOP_ADMIN_PASSWORD, DEVELOP_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, DEVELOP_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), dev));
-            userService.save(new User(HR_ADMIN_NAME, HR_ADMIN_PASSWORD, HR_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, HR_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), hr));
+            userService.save(new User(HR_ADMIN_NAME, HR_ADMIN_PASSWORD, HR_ADMIN_EMAIL, "010-0000-2222", Date.valueOf(LocalDate.now()), RoleType.ADMIN, HR_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), hr));
+            userService.save(new User(CONSTRUCTION_ADMIN_NAME, CONSTRUCTION_ADMIN_PASSWORD, CONSTRUCTION_ADMIN_EMAIL, "010-1111-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, CONSTRUCTION_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), hr));
         }
 
         return "login";
