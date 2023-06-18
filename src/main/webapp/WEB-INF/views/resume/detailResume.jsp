@@ -181,6 +181,7 @@
     <h2>자기소개서</h2>
     <% for (NeedItemResumeItem item : needItems) { %>
     <%= item.getTitle() %><br>
+    <hr/>
     <label>
         <pre><%= item.getDescription() %></pre>
 <%--        <br> <br>--%>
