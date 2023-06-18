@@ -99,6 +99,8 @@ public class MypageController {
         if (boj != null)
             socialAccountService.save(new SocialAccount(SocialType.BOJ, boj, null, loginUser.getUserId()));
 
+        session.setAttribute("loginUser", userService.findById(loginUser.getUserId()));
+
         return "redirect:/mypage/get";
     }
 }
