@@ -6,7 +6,7 @@
     <title>직원 관리</title>
     <style>
         body {
-            /*font-family: Arial, sans-serif;*/
+            margin: 0;
         }
 
         .container {

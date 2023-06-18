@@ -108,6 +108,12 @@
             padding: 10px 20px;
             font-size: 16px;
         }
+        pre{
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-family: "TheJamsil5Bold", sans-serif;
+            line-height: 2em; /* 줄 간격 설정 */
+        }
     </style>
 </head>
 <jsp:include page="../../../header.jsp"/>
@@ -174,10 +180,10 @@
 
     <h2>자기소개서</h2>
     <% for (NeedItemResumeItem item : needItems) { %>
-    <%= item.getTitle() %>:<br>
+    <%= item.getTitle() %><br>
     <label>
-        <textarea readonly cols="80" rows="10"><%= item.getDescription() %></textarea>
-        <br> <br>
+        <pre><%= item.getDescription() %></pre>
+<%--        <br> <br>--%>
     </label>
     <% } %>
 
