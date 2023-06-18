@@ -78,7 +78,6 @@
     <%
         List<PostDepartmentResponse> departments = (List<PostDepartmentResponse>) request.getAttribute("postDepartment");
         for (PostDepartmentResponse dept : departments) {
-            System.out.println("name: "+dept.getName());
             String name = dept.getName();
     %>
             names.push("<%=name%>");

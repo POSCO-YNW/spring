@@ -6,10 +6,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import pack01.domain.Post;
+import pack01.domain.User;
+import pack01.domain.type.RoleType;
 import pack01.dto.post.response.PostDepartmentResponse;
 import pack01.dto.post.response.PostPagingResponse;
 import pack01.repository.db.ConnectionManager;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
@@ -23,17 +26,6 @@ public class PostRepository {
         DataSource dataSource = ConnectionManager.getDataSource();
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-//    @Autowired
-//    public PostRepository(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
-
-    //    public void save(Post post) {
-//        String sql = "INSERT INTO post (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
-//                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-//        jdbcTemplate.update(sql, post.getTitle(), post.getCreatedAt(), post.getUpdatedAt(), post.getStartDate(),
-//                        post.getEndDate(), post.getDescription(), post.getAdminId(), post.getDepartmentId());
-//    }
     public Long save(Post post) {
         String sql = "INSERT INTO post (title, created_at, updated_at, start_date, end_date, description, admin_id, department_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -58,22 +50,7 @@ public class PostRepository {
     public void update(Post post, Long postId) {
         String sql = "UPDATE post SET title = ?, updated_at = ?, start_date = ?, end_date = ?, description = ?, " +
                 "admin_id = ?, department_id = ? WHERE post_id = ?";
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//        Timestamp updatedAt = Timestamp.valueOf(LocalDateTime.now());
-//        jdbcTemplate.update(connection -> {
-//            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//            ps.setString(1, post.getTitle());
-//            ps.setTimestamp(2, updatedAt);
-//            ps.setDate(3, post.getStartDate());
-//            ps.setDate(4, post.getEndDate());
-//            ps.setString(5, post.getDescription());
-//            ps.setLong(6, post.getAdminId());
-//            ps.setLong(7, post.getDepartmentId());
-//            ps.setLong(8, post.getPostId());
-//            return ps;
-//        }, keyHolder);
-//
-//        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+
         jdbcTemplate.update(sql, post.getTitle(), post.getUpdatedAt(), post.getStartDate(), post.getEndDate(),
                 post.getDescription(), post.getAdminId(), post.getDepartmentId(), postId);
     }
@@ -136,9 +113,6 @@ public class PostRepository {
 
 
     public PostDepartmentResponse findByIdWithDepartment(Long postId) {
-//        String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id\n" +
-//                "WHERE D.name LIKE ? ORDER BY CASE WHEN P.end_date > CURDATE() THEN 0 ELSE 1 END, P.end_date";
-        System.out.println("postId: "+postId);
         String sql = "SELECT * FROM post P join department D on P.department_id = D.department_id WHERE post_id=?";
         return jdbcTemplate.queryForObject(sql, new PostDepartmentMapper(), postId);
     }

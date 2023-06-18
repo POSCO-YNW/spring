@@ -168,9 +168,13 @@
                 <input type="submit" name="type" value="마감순" class="sort-button" id="deadlineButton">
             </div>
         </form>
+        <%
+            if(!posts.isEmpty()){
+        %>
         <div class="map-btn-container">
             <a href="/postlist/kakaoMap" class="map-btn">지도로 보기</a>
         </div>
+        <%}%>
     </div>
     <hr/>
     <div class="card-container">

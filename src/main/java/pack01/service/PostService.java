@@ -7,6 +7,7 @@ import pack01.dto.post.response.PostDepartmentResponse;
 import pack01.dto.post.response.PostPagingResponse;
 import pack01.repository.PostRepository;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class PostService {
         postRepository.updateEndDateSetDeadline(postId);
     }
 
-    public PostPagingResponse findBySearchAndSearchTypeAndSort(String search, String searchType, String type, Integer page) {
+    public PostPagingResponse findBySearchAndSearchTypeAndSort(String search, String searchType, String type, Integer page, HttpSession session) {
         List<PostDepartmentResponse> posts = new ArrayList<>();
         int totalCount = 0;
 

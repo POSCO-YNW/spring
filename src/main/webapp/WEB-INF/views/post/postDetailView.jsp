@@ -109,6 +109,10 @@
             line-height: 2em; /* 줄 간격 설정 */
             pointer-events: none;
         }
+        pre{
+            line-height: 2em; /* 줄 간격 설정 */
+            font-family: "TheJamsil5Bold", sans-serif;
+        }
         .btn-container{
             display: flex;
             gap: 10px;
@@ -165,11 +169,11 @@
         <hr/>
 
         <h2>자격 요건</h2>
-        <textarea readonly><%=descLines[1]%></textarea>
+        <pre><%=descLines[1]%></pre>
         <hr/>
 
         <h2>수행 업무</h2>
-        <textarea readonly><%=descLines[2]%></textarea>
+        <pre><%=descLines[2]%></pre>
         <hr/>
 
         <h2>채용 인원</h2>
@@ -181,7 +185,7 @@
         <hr/>
 
         <h2>근무 조건 및 복리 후생</h2>
-        <textarea readonly><%=descLines[5]%></textarea>
+        <pre><%=descLines[5]%></pre>
 
     </div>
 

@@ -66,7 +66,8 @@ public class PostController {
                           @RequestParam(value = "search", required = false) String search,
                           @RequestParam(value = "searchType", required = false) String searchType,
                           @RequestParam(value = "type", required = false) String type,
-                          @RequestParam(value = "page", required = false) Integer page
+                          @RequestParam(value = "page", required = false) Integer page,
+                          HttpSession session
     ) {
 
         page = (page == null) ? 0 : page;
@@ -87,7 +88,7 @@ public class PostController {
                 break;
         }
 
-        PostPagingResponse pagingPosts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type, page);
+        PostPagingResponse pagingPosts = postService.findBySearchAndSearchTypeAndSort(search, searchType, type, page, session);
 
         model.addAttribute("postall", pagingPosts.getTotalCount());
         model.addAttribute("posts", pagingPosts.getResults());
@@ -208,10 +209,9 @@ public class PostController {
     private String kakao_api_key;
 
     @GetMapping("/kakaoMap")
-    public String showMap(Model model) {
+    public String showMap(Model model, HttpSession session) {
 
         List<Post> posts = postService.findAll();
-        List<Department> departments = new ArrayList<>();
         List<PostDepartmentResponse> postDepartment = new ArrayList<>();
 
         for (Post p : posts) {
