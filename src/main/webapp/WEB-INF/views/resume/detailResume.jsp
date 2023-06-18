@@ -189,20 +189,23 @@
     <% for (SocialAccount social : socials) { %>
     <h3><%= social.getType().getDescription() %> </h3>
     <%
-        String url = "";
-        switch (social.getType()) {
-            case GITHUB:
-                url = "https://github.com/" + social.getAccountId();
-                break;
-            case BOJ:
-                url = "https://www.acmicpc.net/user/" + social.getAccountId();
-                break;
-            case TISTORY:
-                url = "https://" + social.getAccountId() + ".tistory.com/";
+        if (social.getAccountId() != null && !social.getAccountId().isEmpty()) {
+            String url = "";
+            switch (social.getType()) {
+                case GITHUB:
+                    url = "https://github.com/" + social.getAccountId();
+                    break;
+                case BOJ:
+                    url = "https://www.acmicpc.net/user/" + social.getAccountId();
+                    break;
+                case TISTORY:
+                    url = "https://" + social.getAccountId() + ".tistory.com/";
+            }
+    %>
+    <a style="color: blue" href="<%=url%>"><%= social.getAccountId() %>(바로가기)</a>
+    <%
         }
     %>
-    <a style="color: blue" href="<%=url%>"><%= social.getAccountId() %>(바로가기)
-    </a>
     <%
         if (SocialType.GITHUB.equals(social.getType())) {
     %>

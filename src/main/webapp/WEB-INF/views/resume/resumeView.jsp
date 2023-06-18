@@ -72,6 +72,7 @@
         input[type="submit"], .button-container a {
             background-color: #05507d;
             color: white;
+            margin-top: 12px;
         }
 
         button {
@@ -86,10 +87,15 @@
             align-items: center;
         }
 
+
         .add-button,
         .remove-button {
             font-size: 14px;
             padding: 6px 10px;
+        }
+        .submit-button {
+            background-color: #05507d;
+            color: white;
         }
     </style>
 </head>
@@ -249,8 +255,8 @@
         %>
 
         <div class="button-container">
-            <a href="/postlist">취소</a>
-            <input type="submit" value="제출">
+            <button type="button" class="submit-button" onclick="location.href='/postlist'">취소</button>
+            <input type="submit" class="submit-button" value="제출">
         </div>
     </div>
 </form>
