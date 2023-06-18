@@ -53,11 +53,11 @@ public class LoginController {
         List<Department> hrDepartment = departmentService.findByName(HR_DEPARTMENT_NAME);
 
         if (developDepartment.size() == 0 && hrDepartment.size() == 0) {
-            Long dev = departmentService.save(new Department(DEVELOP_DEPARTMENT_NAME, DEVELOP_DEPARTMENT_TELEPHONE_NUMBER, "", DEVELOP_DEPARTMENT_LOCATION, 0, 0));
-            Long hr = departmentService.save(new Department(HR_DEPARTMENT_NAME, HR_DEPARTMENT_TELEPHONE_NUMBER, "", HR_DEPARTMENT_LOCATION, 0, 0));
+            Long dev = departmentService.save(new Department(DEVELOP_DEPARTMENT_NAME, DEVELOP_DEPARTMENT_TELEPHONE_NUMBER, "", DEVELOP_DEPARTMENT_LOCATION, 37.403671, 127.103126));
+            Long hr = departmentService.save(new Department(HR_DEPARTMENT_NAME, HR_DEPARTMENT_TELEPHONE_NUMBER, "", HR_DEPARTMENT_LOCATION, 36.004516, 129.395506));
 
             userService.save(new User(DEVELOP_ADMIN_NAME, DEVELOP_ADMIN_PASSWORD, DEVELOP_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, DEVELOP_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), dev));
-            userService.save(new User(HR_ADMIN_NAME, HR_ADMIN_PASSWORD, HR_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, HR_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), dev));
+            userService.save(new User(HR_ADMIN_NAME, HR_ADMIN_PASSWORD, HR_ADMIN_EMAIL, "010-0000-1111", Date.valueOf(LocalDate.now()), RoleType.ADMIN, HR_DEPARTMENT_LOCATION, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()), hr));
         }
 
         return "login";
@@ -135,6 +135,11 @@ public class LoginController {
         }
         Long saveId = userService.save(user);
 
+        if (saveId == null) {
+            redirectAttributes.addFlashAttribute("message", "중복되는 아이디가 있습니다.");
+            return "redirect:/signup";
+        }
+
         for (int i = 0; i < socials.size(); i++) {
             switch (i) {
                 case 0:
@@ -150,11 +155,6 @@ public class LoginController {
 
         }
 
-        if (saveId != null) {
-            return "redirect:/login";
-        } else {
-            redirectAttributes.addFlashAttribute("message", "중복되는 아이디가 있습니다.");
-            return "redirect:/signup";
-        }
+        return "redirect:/login";
     }
 }

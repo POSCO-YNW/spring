@@ -14,6 +14,6 @@ public class StaticValue {
     public static String HR_ADMIN_EMAIL = "hr@posco.com";
 
     public static String HR_DEPARTMENT_NAME = "인사관리";
-    public static String HR_DEPARTMENT_TELEPHONE_NUMBER = "031-000-1111";
-    public static String HR_DEPARTMENT_LOCATION = "판교";
+    public static String HR_DEPARTMENT_TELEPHONE_NUMBER = "054-000-1111";
+    public static String HR_DEPARTMENT_LOCATION = "포항";
 }
