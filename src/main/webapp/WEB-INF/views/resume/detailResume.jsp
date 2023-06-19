@@ -10,7 +10,10 @@
 <head>
     <title>지원서 상세</title>
     <style>
-        body{margin: 0}
+        body {
+            margin: 0
+        }
+
         .body {
             max-width: 1080px;
             width: 60%;
@@ -108,7 +111,8 @@
             padding: 10px 20px;
             font-size: 16px;
         }
-        pre{
+
+        pre {
             margin-top: 15px;
             margin-bottom: 15px;
             font-family: "TheJamsil5Bold", sans-serif;
@@ -184,7 +188,7 @@
     <hr/>
     <label>
         <pre><%= item.getDescription() %></pre>
-<%--        <br> <br>--%>
+        <%--        <br> <br>--%>
     </label>
     <% } %>
 
@@ -194,7 +198,8 @@
 
     <h2>소셜 계정</h2>
     <% for (SocialAccount social : socials) { %>
-    <h3><%= social.getType().getDescription() %> </h3>
+    <h3><%= social.getType().getDescription() %>
+    </h3>
     <%
         if (social.getAccountId() != null && !social.getAccountId().isEmpty()) {
             String url = "";
@@ -335,7 +340,7 @@
         </form>
 
         <%
-            if (user.getRole().equals(RoleType.ADMIN) && (resume.getStatus().equals(ResumeStatusType.UNREAD) || resume.getStatus().equals(ResumeStatusType.READ))) {
+            if (user.getRole().equals(RoleType.ADMIN) && (resume.getStatus().equals(ResumeStatusType.UNREAD) || resume.getStatus().equals(ResumeStatusType.READ) || resume.getStatus().equals(ResumeStatusType.JUDGING))) {
         %>
         <form method="post" action="/resume/pass">
             <label>

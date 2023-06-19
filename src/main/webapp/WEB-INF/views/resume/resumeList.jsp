@@ -1,16 +1,18 @@
-<%@ page import="pack01.domain.Resume" %>
 <%@ page import="java.util.List" %>
-<%@ page import="pack01.domain.Post" %>
-<%@ page import="pack01.domain.Department" %>
 <%@ page import="pack01.dto.resume.response.ResumeUserResponse" %>
-<%@ page import="pack01.domain.Vote" %>
 <%@ page import="pack01.dto.resume.response.ResumeVoteResponse" %>
+<%@ page import="pack01.domain.type.ResumeStatusType" %>
+<%@ page import="pack01.domain.*" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>지원자 현황</title>
     <style>
-        body{margin: 0}
+        body {
+            margin: 0
+        }
+
         .body {
             max-width: 1440px;
             width: 80%;
@@ -45,6 +47,7 @@
         Post post = (Post) request.getAttribute("post");
         Department department = (Department) request.getAttribute("department");
         List<ResumeVoteResponse> resumeVoteResponses = (List<ResumeVoteResponse>) request.getAttribute("resumeVoteResponses");
+        User user = (User) session.getAttribute("loginUser");
     %>
     <h1 class="center"><%= post.getTitle() %>
     </h1>
@@ -58,6 +61,7 @@
             <th>지원자 이름</th>
             <th>상태</th>
             <th>찬/반</th>
+            <th>심사</th>
         </tr>
         </thead>
         <tbody>
@@ -98,6 +102,32 @@
                     }
                 %>
                 <%=agree + "/" + disagree%>
+            </td>
+            <td>
+                <%
+                    if (Objects.equals(post.getAdminId(), user.getUserId())) {
+                        if (resume.getStatus().equals(ResumeStatusType.UNREAD) || resume.getStatus().equals(ResumeStatusType.READ)) {
+                %>
+                <a href="/resume/judging?postId=<%= resume.getPostId() %>&resumeId=<%= resume.getResumeId() %>"
+                   style="display: inline-block; padding: 8px 12px; background-color: #f2f2f2; color: #05507d; border-radius: 4px;">
+                    심사 시작
+                </a>
+                <%
+                } else if (resume.getStatus().equals(ResumeStatusType.JUDGING)) {
+                %>
+                <a style="display: inline-block; padding: 8px 12px; background-color: #f2f2f2; color: #4f4f4f; border-radius: 4px;">
+                    심사 중
+                </a>
+                <%
+                } else {
+                %>
+                <a style="display: inline-block; padding: 8px 12px; background-color: #f2f2f2; color: #4f4f4f; border-radius: 4px;">
+                    심사 완료
+                </a>
+                <%
+                        }
+                    }
+                %>
             </td>
         </tr>
         <% } %>

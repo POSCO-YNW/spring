@@ -215,4 +215,19 @@ public class ResumeController {
 
         return "redirect:/resume/list?postId=" + postId;
     }
+
+    @GetMapping("/judging")
+    public String judgingResume(@RequestParam("postId") Long postId, @RequestParam("resumeId") Long resumeId, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        if (user == null || !user.getRole().equals(RoleType.ADMIN)) {
+            return "redirect:/postlist/post?id=" + postId;
+        }
+
+        Resume resume = resumeService.findById(resumeId);
+
+        resumeService.updateStatus(resume.getResumeId(), ResumeStatusType.JUDGING);
+        userService.updateDepartmentByUserId(resume.getApplicantId(), resume.getDepartmentId());
+
+        return "redirect:/resume/list?postId=" + postId;
+    }
 }

@@ -1,7 +1,7 @@
 package pack01.domain.type;
 
 public enum ResumeStatusType {
-    PASS("합격"), FAIL("탈락"), UNREAD("미열람"), READ("열람");
+    PASS("합격"), FAIL("탈락"), UNREAD("미열람"), READ("열람"), JUDGING("심사 중");
 
     private final String description;
 
