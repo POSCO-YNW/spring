@@ -311,7 +311,7 @@
         <tr>
             <th>유형</th>
             <th>학교</th>
-            <th>학점</th>
+            <th>학년</th>
         </tr>
         <% for (Education education : educations) { %>
         <tr>

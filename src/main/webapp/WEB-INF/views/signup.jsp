@@ -104,13 +104,14 @@
             text-decoration: none;
         }
 
-        .btn-container{
+        .btn-container {
             display: flex;
             flex-direction: column;
             justify-items: center;
             align-items: center;
             margin: 20px auto;
         }
+
     </style>
 </head>
 <%

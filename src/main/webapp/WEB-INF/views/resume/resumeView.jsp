@@ -6,21 +6,20 @@
     <title>지원서 작성</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
-            background-image: url("/resources/static/images/background/pohang_light.jpg");
-            background-size: cover;
-            background-position: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* Safari 지원 */
+            margin: 0
+        }
+
+        .body {
+            max-width: 1080px;
+            width: 60%;
+            margin: 0 auto 70px auto;
         }
 
         form {
             width: 600px;
             background-color: rgba(255, 255, 255, 0.7);
             padding: 20px;
+            margin: auto;
             border-radius: 8px;
         }
 
@@ -34,7 +33,7 @@
         }
 
         h2 {
-            text-align: left;
+            text-align: center;
         }
 
         label {
@@ -175,110 +174,113 @@
         }
     }
 </script>
-
+<jsp:include page="../../../header.jsp"/>
 <body>
-<h1>[${department.getName()}]</h1>
-<h2>${post.getTitle()}</h2>
+<div class="body">
+    <h1>[${department.getName()}]</h1>
+    <h2>${post.getTitle()}</h2>
 
-<form action="/resume/post?postId=${post.getPostId()}&departmentId=${department.getDepartmentId()}" method="POST">
-    <div>
-        <h1>한 줄 소개</h1>
-        <label for="desc"></label>
-        <input type="text" id="desc" name="desc" required>
-    </div>
-
-    <hr>
-
-    <div>
-        <h1>지원자 정보</h1>
-        <label for="username">사용자 이름</label>
-        <input type="text" id="username" name="username" value="${userInfo.getUsername()}" readonly required>
-
-        <label for="email">이메일</label>
-        <input type="email" id="email" name="email" value="${userInfo.getEmail()}" readonly required>
-
-        <label for="birthday">생년월일</label>
-        <input type="text" id="birthday" name="birthday" value="${userInfo.getBirthday()}" readonly required>
-
-        <label for="phoneNumber">전화번호</label>
-        <input type="text" id="phoneNumber" name="phoneNumber" value="${userInfo.getPhoneNumber()}" readonly required>
-
-        <label for="address">주소</label>
-        <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
-    </div>
-
-    <hr>
-    <div>
-        <h1>최종 학력</h1>
-        <div class="form-group">
-            <label for="educationType">학력</label>
-            <select id="educationType" name="educationType" required>
-                <option value="">선택하세요</option>
-                <option value="HIGHSCHOOL">고등학교</option>
-                <option value="UNIVERSITY">대학교</option>
-                <option value="GRADUATESCHOOL">대학원</option>
-            </select>
+    <form action="/resume/post?postId=${post.getPostId()}&departmentId=${department.getDepartmentId()}" method="POST">
+        <div>
+            <h1>한 줄 소개</h1>
+            <label for="desc"></label>
+            <input type="text" id="desc" name="desc" required>
         </div>
-        <label for="school">학교명</label>
-        <input type="text" id="school" name="school" required>
-
-        <label for="grade">학년</label>
-        <input type="number" id="grade" name="grade" required>
-    </div>
-    <hr>
-
-    <div>
-        <h1>추가 정보</h1>
-        <div style="display: flex; align-items: center;">
-            <h2 style="margin-right: 10px;">자격증</h2>
-            <button class="add-button" type="button" onclick="addField('certification')"
-                    style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
-            </button>
-        </div>
-        <div id="certifications-container"></div>
 
         <hr>
 
-        <div style="display: flex; align-items: center;">
-            <h2 style="margin-right: 10px;">기술</h2>
-            <button class="add-button" type="button" onclick="addField('skill')"
-                    style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
-            </button>
-        </div>
+        <div>
+            <h1>지원자 정보</h1>
+            <label for="username">사용자 이름</label>
+            <input type="text" id="username" name="username" value="${userInfo.getUsername()}" readonly required>
 
-        <div id="skills-container"></div>
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" value="${userInfo.getEmail()}" readonly required>
+
+            <label for="birthday">생년월일</label>
+            <input type="text" id="birthday" name="birthday" value="${userInfo.getBirthday()}" readonly required>
+
+            <label for="phoneNumber">전화번호</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value="${userInfo.getPhoneNumber()}" readonly
+                   required>
+
+            <label for="address">주소</label>
+            <input type="text" id="address" name="address" value="${userInfo.getAddress()}" readonly required>
+        </div>
 
         <hr>
+        <div>
+            <h1>최종 학력</h1>
+            <div class="form-group">
+                <label for="educationType">학력</label>
+                <select id="educationType" name="educationType" required>
+                    <option value="">선택하세요</option>
+                    <option value="HIGHSCHOOL">고등학교</option>
+                    <option value="UNIVERSITY">대학교</option>
+                    <option value="GRADUATESCHOOL">대학원</option>
+                </select>
+            </div>
+            <label for="school">학교명</label>
+            <input type="text" id="school" name="school" required>
 
-        <div style="display: flex; align-items: center;">
-            <h2 style="margin-right: 10px;">회사 경력</h2>
-            <button class="add-button" type="button" onclick="addField('experience')"
-                    style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
-            </button>
+            <label for="grade">학년</label>
+            <input type="number" id="grade" name="grade" required>
         </div>
-
-        <div id="experiences-container"></div>
-
         <hr>
-        <%
-            List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
-            for (int i = 0; i < needItems.size(); i++) {
-        %>
-        <h2>[질문 <%= i + 1 %>] <%= needItems.get(i).getTitle() %>
-        </h2>
-        <input type="hidden" id="title[<%=i%>]" name="title[]" value="<%= needItems.get(i).getNeedItemId() %>">
-        <label for="description[<%=i%>]"></label><textarea id="description[<%=i%>]" name="description[]"
-                                                           required></textarea><br>
-        <%
-            }
-        %>
 
-        <div class="button-container">
-            <button type="button" class="submit-button" onclick="location.href='/postlist'">취소</button>
-            <input type="submit" class="submit-button" value="제출">
+        <div>
+            <h1>추가 정보</h1>
+            <div style="display: flex; align-items: center;">
+                <h2 style="margin-right: 10px;">자격증</h2>
+                <button class="add-button" type="button" onclick="addField('certification')"
+                        style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
+                </button>
+            </div>
+            <div id="certifications-container"></div>
+
+            <hr>
+
+            <div style="display: flex; align-items: center;">
+                <h2 style="margin-right: 10px;">기술</h2>
+                <button class="add-button" type="button" onclick="addField('skill')"
+                        style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
+                </button>
+            </div>
+
+            <div id="skills-container"></div>
+
+            <hr>
+
+            <div style="display: flex; align-items: center;">
+                <h2 style="margin-right: 10px;">회사 경력</h2>
+                <button class="add-button" type="button" onclick="addField('experience')"
+                        style="width: 30px; height: 30px; flex-shrink: 0; margin-left: auto;">+
+                </button>
+            </div>
+
+            <div id="experiences-container"></div>
+
+            <hr>
+            <%
+                List<NeedItem> needItems = (List<NeedItem>) request.getAttribute("needItems");
+                for (int i = 0; i < needItems.size(); i++) {
+            %>
+            <h2>[질문 <%= i + 1 %>] <%= needItems.get(i).getTitle() %>
+            </h2>
+            <input type="hidden" id="title[<%=i%>]" name="title[]" value="<%= needItems.get(i).getNeedItemId() %>">
+            <label for="description[<%=i%>]"></label><textarea id="description[<%=i%>]" name="description[]"
+                                                               required></textarea><br>
+            <%
+                }
+            %>
+
+            <div class="button-container">
+                <button type="button" class="submit-button" onclick="location.href='/postlist'">취소</button>
+                <input type="submit" class="submit-button" value="제출">
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
 <jsp:include page="../../../footer.jsp"/>
 </body>
 </html>
